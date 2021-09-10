@@ -17,8 +17,8 @@ class Pin : MonoBehaviour {
 	internal Sprite OrigSprite;
 	internal Vector3 OrigPosition;
 
-	private bool _preReqTrueLock = false;
-	private GameObject _prereqLayer = null;
+	//private bool _preReqTrueLock = false;
+	//private GameObject _prereqLayer = null;
 
 	private MapMod.PinStyles _currentPinStyle = MapMod.PinStyle;
 
@@ -66,10 +66,10 @@ class Pin : MonoBehaviour {
 				case MapMod.PinStyles.Normal:
 				default: {
 					// Need to change to the normal pins
-					if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
-						SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
-						sr.color = new Color(1, 1, 1, 1);
-					}
+					//if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
+					//	SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
+					//	sr.color = new Color(1, 1, 1, 1);
+					//}
 
 					this.SR.sprite = this.OrigSprite;
 				}
@@ -79,19 +79,14 @@ class Pin : MonoBehaviour {
 			this._currentPinStyle = MapMod.PinStyle;
 		}
 
-
-
-
-
-
 		void __SetNewPinStyle(MapMod.PinStyles pinStyle) {
 			// Change to old pins
-			bool prereq = false;
-			if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
-				SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
-				sr.color = new Color(0, 0, 0, 0);
-				prereq = true;
-			}
+			//bool prereq = false;
+			//if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
+			//	SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
+			//	sr.color = new Color(0, 0, 0, 0);
+			//	prereq = true;
+			//}
 
 			string ogName = this.SR.sprite.name;
 			ResourceHelper.Sprites oldSprite;
@@ -113,7 +108,8 @@ class Pin : MonoBehaviour {
 				};
 			}
 
-			this.SR.sprite = ResourceHelper.FetchSprite(prereq ? ResourceHelper.Sprites.old_prereq : oldSprite);
+			//this.SR.sprite = ResourceHelper.FetchSprite(prereq ? ResourceHelper.Sprites.old_prereq : oldSprite);
+			this.SR.sprite = ResourceHelper.FetchSprite(oldSprite);
 			this.SR.sprite.name = ogName + "_OLD";
 		}
 	}
@@ -124,7 +120,7 @@ class Pin : MonoBehaviour {
 				throw new Exception("Cannot enable pin with null pindata. Ensure game object is disabled before adding as component, then call SetPinData(<pd>) before enabling.");
 			}
 			//Set Pin state according to prereqs.
-			this._UpdatePrereqState();
+			//this._UpdatePrereqState();
 
 			//Otherwise, check if it's reachable and/or if it has any prerequisites.
 			this._UpdateReachableState();
@@ -164,36 +160,36 @@ class Pin : MonoBehaviour {
 		}
 	}
 
-	private void _UpdatePrereqState() {
-		if (!this.PinData.HasPrereq || _preReqTrueLock) return;
+	//private void _UpdatePrereqState() {
+	//	if (!this.PinData.HasPrereq || _preReqTrueLock) return;
 
-		//No need to set one up unless we need it.
-		if (GameStatus.ItemPrereqsAreMet(this.PinData.ID) == true) {
-			//We've got all the prereqs; hide the "!"
-			if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
-				_prereqLayer.SetActive(false);
-			}
-			_preReqTrueLock = true;
-		} else if (_prereqLayer == null || _prereqLayer.activeSelf == false) {
-			if (_prereqLayer == null) {
-				_SetupPrereqLayer();
-			}
-			_prereqLayer.SetActive(true);
-		}
-	}
+	//	//No need to set one up unless we need it.
+	//	if (GameStatus.ItemPrereqsAreMet(this.PinData.ID) == true) {
+	//		//We've got all the prereqs; hide the "!"
+	//		if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
+	//			_prereqLayer.SetActive(false);
+	//		}
+	//		_preReqTrueLock = true;
+	//	} else if (_prereqLayer == null || _prereqLayer.activeSelf == false) {
+	//		if (_prereqLayer == null) {
+	//			_SetupPrereqLayer();
+	//		}
+	//		_prereqLayer.SetActive(true);
+	//	}
+	//}
 
-	private void _SetupPrereqLayer() {
-		_prereqLayer = new GameObject();
-		_prereqLayer.transform.SetParent(this.transform);
-		_prereqLayer.layer = 30;
-		_prereqLayer.transform.localScale *= 1.3f;
+	//private void _SetupPrereqLayer() {
+	//	_prereqLayer = new GameObject();
+	//	_prereqLayer.transform.SetParent(this.transform);
+	//	_prereqLayer.layer = 30;
+	//	_prereqLayer.transform.localScale *= 1.3f;
 
-		SpriteRenderer sr = _prereqLayer.AddComponent<SpriteRenderer>();
-		sr.sprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Prereq);
-		sr.sortingLayerName = "HUD";
-		sr.size = new Vector2(1f, 1f);
+	//	SpriteRenderer sr = _prereqLayer.AddComponent<SpriteRenderer>();
+	//	sr.sprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Prereq);
+	//	sr.sortingLayerName = "HUD";
+	//	sr.size = new Vector2(1f, 1f);
 
-		_prereqLayer.transform.localPosition = new Vector3(0, 0, -0.001f);
-	}
+	//	_prereqLayer.transform.localPosition = new Vector3(0, 0, -0.001f);
+	//}
 	#endregion
 }

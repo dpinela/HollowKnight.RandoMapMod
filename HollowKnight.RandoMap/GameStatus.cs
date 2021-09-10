@@ -88,43 +88,43 @@ namespace RandoMapMod {
 			return false;
 		}
 
-		public static bool ItemPrereqsAreMet(string itemName) {
-			string cleanName = itemName.Replace('_', ' ');
+		//public static bool ItemPrereqsAreMet(string itemName) {
+		//	string cleanName = itemName.Replace('_', ' ');
 
-			//DebugLog.Log($"Checking if {this.ID} has its prereqs met...");
-			int cost = 0;
-			(string, int)[] costs = RandomizerMod.RandomizerMod.Instance.Settings.VariableCosts;
-			for (int i = 0; i < costs.Length; i++) {
-				if (costs[i].Item1 == itemName) {
-					cost = costs[i].Item2;
-					break;
-				}
-			}
-			if (cost == 0) {
-				DebugLog.Log($"Cost for {itemName} was zero, so marking as prereqs met.");
-				return true;
-			}
-			if (GameStatus.IsGrubFatherItem(cleanName)) {
-				bool retVal = PlayerData.instance.grubsCollected > cost;
-				//DebugLog.Log($"{this.ID} is a grubfather item, and  {PlayerData.instance.grubsCollected} > {cost} == {retVal}.");
-				return retVal;
-			}
-			if (GameStatus.IsSeerItem(cleanName)) {
-				bool retVal = PlayerData.instance.dreamOrbs > cost;
-				//DebugLog.Log($"{this.ID} is a Seer item, and  {PlayerData.instance.dreamOrbs} > {cost} == {retVal}.");
-				return retVal;
-			}
-			DebugLog.Log($"{itemName} returning false by default.");
-			return false;
-		}
+		//	//DebugLog.Log($"Checking if {this.ID} has its prereqs met...");
+		//	int cost = 0;
+		//	(string, int)[] costs = RandomizerMod.RandomizerMod.Instance.Settings.VariableCosts;
+		//	for (int i = 0; i < costs.Length; i++) {
+		//		if (costs[i].Item1 == itemName) {
+		//			cost = costs[i].Item2;
+		//			break;
+		//		}
+		//	}
+		//	if (cost == 0) {
+		//		DebugLog.Log($"Cost for {itemName} was zero, so marking as prereqs met.");
+		//		return true;
+		//	}
+		//	if (GameStatus.IsGrubFatherItem(cleanName)) {
+		//		bool retVal = PlayerData.instance.grubsCollected > cost;
+		//		//DebugLog.Log($"{this.ID} is a grubfather item, and  {PlayerData.instance.grubsCollected} > {cost} == {retVal}.");
+		//		return retVal;
+		//	}
+		//	if (GameStatus.IsSeerItem(cleanName)) {
+		//		bool retVal = PlayerData.instance.dreamOrbs > cost;
+		//		//DebugLog.Log($"{this.ID} is a Seer item, and  {PlayerData.instance.dreamOrbs} > {cost} == {retVal}.");
+		//		return retVal;
+		//	}
+		//	DebugLog.Log($"{itemName} returning false by default.");
+		//	return false;
+		//}
 
-		public static bool IsGrubFatherItem(string itemName) {
-			return "Grubfather".Equals(_shopItems[itemName]);
-		}
+		//public static bool IsGrubFatherItem(string itemName) {
+		//	return "Grubfather".Equals(_shopItems[itemName]);
+		//}
 
-		public static bool IsSeerItem(string itemName) {
-			return "Seer".Equals(_shopItems[itemName]);
-		}
+		//public static bool IsSeerItem(string itemName) {
+		//	return "Seer".Equals(_shopItems[itemName]);
+		//}
 		#endregion
 	}
 }
