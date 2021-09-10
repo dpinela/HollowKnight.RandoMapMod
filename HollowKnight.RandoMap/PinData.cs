@@ -144,11 +144,12 @@ namespace RandoMapMod {
 #endif
 
 				if (isRand == null) {
-					if (this.ID.Contains("Grimmkin") && MapMod.VersionController is MultiWorldRando3) {
-						//No need to warn
-					} else {
-						DebugLog.Warn($"Undefined Pool Type: `{this.Pool}` from PinData `{this.ID}`");
-					}
+					//if (this.ID.Contains("Grimmkin") && MapMod.VersionController is MultiWorldRando3) {
+					//	//No need to warn
+					//} else {
+					//	DebugLog.Warn($"Undefined Pool Type: `{this.Pool}` from PinData `{this.ID}`");
+					//}
+					DebugLog.Warn($"Undefined Pool Type: `{this.Pool}` from PinData `{this.ID}`");
 					return true;
 				} else {
 					return (bool) isRand;

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Diagnostics.Eventing.Reader;
+//using System.Diagnostics.Eventing.Reader;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -62,10 +62,10 @@ namespace RandoMapMod.UnityComponents {
 			if (inputString != string.Empty) {
 				_typedString += inputString.Replace("'", "").ToLower();
 
-				foreach ((string phrase, Action call) item in keyPhrases) {
-					if (_typedString.ToLower().Contains(item.phrase.ToLower())) {
-						DebugLog.Log($"'{item.phrase}' KeyPhrase found!");
-						item.call.Invoke();
+				foreach ((string phrase, Action call) in keyPhrases) {
+					if (_typedString.ToLower().Contains(phrase.ToLower())) {
+						DebugLog.Log($"'{phrase}' KeyPhrase found!");
+						call.Invoke();
 
 						_typedString = "";
 					}

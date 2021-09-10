@@ -47,16 +47,17 @@ namespace RandoMapMod {
 		public static IVersionController VersionController {
 			get {
 				if (_vc == null) {
-					DebugLog.Log("Finding Version");
-					if (RandomizerMod.RandomizerMod.Instance.GetVersion().Contains("MW")) {
-						//Multiworld
-						DebugLog.Log("MultiWorld Detected");
-						_vc = new MultiWorldRando3();
-					} else {
-						//Standard
-						DebugLog.Log("Standard Rando Detected");
-						_vc = new StandardRando3();
-					}
+					//DebugLog.Log("Finding Version");
+					//if (RandomizerMod.RandomizerMod.Instance.GetVersion().Contains("MW")) {
+					//	//Multiworld
+					//	DebugLog.Log("MultiWorld Detected");
+					//	_vc = new MultiWorldRando3();
+					//} else {
+					//	//Standard
+					//	DebugLog.Log("Standard Rando Detected");
+					//	_vc = new StandardRando3();
+					//}
+					_vc = new StandardRando3();
 				}
 
 				return _vc;

@@ -17,7 +17,7 @@
 
 	<Target Name="DebugOnly">
 		<Copy SourceFiles="$(TargetPath)"
-				DestinationFolder="G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods"
+				DestinationFolder="H:\Programs\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods"
 				OverwriteReadOnlyFiles="true">
 		</Copy>
 		<Message Text="(Debug only) Copied to Mods Folder" Importance="high" />

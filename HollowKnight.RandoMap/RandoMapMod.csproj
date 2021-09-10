@@ -51,6 +51,11 @@
       <HintPath>G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\RandomizerLib3.0.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="RandomizerMod3.0, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>H:\Programs\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\RandomizerMod3.0.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="SereCore">
       <HintPath>G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\SereCore.dll</HintPath>
       <Private>False</Private>
@@ -115,7 +120,6 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SaveSettings.cs" />
     <Compile Include="VersionDiffs\IVersionController.cs" />
-    <Compile Include="VersionDiffs\MultiWorldRando3.cs" />
     <Compile Include="VersionDiffs\StandardRando3.cs" />
   </ItemGroup>
   <ItemGroup>
