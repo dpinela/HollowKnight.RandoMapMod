@@ -18,7 +18,9 @@ Version 1.0.0:
     - Disabled other Pin styles
     - Disabled prereq markers (!)
 
- - Possible bugs that need to be fixed:
+ - Bugs that need to be fixed:
+    - The rando Pins will be wrong until the next time you reopen the game
+    - Sometimes a stray Pin will appear in-game
     - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
     - Some Pins might not be in the right place
     - The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
