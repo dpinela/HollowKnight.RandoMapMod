@@ -12,13 +12,13 @@ Version 1.0.0:
 - Reachable logic applies to the shop Pins (kinda)
 - Fixed some question mark Pins appearing by default
 
-Removed some stuff (based on my own preference/code clashes):
-- No Multiworld support for now (shold be easy to add later)
-- CTRL-M now gives you all Maps + Quill, but no Wayward Compass
-- Disabled other Pin styles
-- Disabled prereq markers (!)
+- Removed some stuff (based on my own preference/code clashes):
+    - No Multiworld support for now (shold be easy to add later)
+    - CTRL-M now gives you all Maps + Quill, but no Wayward Compass
+    - Disabled other Pin styles
+    - Disabled prereq markers (!)
 
-Possible bugs that need to be fixed:
-- Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
-- Some Pins might not be in the right place
-- The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
+ - Possible bugs that need to be fixed:
+    - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
+    - Some Pins might not be in the right place
+    - The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
