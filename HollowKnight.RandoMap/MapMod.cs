@@ -89,7 +89,7 @@ namespace RandoMapMod {
 			}
 
 			//Give them compass and Quill
-			pd.SetBool(nameof(pd.gotCharm_2), true);
+			//pd.SetBool(nameof(pd.gotCharm_2), true);
 			pd.SetBool(nameof(pd.hasQuill), true);
 			//GiveCollectorsMap();
 
@@ -108,24 +108,24 @@ namespace RandoMapMod {
 			AllMapsGiven = true;
 		}
 
-		public enum PinStyles {
-			Normal,
-			Afraid,
-			AlsoAfraid
-		}
+		//public enum PinStyles {
+		//	Normal,
+		//	Afraid,
+		//	AlsoAfraid
+		//}
 
-		public static PinStyles PinStyle { get; private set; } = PinStyles.Normal;
+		//public static PinStyles PinStyle { get; private set; } = PinStyles.Normal;
 
-		public static void SetPinStyleOrReturnToNormal(PinStyles style) {
-			DebugLog.Log($"SetPins: {PinStyle} => {style}");
-			if (PinStyle == style) {
-				PinStyle = PinStyles.Normal;
-				DebugLog.Log($"Back to Normal: {PinStyle}");
-				return;
-			}
-			PinStyle = style;
-			DebugLog.Log($"New Stuff: {PinStyle}");
-		}
+		//public static void SetPinStyleOrReturnToNormal(PinStyles style) {
+		//	DebugLog.Log($"SetPins: {PinStyle} => {style}");
+		//	if (PinStyle == style) {
+		//		PinStyle = PinStyles.Normal;
+		//		DebugLog.Log($"Back to Normal: {PinStyle}");
+		//		return;
+		//	}
+		//	PinStyle = style;
+		//	DebugLog.Log($"New Stuff: {PinStyle}");
+		//}
 		#endregion
 
 		#region Private Non-Methods
@@ -181,7 +181,7 @@ namespace RandoMapMod {
 				//Create the custom pin group, and add all the new pins
 				if (this._pinGroupGO == null) {
 					DebugLog.Log("First Setup. Adding Pin Group and Populating...");
-					MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.Normal);
+					//MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.Normal);
 					this._pinGroupGO = new GameObject("RandoMap Pins");
 					this._pinGroupGO.AddComponent<PinGroup>();
 					this._pinGroupGO.AddComponent<MapTextOverlay>();

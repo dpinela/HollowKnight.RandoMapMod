@@ -20,7 +20,7 @@ class Pin : MonoBehaviour {
 	//private bool _preReqTrueLock = false;
 	//private GameObject _prereqLayer = null;
 
-	private MapMod.PinStyles _currentPinStyle = MapMod.PinStyle;
+	//private MapMod.PinStyles _currentPinStyle = MapMod.PinStyle;
 
 	private SpriteRenderer SR => this.gameObject.GetComponent<SpriteRenderer>();
 	#endregion
@@ -47,72 +47,72 @@ class Pin : MonoBehaviour {
 		if (_updateTrigger) {
 			this._UpdateState();
 
-			this._UpdatePinType();
+			//this._UpdatePinType();
 		}
 	}
 	#endregion
 
 	#region Private Methods
-	private void _UpdatePinType() {
-		if (this.OrigSprite.name.StartsWith("req")) //Grub pin; don't change it!
-			return;
+	//private void _UpdatePinType() {
+	//	if (this.OrigSprite.name.StartsWith("req")) //Grub pin; don't change it!
+	//		return;
 
-		if (this._currentPinStyle != MapMod.PinStyle) {
-			switch (MapMod.PinStyle) {
-				case MapMod.PinStyles.Afraid:
-				case MapMod.PinStyles.AlsoAfraid:
-					__SetNewPinStyle(MapMod.PinStyle);
-					break;
-				case MapMod.PinStyles.Normal:
-				default: {
-					// Need to change to the normal pins
-					//if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
-					//	SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
-					//	sr.color = new Color(1, 1, 1, 1);
-					//}
+	//	if (this._currentPinStyle != MapMod.PinStyle) {
+	//		switch (MapMod.PinStyle) {
+	//			case MapMod.PinStyles.Afraid:
+	//			case MapMod.PinStyles.AlsoAfraid:
+	//				__SetNewPinStyle(MapMod.PinStyle);
+	//				break;
+	//			case MapMod.PinStyles.Normal:
+	//			default: {
+	//				// Need to change to the normal pins
+	//				//if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
+	//				//	SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
+	//				//	sr.color = new Color(1, 1, 1, 1);
+	//				//}
 
-					this.SR.sprite = this.OrigSprite;
-				}
-				break;
-			}
+	//				this.SR.sprite = this.OrigSprite;
+	//			}
+	//			break;
+	//		}
 
-			this._currentPinStyle = MapMod.PinStyle;
-		}
+	//		this._currentPinStyle = MapMod.PinStyle;
+	//	}
 
-		void __SetNewPinStyle(MapMod.PinStyles pinStyle) {
-			// Change to old pins
-			//bool prereq = false;
-			//if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
-			//	SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
-			//	sr.color = new Color(0, 0, 0, 0);
-			//	prereq = true;
-			//}
+	//	void __SetNewPinStyle(MapMod.PinStyles pinStyle) {
+	//		// Change to old pins
+	//		//bool prereq = false;
+	//		//if (_prereqLayer != null && _prereqLayer.activeSelf == true) {
+	//		//	SpriteRenderer sr = _prereqLayer.GetComponent<SpriteRenderer>();
+	//		//	sr.color = new Color(0, 0, 0, 0);
+	//		//	prereq = true;
+	//		//}
 
-			string ogName = this.SR.sprite.name;
-			ResourceHelper.Sprites oldSprite;
-			if (pinStyle == MapMod.PinStyles.Afraid) {
-				oldSprite = this.PinData.Pool switch {
-					"Rock" => ResourceHelper.Sprites.oldGeoRockInv,
-					"Grub" => ResourceHelper.Sprites.oldGrubInv,
-					"Cocoon" => ResourceHelper.Sprites.oldLifebloodInv,
-					"Soul" => ResourceHelper.Sprites.oldTotemInv,
-					_ => ResourceHelper.Sprites.Unknown,
-				};
-			} else {
-				oldSprite = this.PinData.Pool switch {
-					"Rock" => ResourceHelper.Sprites.oldGeoRock,
-					"Grub" => ResourceHelper.Sprites.oldGrub,
-					"Cocoon" => ResourceHelper.Sprites.oldLifeblood,
-					"Soul" => ResourceHelper.Sprites.oldTotem,
-					_ => ResourceHelper.Sprites.Unknown,
-				};
-			}
+	//		string ogName = this.SR.sprite.name;
+	//		ResourceHelper.Sprites oldSprite;
+	//		if (pinStyle == MapMod.PinStyles.Afraid) {
+	//			oldSprite = this.PinData.Pool switch {
+	//				"Rock" => ResourceHelper.Sprites.oldGeoRockInv,
+	//				"Grub" => ResourceHelper.Sprites.oldGrubInv,
+	//				"Cocoon" => ResourceHelper.Sprites.oldLifebloodInv,
+	//				"Soul" => ResourceHelper.Sprites.oldTotemInv,
+	//				_ => ResourceHelper.Sprites.Unknown,
+	//			};
+	//		} else {
+	//			oldSprite = this.PinData.Pool switch {
+	//				"Rock" => ResourceHelper.Sprites.oldGeoRock,
+	//				"Grub" => ResourceHelper.Sprites.oldGrub,
+	//				"Cocoon" => ResourceHelper.Sprites.oldLifeblood,
+	//				"Soul" => ResourceHelper.Sprites.oldTotem,
+	//				_ => ResourceHelper.Sprites.Unknown,
+	//			};
+	//		}
 
-			//this.SR.sprite = ResourceHelper.FetchSprite(prereq ? ResourceHelper.Sprites.old_prereq : oldSprite);
-			this.SR.sprite = ResourceHelper.FetchSprite(oldSprite);
-			this.SR.sprite.name = ogName + "_OLD";
-		}
-	}
+	//		//this.SR.sprite = ResourceHelper.FetchSprite(prereq ? ResourceHelper.Sprites.old_prereq : oldSprite);
+	//		this.SR.sprite = ResourceHelper.FetchSprite(oldSprite);
+	//		this.SR.sprite.name = ogName + "_OLD";
+	//	}
+	//}
 
 	private void _UpdateState() {
 		try {

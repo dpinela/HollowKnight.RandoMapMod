@@ -31,7 +31,7 @@ namespace RandoMapMod.UnityComponents {
 		#endregion
 
 		#region Private Non-Methods
-		private string _typedString = "";
+		//private string _typedString = "";
 		#endregion
 
 		#region MonoBehaviour "Overrides"
@@ -51,30 +51,30 @@ namespace RandoMapMod.UnityComponents {
 				}
 			}
 
-			List<(string, Action)> keyPhrases = new List<(string, Action)> {
-				("alsoafraidofchange", () => MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.AlsoAfraid)),
-				("afraidofchange", () => MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.Afraid)),
-				(SeriouslyBoring.BORING_PHRASE_1, SeriouslyBoring.ToggleBoringMode1),
-				(SeriouslyBoring.BORING_PHRASE_2, SeriouslyBoring.ToggleBoringMode2),
-			};
+			//List<(string, Action)> keyPhrases = new List<(string, Action)> {
+			//	("alsoafraidofchange", () => MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.AlsoAfraid)),
+			//	("afraidofchange", () => MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.Afraid)),
+			//	(SeriouslyBoring.BORING_PHRASE_1, SeriouslyBoring.ToggleBoringMode1),
+			//	(SeriouslyBoring.BORING_PHRASE_2, SeriouslyBoring.ToggleBoringMode2),
+			//};
 
-			string inputString = Input.inputString;
-			if (inputString != string.Empty) {
-				_typedString += inputString.Replace("'", "").ToLower();
+			//string inputString = Input.inputString;
+			//if (inputString != string.Empty) {
+			//	_typedString += inputString.Replace("'", "").ToLower();
 
-				foreach ((string phrase, Action call) in keyPhrases) {
-					if (_typedString.ToLower().Contains(phrase.ToLower())) {
-						DebugLog.Log($"'{phrase}' KeyPhrase found!");
-						call.Invoke();
+			//	foreach ((string phrase, Action call) in keyPhrases) {
+			//		if (_typedString.ToLower().Contains(phrase.ToLower())) {
+			//			DebugLog.Log($"'{phrase}' KeyPhrase found!");
+			//			call.Invoke();
 
-						_typedString = "";
-					}
-				}
+			//			_typedString = "";
+			//		}
+			//	}
 
-				if (_typedString.Length > 20) {
-					_typedString.Substring(1);
-				}
-			}
+			//	if (_typedString.Length > 20) {
+			//		_typedString.Substring(1);
+			//	}
+			//}
 		}
 		#endregion
 
