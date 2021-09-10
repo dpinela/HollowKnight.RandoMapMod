@@ -55,6 +55,9 @@ class Pin : MonoBehaviour {
 			DebugLog.Error($"Failed to toggle pin sprite! ID: {this.PinData.ID}", e);
 		}
 	}
+	public void SetUnknownSprite() {
+		this._SR.sprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Unknown);
+	}
 	#endregion
 
 	#region MonoBehaviour "Overrides"

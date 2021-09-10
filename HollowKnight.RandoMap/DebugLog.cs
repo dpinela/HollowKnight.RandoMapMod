@@ -32,7 +32,7 @@ namespace RandoMapMod {
 		public static void Trace(Level level = Level.Error) {
 			string msg = new StackTrace(1, true).ToString();
 			_Write(level, msg);
-			MapMod.Instance.LogError(msg);
+			MapModS.Instance.LogError(msg);
 		}
 
 		public static void Critical(string msg, Exception inner) {
@@ -42,7 +42,7 @@ namespace RandoMapMod {
 		public static void Critical(string msg) {
 			msg += "\n" + new StackTrace(1, true).ToString();
 			_Write(Level.Critical, msg);
-			MapMod.Instance.LogError(msg);
+			MapModS.Instance.LogError(msg);
 		}
 
 		public static void Error(string msg, Exception inner) {
@@ -52,17 +52,17 @@ namespace RandoMapMod {
 		public static void Error(string msg) {
 			msg += "\n" + new StackTrace(1, true).ToString();
 			_Write(Level.Error, msg);
-			MapMod.Instance.LogError(msg);
+			MapModS.Instance.LogError(msg);
 		}
 
 		public static void Log(string v) {
 			_Write(Level.Log, v);
-			MapMod.Instance.Log(v);
+			MapModS.Instance.Log(v);
 		}
 
 		public static void Warn(string v) {
 			_Write(Level.Warn, v);
-			MapMod.Instance.LogWarn(v);
+			MapModS.Instance.LogWarn(v);
 		}
 
 		private static void _Write(Level level, string line) {
@@ -81,12 +81,12 @@ namespace RandoMapMod {
 
 			string nickName = _DetermineClassNickName();
 
-			string msg = $"{DateTime.Now:HH:mm:ss tt} {levelString,5} {nameof(MapMod),12} - {line}";
+			string msg = $"{DateTime.Now:HH:mm:ss tt} {levelString,5} {nameof(MapModS),12} - {line}";
 			if (!File.Exists(_LogFile)) {
 				try {
 					File.Create(_LogFile);
 				} catch {
-					MapMod.Instance.LogWarn("RandoMapLog.log could not be created...");
+					MapModS.Instance.LogWarn("RandoMapLog.log could not be created...");
 				}
 			}
 			using StreamWriter writer = new StreamWriter(_LogFile, true);
@@ -108,7 +108,7 @@ namespace RandoMapMod {
 				return attr[0].ToString();
 			}
 
-			return nameof(MapMod);
+			return nameof(MapModS);
 		}
 		#endregion
 	}

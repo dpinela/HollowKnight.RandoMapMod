@@ -18,10 +18,95 @@ namespace RandoMapMod {
 		}
 		#endregion
 
+		#region Private Methods
+		private void _SetPinGroup(GameObject newPin, PinData pinData) {
+			if (Group1 == null) {
+				Group1 = new GameObject("Group 1");
+				Group1.transform.SetParent(this.transform);
+				//default to off
+				Group1.SetActive(false);
+			}
+			if (Group2 == null) {
+				Group2 = new GameObject("Group 2");
+				Group2.transform.SetParent(this.transform);
+				//default to off
+				Group2.SetActive(false);
+			}
+			if (Group3 == null) {
+				Group3 = new GameObject("Group 3");
+				Group3.transform.SetParent(this.transform);
+				//default to off
+				Group3.SetActive(false);
+			}
+			if (Group4 == null) {
+				Group4 = new GameObject("Group 4");
+				Group4.transform.SetParent(this.transform);
+				//default to off
+				Group4.SetActive(false);
+			}
+			if (Group5 == null) {
+				Group5 = new GameObject("Group 5");
+				Group5.transform.SetParent(this.transform);
+				//default to off
+				Group5.SetActive(false);
+			}
+			if (Group6 == null) {
+				Group6 = new GameObject("Group 6");
+				Group6.transform.SetParent(this.transform);
+				//default to off
+				Group6.SetActive(false);
+			}
+
+			switch (pinData.RandoPool) {
+				case "Skill":
+				case "Dreamer":
+				case "Cursed":
+				case "Spell":
+				case "SplitCloak":
+				case "SplitClaw":
+				case "SplitCloakLocation":
+				case "CursedNail":
+				case "Ore":
+					newPin.transform.SetParent(Group1.transform);
+					break;
+				case "Mask":
+				case "Vessel":
+					newPin.transform.SetParent(Group2.transform);
+					break;
+				case "Charm":
+				case "Notch":
+					newPin.transform.SetParent(Group3.transform);
+					break;
+				case "Grub":
+				case "Root":
+				case "Essence_Boss":
+					newPin.transform.SetParent(Group4.transform);
+					break;
+				case "Relic":
+				case "Egg":
+				case "Geo":
+				case "Rock":
+				case "Boss_Geo":
+					newPin.transform.SetParent(Group5.transform);
+					break;
+				default:
+					newPin.transform.SetParent(Group6.transform);
+					break;
+			}
+		}
+		#endregion
+
 		#region Non-Private Non-Methods
-		public GameObject MainGroup { get; private set; } = null;
-		public GameObject HelperGroup { get; private set; } = null;
-		public GameObject RandoPoolOn { get; private set; } = null;
+		//public GameObject MainGroup { get; private set; } = null;
+		//public GameObject HelperGroup { get; private set; } = null;
+		public GameObject Group1 { get; private set; } = null;
+		public GameObject Group2 { get; private set; } = null;
+		public GameObject Group3 { get; private set; } = null;
+		public GameObject Group4 { get; private set; } = null;
+		public GameObject Group5 { get; private set; } = null;
+		public GameObject Group6 { get; private set; } = null;
+		//public GameObject RandoPoolOn { get; private set; } = null;
+		//public GameObject UnknownOn { get; private set; } = null;
 		public bool Hidden { get; private set; } = false;
 		#endregion
 
@@ -47,9 +132,15 @@ namespace RandoMapMod {
 				this._MapTextOverlay.Show();
 			}
 		}
+
 		public void SetRandoSprites(bool IsRando) {
 			foreach (Pin pin in _pins) {
 				pin.SetVanillaRandoSprite(IsRando);
+			}
+		}
+		public void SetUnknownSprites() {
+			foreach (Pin pin in _pins) {
+				pin.SetUnknownSprite();
 			}
 		}
 
@@ -58,11 +149,6 @@ namespace RandoMapMod {
 				//Already in the list... Probably shouldn't add them.
 				DebugLog.Warn($"Duplicate pin found for group: {pinData.ID} - Skipped.");
 				return;
-			}
-
-			if (RandoPoolOn == null) {
-				RandoPoolOn = new GameObject("Rando Pool Toggle");
-				RandoPoolOn.SetActive(false);
 			}
 
 			string roomName = pinData.PinScene ?? ResourceHelper.PinDataDictionary[pinData.ID].SceneName;
@@ -99,14 +185,7 @@ namespace RandoMapMod {
 			//	newPin.transform.SetParent(MainGroup.transform);
 			//}
 
-			if (MainGroup == null) {
-				MainGroup = new GameObject("Main Group");
-				MainGroup.transform.SetParent(this.transform);
-				//default to off
-				MainGroup.SetActive(false);
-			}
-
-			newPin.transform.SetParent(MainGroup.transform);
+			_SetPinGroup(newPin, pinData);
 
 			newPin.layer = 30;
 			newPin.transform.localScale *= 1.2f;

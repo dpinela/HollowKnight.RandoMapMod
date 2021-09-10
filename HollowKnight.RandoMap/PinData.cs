@@ -82,7 +82,6 @@ namespace RandoMapMod {
 			get;
 			internal set;
 		}
-
 		public string RandoPool {
 			get;
 			internal set;

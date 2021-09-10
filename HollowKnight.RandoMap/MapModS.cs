@@ -13,10 +13,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace RandoMapMod {
-	public class MapMod : Mod {
+	public class MapModS : Mod {
 		#region Meta
 		public override string GetVersion() {
-			string ver = "0.5.1"; //If you update this, please also update the README.
+			string ver = "1.0.0"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
@@ -39,7 +39,7 @@ namespace RandoMapMod {
 		private static int _convoCheck = 0;
 		private static bool _locked = false;
 
-		public static MapMod Instance {
+		public static MapModS Instance {
 			get; private set;
 		}
 
@@ -66,18 +66,77 @@ namespace RandoMapMod {
 
 		public static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
 
-		internal static void TogglePins() {
-			Instance._PinGroup.MainGroup.SetActive(!Instance._PinGroup.MainGroup.activeSelf);
+		//internal static void TogglePins() {
+		//	Instance._PinGroup.MainGroup.SetActive(!Instance._PinGroup.MainGroup.activeSelf);
+		//}
+
+		//public static void ToggleResourceHelpers() {
+		//	Instance._PinGroup.HelperGroup.SetActive(!Instance._PinGroup.HelperGroup.activeSelf);
+		//}
+		internal static void ToggleGroup1() {
+			Instance._PinGroup.Group1.SetActive(!Instance._PinGroup.Group1.activeSelf);
 		}
 
-		public static void ToggleResourceHelpers() {
-			Instance._PinGroup.HelperGroup.SetActive(!Instance._PinGroup.HelperGroup.activeSelf);
+		internal static void ToggleGroup2() {
+			Instance._PinGroup.Group2.SetActive(!Instance._PinGroup.Group2.activeSelf);
 		}
+
+		internal static void ToggleGroup3() {
+			Instance._PinGroup.Group3.SetActive(!Instance._PinGroup.Group3.activeSelf);
+		}
+
+		internal static void ToggleGroup4() {
+			Instance._PinGroup.Group4.SetActive(!Instance._PinGroup.Group4.activeSelf);
+		}
+
+		internal static void ToggleGroup5() {
+			Instance._PinGroup.Group5.SetActive(!Instance._PinGroup.Group5.activeSelf);
+		}
+
+		internal static void ToggleGroup6() {
+			Instance._PinGroup.Group6.SetActive(!Instance._PinGroup.Group6.activeSelf);
+		}
+
+		internal static void ToggleAllPins() {
+			if (!Instance._PinGroup.Group1.activeSelf
+				&& !Instance._PinGroup.Group2.activeSelf
+				&& !Instance._PinGroup.Group3.activeSelf
+				&& !Instance._PinGroup.Group4.activeSelf
+				&& !Instance._PinGroup.Group5.activeSelf
+				&& !Instance._PinGroup.Group6.activeSelf) {
+				Instance._PinGroup.Group1.SetActive(true);
+				Instance._PinGroup.Group2.SetActive(true);
+				Instance._PinGroup.Group3.SetActive(true);
+				Instance._PinGroup.Group4.SetActive(true);
+				Instance._PinGroup.Group5.SetActive(true);
+				Instance._PinGroup.Group6.SetActive(true);
+			} else {
+				Instance._PinGroup.Group1.SetActive(false);
+				Instance._PinGroup.Group2.SetActive(false);
+				Instance._PinGroup.Group3.SetActive(false);
+				Instance._PinGroup.Group4.SetActive(false);
+				Instance._PinGroup.Group5.SetActive(false);
+				Instance._PinGroup.Group6.SetActive(false);
+			}
+
+		}
+
+		internal static bool RandoPoolOn = false;
+		internal static bool UnknownOn = false;
 
 		internal static void ToggleRandoPins() {
-			Instance._PinGroup.RandoPoolOn.SetActive(!Instance._PinGroup.RandoPoolOn.activeSelf);
-			//Instance._PinGroup.UnknownOn.SetActive(false);
-			Instance._PinGroup.SetRandoSprites(Instance._PinGroup.RandoPoolOn.activeSelf);
+			RandoPoolOn = !RandoPoolOn;
+			UnknownOn = false;
+			Instance._PinGroup.SetRandoSprites(RandoPoolOn);
+		}
+
+		internal static void ToggleUnknownPins() {
+			UnknownOn = !UnknownOn;
+			if (UnknownOn) {
+				Instance._PinGroup.SetUnknownSprites();
+			} else {
+				Instance._PinGroup.SetRandoSprites(RandoPoolOn);
+			}
 		}
 
 		public static bool AllMapsGiven { get; private set; } = false;
@@ -108,8 +167,17 @@ namespace RandoMapMod {
 			pd.SetBool(nameof(pd.corniferAtHome), true);
 
 			//Make sure both groups are activated
-			Instance._PinGroup.MainGroup.SetActive(true);
-			Instance._PinGroup.HelperGroup.SetActive(true);
+			//Instance._PinGroup.MainGroup.SetActive(true);
+			//Instance._PinGroup.HelperGroup.SetActive(true);
+
+			Instance._PinGroup.Group1.SetActive(true);
+			Instance._PinGroup.Group2.SetActive(true);
+			Instance._PinGroup.Group3.SetActive(true);
+			Instance._PinGroup.Group4.SetActive(true);
+			Instance._PinGroup.Group5.SetActive(true);
+			Instance._PinGroup.Group6.SetActive(true);
+			RandoPoolOn = false;
+			UnknownOn = false;
 
 			AllMapsGiven = true;
 		}
@@ -203,7 +271,7 @@ namespace RandoMapMod {
 					foreach (KeyValuePair<string, PinData> entry in ResourceHelper.PinDataDictionary) {
 						string itemName = entry.Key;
 						PinData pin = entry.Value;
-						DebugLog.Log($"Adding pin: {itemName} at {pin.VanillaPool}, randomized to {pin.RandoPool}");
+						//DebugLog.Log($"Adding pin: {itemName} at {pin.VanillaPool}, randomized to {pin.RandoPool}");
 						//if (!GameStatus.IsShopItem(itemName)) {
 						//	this._PinGroup.AddPinToRoom(pin, self);
 						//}
@@ -333,20 +401,37 @@ namespace RandoMapMod {
 						DebugLog.Log("returning original");
 						return Language.Language.GetInternal(key, sheetTitle);
 					} else if (_convoCheck == 0) {
-						string talk = "Welcome to RandoMapMod!" +
-							"\nA BIG pin means look there for progression. LITTLE means the next key item won't be there. \"!\" means you need something else, maybe grubs or a key? \"$\" indicates a shop that may have items." +
-							"\nTalk to me 2 more times, and I'll give you all the maps." +
+						//string talk = "Welcome to RandoMapMod!" +
+						//	"\nA BIG pin means look there for progression. LITTLE means the next key item won't be there. \"!\" means you need something else, maybe grubs or a key? \"$\" indicates a shop that may have items." +
+						//	"\nTalk to me 2 more times, and I'll give you all the maps." +
+						//	"\nIf you're playing BINGO, you should probably not do that.";
+						//talk += "I will also go ahead and give you some special PINK pins." +
+						//	"\nThese will show you the locations of Grubs and/or Essence Locations if they are NOT randomized." +
+						//	"\nSome locations require either grubs or essence to unlock them, so these Resource Helpers should help.";
+						//talk += "<page>And also, instead of talking to me, you can simply do the following:" +
+						//	"\"Ctrl + M\" - Gives you all the maps\n" +
+						//	"\"Ctrl + G\" - Reveals all grub locations (if they aren't randomized)\n" +
+						//	"\"Ctrl + P\" - Toggles the pins";
+						//talk += "<page>Okay, so finally if you type in 'afraidofchange' at any point, the pins will show in the old style. Big ol' \"?\" circles. Just for you Colette! <3" +
+						//	"\nBig thanks to everyone in the HK Discord, the HK Racing Discord, other coders, and everyone who helped me test." +
+						//	"\nI really appreciate all that test ease!";
+
+						string talk = "Welcome to Randomizer Map S! This is a fork of Randomizer Map v0.5.1 with some different features." +
+							"\nA BIG pin means you can reach the item. LITTLE means you are missing a key item. \"$\" indicates a shop." +
+							"\nTalk to me 2 more times, and I'll give you all the Maps." +
 							"\nIf you're playing BINGO, you should probably not do that.";
-						talk += "I will also go ahead and give you some special PINK pins." +
-							"\nThese will show you the locations of Grubs and/or Essence Locations if they are NOT randomized." +
-							"\nSome locations require either grubs or essence to unlock them, so these Resource Helpers should help.";
-						talk += "<page>And also, instead of talking to me, you can simply do the following:" +
-							"\"Ctrl + M\" - Gives you all the maps\n" +
-							"\"Ctrl + G\" - Reveals all grub locations (if they aren't randomized)\n" +
-							"\"Ctrl + P\" - Toggles the pins";
-						talk += "<page>Okay, so finally if you type in 'afraidofchange' at any point, the pins will show in the old style. Big ol' \"?\" circles. Just for you Colette! <3" +
-							"\nBig thanks to everyone in the HK Discord, the HK Racing Discord, other coders, and everyone who helped me test." +
-							"\nI really appreciate all that test ease!";
+						talk += "<page>Hotkeys:\n" +
+							"\"Ctrl + M\" - Gives you all the Maps, Pins + Quill. Rest at a bench to fully update the Maps.\n" +
+							"\"Ctrl + T\" - Toggles between vanilla and current randomizer item locations\n" +
+							"\"Ctrl + R\" - Replace all Pins with question marks";
+						talk += "<page>The following controls toggle Pins on/off by the RANDOMIZED item pools:\n" +
+							"\"Ctrl + P\" - Toggles all the Pins\n" +
+							"\"Ctrl + 1\" - Toggles major progression items/skills\n" +
+							"\"Ctrl + 2\" - Toggles Mask Shards and Vessel Fragments\n" +
+							"\"Ctrl + 3\" - Toggles Charms and Charm Notches\n" +
+							"\"Ctrl + 4\" - Toggles Grubs, Essence Roots and Boss Essence\n" +
+							"\"Ctrl + 5\" - Toggles Relics, Eggs, Geo Deposits and Boss Geo\n" +
+							"\"Ctrl + 6\" - Toggles everything else";
 
 						if (Settings.MapsGiven) _convoCheck = 3; //Skip the rest of the conversation; just wanted to give the people a refresher at least.
 
@@ -356,10 +441,15 @@ namespace RandoMapMod {
 						//  And besides,A) Who is Iselda longingly staring and sighing at all day if not Elder Bug
 						//  and B) What else is Elder Bug going to do but "talk to" literally the only resident in town before you arrive
 						//  and C) He's called "Elder Bug" because he's obviously the alpha male. ;)
-						message = "I frequently *ahem* \"visit\" Cornifer's wife... She tells me he lies to travelers to get money for an inferior product... The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me.<page>I'll let you have the maps, the quill, and a compass since you're new around here if you talk to me 1 more time.";
+						//message = "I frequently *ahem* \"visit\" Cornifer's wife... She tells me he lies to travelers to get money for an inferior product... The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me.<page>I'll let you have the maps, the quill, and a compass since you're new around here if you talk to me 1 more time.";
+						message = "I frequently *ahem* \"visit\" Cornifer's wife... " +
+							"She tells me he lies to travelers to get Geo for an inferior product... " +
+							"The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me." +
+							"<page>I'll let you have the Maps and the Quill if you talk to me 1 more time, since you're new around here.";
 
 					} else if (_convoCheck == 2 && !Settings.MapsGiven) {
-						string maps = "Okay hang on";
+						//string maps = "Okay hang on";
+						string maps = "Okay, hang on";
 						System.Random random = new System.Random(RandomizerMod.RandomizerMod.Instance.Settings.Seed);
 						for (int i = 0; i < random.Next(3, 10); i++) {
 							maps += "...\n...\n...\n...\n";

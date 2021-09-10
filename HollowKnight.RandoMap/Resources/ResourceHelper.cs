@@ -57,7 +57,7 @@ namespace RandoMapMod {
 
 		#region Constructors
 		static ResourceHelper() {
-			Assembly theDLL = typeof(MapMod).Assembly;
+			Assembly theDLL = typeof(MapModS).Assembly;
 			_pSprites = new Dictionary<Sprites, Sprite>();
 			foreach (string resource in theDLL.GetManifestResourceNames()) {
 				if (resource.EndsWith(".png")) {
@@ -135,7 +135,7 @@ namespace RandoMapMod {
 
 			static void __ParseItems(XmlDocument xml) => _LoadItemData(xml.SelectNodes("randomizer/item"));
 
-			Assembly randoDLL = MapMod.VersionController.GetInfoAssembly();
+			Assembly randoDLL = MapModS.VersionController.GetInfoAssembly();
 			Dictionary<String, Action<XmlDocument>> resourceProcessors = new Dictionary<String, Action<XmlDocument>>
 			{
 				{"items.xml", __ParseItems},
@@ -349,9 +349,9 @@ namespace RandoMapMod {
 						case "offsetZ":
 							newPin.OffsetZ = XmlConvert.ToSingle(chld.InnerText);
 							break;
-						//case "hasPrereq":
-						//	newPin.HasPrereq = XmlConvert.ToBoolean(chld.InnerText);
-						//	break;
+						case "hasPrereq":
+							//newPin.HasPrereq = XmlConvert.ToBoolean(chld.InnerText);
+							break;
 						case "isShop":
 							newPin.IsShop = XmlConvert.ToBoolean(chld.InnerText);
 							break;
@@ -377,7 +377,7 @@ namespace RandoMapMod {
 					pinD.VanillaPool = "Shop";
 					pinD.RandoPool = "Shop";
 					randoItem = vanillaItem; // These are actually the shop names ("Sly" etc.)
-					DebugLog.Log($"{vanillaItem} is a shop pin");
+					//DebugLog.Log($"{vanillaItem} is a shop pin");
 
 					// Then check if this item is randomized
 				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
@@ -387,26 +387,31 @@ namespace RandoMapMod {
 					// If randoItem's in the PinDataDictionary, we already have the pool
 					if (PinDataDictionary.ContainsKey(randoItem)) {
 						pinD.RandoPool = PinDataDictionary[randoItem].VanillaPool;
-						DebugLog.Log($"In ItemPlacement and PinDataDictionary: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+						//DebugLog.Log($"In ItemPlacement and PinDataDictionary: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// For dupes and cursed items
 					} else if (GameStatus.IsOtherMajorItem(randoItem)) {
 						pinD.RandoPool = GameStatus.GetOtherMajorItemPool(randoItem);
-						DebugLog.Log($"Other major item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+						//DebugLog.Log($"Other major item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// Shop items WITHOUT a pin in the vanilla pool
 					} else if (GameStatus.IsShopItem(randoItem)) {
 						pinD.RandoPool = GameStatus.GetShopItemPool(randoItem);
-						DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+						//DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
-						// Nothing should show up here!
+						// If it is 1_Geo (cursed on)
+					} else if (randoItem.StartsWith("1_Geo")) {
+						pinD.RandoPool = "Geo";
+						//DebugLog.Log($"1 Geo item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// Nothing should end up here!
 					} else {
 						pinD.RandoPool = pinD.VanillaPool;
 						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
 					}
 
 				} else {
-					DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
+					//DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
 					randoItem = vanillaItem;
 					pinD.RandoPool = pinD.VanillaPool;
 				}
@@ -434,6 +439,7 @@ namespace RandoMapMod {
 					"Rancid_Egg-Sly" => "Egg",
 
 					"Longnail" => "Charm",
+					"Quick_Focus" => "Charm",
 					"Steady_Body" => "Charm",
 					"Shaman_Stone" => "Charm",
 					"Lifeblood_Heart" => "Charm",
