@@ -19,7 +19,7 @@ Version 1.0.0:
     - Disabled prereq markers (!)
 
  - Bugs that need to be fixed:
-    - The rando Pins will be wrong until the next time you reopen the game
+    - The rando Pins will be wrong until the next time you reopen the game, a hook of some kind is needed
     - Sometimes a stray Pin will appear in-game
     - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
     - Some Pins might not be in the right place
