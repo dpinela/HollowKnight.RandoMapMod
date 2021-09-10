@@ -49,6 +49,10 @@ namespace RandoMapMod.UnityComponents {
 					DebugLog.Log("Ctrl+M : Give All Maps");
 					MapMod.GiveAllMaps("Hotkey");
 				}
+				if (Input.GetKeyDown(KeyCode.T)) {
+					DebugLog.Log("Ctrl+T : Toggle Vanilla/Rando Pins");
+					MapMod.ToggleRandoPins();
+				}
 			}
 
 			//List<(string, Action)> keyPhrases = new List<(string, Action)> {

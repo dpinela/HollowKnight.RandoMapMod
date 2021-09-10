@@ -74,6 +74,12 @@ namespace RandoMapMod {
 			Instance._PinGroup.HelperGroup.SetActive(!Instance._PinGroup.HelperGroup.activeSelf);
 		}
 
+		internal static void ToggleRandoPins() {
+			Instance._PinGroup.RandoPoolOn.SetActive(!Instance._PinGroup.RandoPoolOn.activeSelf);
+			//Instance._PinGroup.UnknownOn.SetActive(false);
+			Instance._PinGroup.SetRandoSprites(Instance._PinGroup.RandoPoolOn.activeSelf);
+		}
+
 		public static bool AllMapsGiven { get; private set; } = false;
 		public static void GiveAllMaps(string from) {
 			DebugLog.Log($"Maps granted from {from}");
@@ -188,8 +194,21 @@ namespace RandoMapMod {
 					this._pinGroupGO.transform.SetParent(self.transform);
 					this._pinGroupGO.transform.position = new Vector3(0f, 0f, 0f);
 
-					foreach (PinData pin in ResourceHelper.PinData.Values) {
-						if (pin.CreationRequired) {
+					//foreach (PinData pin in ResourceHelper.PinData.Values) {
+					//	if (pin.CreationRequired) {
+					//		this._PinGroup.AddPinToRoom(pin, self);
+					//	}
+					//}
+
+					foreach (KeyValuePair<string, PinData> entry in ResourceHelper.PinDataDictionary) {
+						string itemName = entry.Key;
+						PinData pin = entry.Value;
+						DebugLog.Log($"Adding pin: {itemName} at {pin.VanillaPool}, randomized to {pin.RandoPool}");
+						//if (!GameStatus.IsShopItem(itemName)) {
+						//	this._PinGroup.AddPinToRoom(pin, self);
+						//}
+						// Either the pin shows a shop, or it doesn't appear in the list of items INSIDE the shop
+						if (pin.IsShop || !GameStatus.IsShopItem(itemName)) {
 							this._PinGroup.AddPinToRoom(pin, self);
 						}
 					}

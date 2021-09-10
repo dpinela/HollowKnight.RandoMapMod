@@ -21,6 +21,7 @@ namespace RandoMapMod {
 		#region Non-Private Non-Methods
 		public GameObject MainGroup { get; private set; } = null;
 		public GameObject HelperGroup { get; private set; } = null;
+		public GameObject RandoPoolOn { get; private set; } = null;
 		public bool Hidden { get; private set; } = false;
 		#endregion
 
@@ -46,6 +47,11 @@ namespace RandoMapMod {
 				this._MapTextOverlay.Show();
 			}
 		}
+		public void SetRandoSprites(bool IsRando) {
+			foreach (Pin pin in _pins) {
+				pin.SetVanillaRandoSprite(IsRando);
+			}
+		}
 
 		public void AddPinToRoom(PinData pinData, GameMap gameMap) {
 			if (_pins.Any(pin => pin.PinData.ID == pinData.ID)) {
@@ -54,31 +60,54 @@ namespace RandoMapMod {
 				return;
 			}
 
-			string roomName = pinData.PinScene ?? ResourceHelper.PinData[pinData.ID].SceneName;
-			Sprite pinSprite = pinData.IsShop ?
-				pinSprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Shop) :
-				pinSprite = ResourceHelper.FetchSpriteByPool(pinData.Pool);
+			if (RandoPoolOn == null) {
+				RandoPoolOn = new GameObject("Rando Pool Toggle");
+				RandoPoolOn.SetActive(false);
+			}
+
+			string roomName = pinData.PinScene ?? ResourceHelper.PinDataDictionary[pinData.ID].SceneName;
+			//Sprite pinSprite = pinData.IsShop ?
+			//	pinSprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Shop) :
+			//	pinSprite = ResourceHelper.FetchSpriteByPool(pinData.Pool);
+
+			Sprite pinSprite;
+
+			if (pinData.IsShop) {
+				pinSprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Shop);
+			} else {
+				pinSprite = ResourceHelper.FetchSpriteByPool(pinData.VanillaPool);
+			}
 
 			GameObject newPin = new GameObject("pin_rando");
-			if (pinSprite.name.StartsWith("req")) {
-				if (HelperGroup == null) {
-					HelperGroup = new GameObject("Resource Helpers");
-					HelperGroup.transform.SetParent(this.transform);
-					//default to off
-					HelperGroup.SetActive(false);
-				}
+			//if (pinSprite.name.StartsWith("req")) {
+			//	if (HelperGroup == null) {
+			//		HelperGroup = new GameObject("Resource Helpers");
+			//		HelperGroup.transform.SetParent(this.transform);
+			//		//default to off
+			//		HelperGroup.SetActive(false);
+			//	}
 
-				newPin.transform.SetParent(HelperGroup.transform);
-			} else {
-				if (MainGroup == null) {
-					MainGroup = new GameObject("Main Group");
-					MainGroup.transform.SetParent(this.transform);
-					//default to off
-					MainGroup.SetActive(false);
-				}
+			//	newPin.transform.SetParent(HelperGroup.transform);
+			//} else {
+			//	if (MainGroup == null) {
+			//		MainGroup = new GameObject("Main Group");
+			//		MainGroup.transform.SetParent(this.transform);
+			//		//default to off
+			//		MainGroup.SetActive(false);
+			//	}
 
-				newPin.transform.SetParent(MainGroup.transform);
+			//	newPin.transform.SetParent(MainGroup.transform);
+			//}
+
+			if (MainGroup == null) {
+				MainGroup = new GameObject("Main Group");
+				MainGroup.transform.SetParent(this.transform);
+				//default to off
+				MainGroup.SetActive(false);
 			}
+
+			newPin.transform.SetParent(MainGroup.transform);
+
 			newPin.layer = 30;
 			newPin.transform.localScale *= 1.2f;
 

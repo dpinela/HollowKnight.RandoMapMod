@@ -115,7 +115,7 @@
     <offsetY>-0.2</offsetY>
     <offsetZ>-0.05</offsetZ>
   </pin>-->
-	<pin name="Wayward_Compass">
+	<pin name="Iselda">
 		<pinScene>Town</pinScene>
 		<offsetX>0.4</offsetX>
 		<offsetY>-0.4</offsetY>
@@ -126,7 +126,7 @@
 		<offsetZ>0.05</offsetZ>
 		<hasPrereq>true</hasPrereq>
 	</pin>
-	<pin name="Stalwart_Shell">
+	<pin name="Sly">
 		<pinScene>Town</pinScene>
 		<offsetX>-0.45</offsetX>
 		<offsetY>-0.2</offsetY>
@@ -141,7 +141,7 @@
 		<offsetX>0.4</offsetX>
 		<offsetY>-0.55</offsetY>
 	</pin>
-	<pin name="Quick_Focus">
+	<pin name="Salubra">
 		<pinScene>Crossroads_04</pinScene>
 		<offsetX>1.35</offsetX>
 		<offsetY>-0.05</offsetY>
@@ -223,7 +223,7 @@
     <offsetY>0.4</offsetY>
     <offsetZ>0.1</offsetZ>
   </pin>-->
-	<pin name="Fragile_Strength">
+	<pin name="Leg_Eater">
 		<offsetX>0.4</offsetX>
 		<isShop>true</isShop>
 	</pin>
@@ -285,7 +285,7 @@
 		<offsetX>1.0</offsetX>
 		<offsetY>-4.0</offsetY>
 	</pin>
-	<pin name="Sprintmaster">
+	<pin name="Sly_(Key)">
 		<pinScene>Town</pinScene>
 		<offsetX>-0.45</offsetX>
 		<offsetY>0.2</offsetY>

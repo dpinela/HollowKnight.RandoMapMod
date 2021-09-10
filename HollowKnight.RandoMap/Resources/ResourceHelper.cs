@@ -124,7 +124,7 @@ namespace RandoMapMod {
 					//Load the pin-specific data; we'll follow up with the direct rando info later, so we don't duplicate defs...
 					try {
 						using (Stream stream = theDLL.GetManifestResourceStream(resource)) {
-							PinData = _LoadPinData(stream);
+							PinDataDictionary = _LoadPinData(stream);
 						}
 					} catch (Exception e) {
 						DebugLog.Error("pindata.xml Load Failed!");
@@ -161,6 +161,7 @@ namespace RandoMapMod {
 					}
 				}
 			}
+			_FindRandoPools();
 		}
 		#endregion
 
@@ -169,7 +170,7 @@ namespace RandoMapMod {
 		#endregion
 
 		#region Non-Private Non-Methods
-		public static Dictionary<string, PinData> PinData { get; }
+		public static Dictionary<string, PinData> PinDataDictionary { get; }
 		#endregion
 
 		#region Non-Private Methods
@@ -186,43 +187,56 @@ namespace RandoMapMod {
 		internal static Sprite FetchSpriteByPool(string pool) {
 			Sprites sid;
 
-			if (pool == "Grub" && !RandomizerMod.RandomizerMod.Instance.Settings.RandomizeGrubs) {
-				sid = Sprites.reqGrub;
-			} else if (pool == "Root" && !RandomizerMod.RandomizerMod.Instance.Settings.RandomizeWhisperingRoots) {
-				sid = Sprites.reqRoot;
-			} else if (pool == "Essence_Boss") {
-				//Pretty sure these aren't randomized... We'll just leave them on!
-				sid = Sprites.reqEssenceBoss;
-			} else {
-				sid = pool switch {
-					"Dreamer" => Sprites.Dreamer,
-					"Skill" => Sprites.Skill,
-					"Charm" => Sprites.Charm,
-					"Key" => Sprites.Key,
-					"Mask" => Sprites.Mask,
-					"Vessel" => Sprites.Vessel,
-					"Notch" => Sprites.Notch,
-					"Ore" => Sprites.Ore,
-					"Geo" => Sprites.Geo,
-					"Egg" => Sprites.Egg,
-					"Relic" => Sprites.Relic,
-					"Map" => Sprites.Map,
-					"Stag" => Sprites.Stag,
-					"Cocoon" => Sprites.Cocoon,
-					"Flame" => Sprites.Flame,
-					"Rock" => Sprites.Rock,
-					"Soul" => Sprites.Totem,
-					"PalaceSoul" => Sprites.Totem,
-					"Lore" => Sprites.Lore,
+			//if (pool == "Grub" && !RandomizerMod.RandomizerMod.Instance.Settings.RandomizeGrubs) {
+			//	sid = Sprites.reqGrub;
+			//} else if (pool == "Root" && !RandomizerMod.RandomizerMod.Instance.Settings.RandomizeWhisperingRoots) {
+			//	sid = Sprites.reqRoot;
+			//} else if (pool == "Essence_Boss") {
+			//	//Pretty sure these aren't randomized... We'll just leave them on!
+			//	sid = Sprites.reqEssenceBoss;
+			//} else {
+			sid = pool switch {
+				"Dreamer" => Sprites.Dreamer,
+				"Skill" => Sprites.Skill,
+				"Charm" => Sprites.Charm,
+				"Key" => Sprites.Key,
+				"Mask" => Sprites.Mask,
+				"Vessel" => Sprites.Vessel,
+				"Notch" => Sprites.Notch,
+				"Ore" => Sprites.Ore,
+				"Geo" => Sprites.Geo,
+				"Egg" => Sprites.Egg,
+				"Relic" => Sprites.Relic,
+				"Map" => Sprites.Map,
+				"Stag" => Sprites.Stag,
+				"Cocoon" => Sprites.Cocoon,
+				"Flame" => Sprites.Flame,
+				"Rock" => Sprites.Rock,
+				"Soul" => Sprites.Totem,
+				"PalaceSoul" => Sprites.Totem,
+				"Lore" => Sprites.Lore,
 
-					"Grub" => Sprites.Grub,
-					"Root" => Sprites.Root,
-					//"Essence_Boss" => Sprites.EssenceBoss, //See above comment
+				"Grub" => Sprites.Grub,
+				"Root" => Sprites.Root,
+				"Essence_Boss" => Sprites.EssenceBoss, //See above comment
 
-					//"?Fake" => Sprites.Unknown,
-					//"?Cursed" => Sprites.Unknown,
-					_ => Sprites.Unknown
-				};
+				//"?Fake" => Sprites.Unknown,
+				"Cursed" => Sprites.Skill,
+				"Spell" => Sprites.Skill,
+				"SplitCloak" => Sprites.Skill,
+				"SplitClaw" => Sprites.Skill,
+				"SplitCloakLocation" => Sprites.Skill,
+				"CursedNail" => Sprites.Skill,
+				"Boss_Geo" => Sprites.Geo,
+				"PalaceLore" => Sprites.Lore,
+
+				"Shop" => Sprites.Shop,
+				_ => Sprites.Unknown
+			};
+			//}
+
+			if (sid == Sprites.Unknown) {
+				DebugLog.Log($"{pool} => unknown sprite");
 			}
 
 			return FetchSprite(sid);
@@ -233,7 +247,7 @@ namespace RandoMapMod {
 		private static void _LoadItemData(XmlNodeList nodes) {
 			foreach (XmlNode node in nodes) {
 				string itemName = node.Attributes["name"].Value;
-				if (!PinData.ContainsKey(itemName)) {
+				if (!PinDataDictionary.ContainsKey(itemName)) {
 					//Skip warnings for:
 					string[] skipPools = {
 						"fake",					//These aren't real items
@@ -254,7 +268,7 @@ namespace RandoMapMod {
 					continue;
 				}
 
-				PinData pinD = PinData[itemName];
+				PinData pinD = PinDataDictionary[itemName];
 				foreach (XmlNode chld in node.ChildNodes) {
 					if (chld.Name == "sceneName") {
 						pinD.SceneName = chld.InnerText;
@@ -297,7 +311,7 @@ namespace RandoMapMod {
 					}
 
 					if (chld.Name == "pool") {
-						pinD.Pool = chld.InnerText;
+						pinD.VanillaPool = chld.InnerText;
 						continue;
 					}
 
@@ -335,9 +349,9 @@ namespace RandoMapMod {
 						case "offsetZ":
 							newPin.OffsetZ = XmlConvert.ToSingle(chld.InnerText);
 							break;
-						case "hasPrereq":
-							newPin.HasPrereq = XmlConvert.ToBoolean(chld.InnerText);
-							break;
+						//case "hasPrereq":
+						//	newPin.HasPrereq = XmlConvert.ToBoolean(chld.InnerText);
+						//	break;
 						case "isShop":
 							newPin.IsShop = XmlConvert.ToBoolean(chld.InnerText);
 							break;
@@ -349,6 +363,89 @@ namespace RandoMapMod {
 				retVal.Add(newPin.ID, newPin);
 			}
 			return retVal;
+		}
+
+		// This method finds the randomized item pool corresponding to each pin, using RandomizerMod's ItemPlacements array
+		private static void _FindRandoPools() {
+			foreach (KeyValuePair<string, PinData> entry in PinDataDictionary) {
+				string vanillaItem = entry.Key;
+				string randoItem;
+				PinData pinD = entry.Value;
+
+				// First check if this is a shop pin
+				if (pinD.IsShop) {
+					pinD.VanillaPool = "Shop";
+					pinD.RandoPool = "Shop";
+					randoItem = vanillaItem; // These are actually the shop names ("Sly" etc.)
+					DebugLog.Log($"{vanillaItem} is a shop pin");
+
+					// Then check if this item is randomized
+				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
+					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
+					randoItem = itemLocationPair.Item1;
+
+					// If randoItem's in the PinDataDictionary, we already have the pool
+					if (PinDataDictionary.ContainsKey(randoItem)) {
+						pinD.RandoPool = PinDataDictionary[randoItem].VanillaPool;
+						DebugLog.Log($"In ItemPlacement and PinDataDictionary: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// For dupes and cursed items
+					} else if (GameStatus.IsOtherMajorItem(randoItem)) {
+						pinD.RandoPool = GameStatus.GetOtherMajorItemPool(randoItem);
+						DebugLog.Log($"Other major item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// Shop items WITHOUT a pin in the vanilla pool
+					} else if (GameStatus.IsShopItem(randoItem)) {
+						pinD.RandoPool = GameStatus.GetShopItemPool(randoItem);
+						DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// Nothing should show up here!
+					} else {
+						pinD.RandoPool = pinD.VanillaPool;
+						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
+					}
+
+				} else {
+					DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
+					randoItem = vanillaItem;
+					pinD.RandoPool = pinD.VanillaPool;
+				}
+
+				// Need to convert pools for shop items here:
+				// Sly -> Mask, Charm, Key, Charm, Vessel, Skill, Egg
+				// Salubra -> Charm, Notch
+				// Leg Eater -> Charm
+
+				pinD.RandoPool = randoItem switch {
+					"Gathering_Swarm" => "Charm",
+					"Heavy_Blow" => "Charm",
+					"Sprintmaster" => "Charm",
+					"Stalwart_Shell" => "Charm",
+					"Wayward_Compass" => "Charm",
+					"Simple_Key-Sly" => "Key",
+					"Elegant_Key" => "Key",
+					"Mask_Shard-Sly1" => "Mask",
+					"Mask_Shard-Sly2" => "Mask",
+					"Mask_Shard-Sly3" => "Mask",
+					"Mask_Shard-Sly4" => "Mask",
+					"Vessel_Fragment-Sly1" => "Vessel",
+					"Vessel_Fragment-Sly2" => "Vessel",
+					"Lumafly_Lantern" => "Skill",
+					"Rancid_Egg-Sly" => "Egg",
+
+					"Longnail" => "Charm",
+					"Steady_Body" => "Charm",
+					"Shaman_Stone" => "Charm",
+					"Lifeblood_Heart" => "Charm",
+
+					"Fragile_Greed" => "Charm",
+					"Fragile_Heart" => "Charm",
+					"Fragile_Strength" => "Charm",
+					_ => pinD.RandoPool
+				};
+			}
+
+			return;
 		}
 		#endregion
 	}

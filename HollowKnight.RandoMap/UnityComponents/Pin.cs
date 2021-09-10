@@ -14,7 +14,8 @@ class Pin : MonoBehaviour {
 
 	internal Vector3 OrigScale;
 	internal Color OrigColor;
-	internal Sprite OrigSprite;
+	internal Sprite VanillaSprite;
+	internal Sprite RandoSprite;
 	internal Vector3 OrigPosition;
 
 	//private bool _preReqTrueLock = false;
@@ -22,7 +23,7 @@ class Pin : MonoBehaviour {
 
 	//private MapMod.PinStyles _currentPinStyle = MapMod.PinStyle;
 
-	private SpriteRenderer SR => this.gameObject.GetComponent<SpriteRenderer>();
+	private SpriteRenderer _SR => this.gameObject.GetComponent<SpriteRenderer>();
 	#endregion
 
 	#region Public Non-Methods
@@ -31,12 +32,29 @@ class Pin : MonoBehaviour {
 		this.PinData = pd;
 
 		this.OrigScale = this.transform.localScale;
-		this.OrigColor = this.SR.color;
-		this.OrigSprite = this.SR.sprite;
+		this.OrigColor = this._SR.color;
+		this.VanillaSprite = this._SR.sprite;
 		this.OrigPosition = this.transform.localPosition;
+
+		// Store the sprite for toggling to randomized items
+		this.RandoSprite = ResourceHelper.FetchSpriteByPool(pd.RandoPool);
 
 		this._UpdateState();
 	} // As a setter, this totally counts as a non-method >_>
+	#endregion
+
+	#region Public Methods
+	public void SetVanillaRandoSprite(bool RandoOn) {
+		try {
+			if (RandoOn) {
+				this._SR.sprite = this.RandoSprite;
+			} else {
+				this._SR.sprite = this.VanillaSprite;
+			}
+		} catch (Exception e) {
+			DebugLog.Error($"Failed to toggle pin sprite! ID: {this.PinData.ID}", e);
+		}
+	}
 	#endregion
 
 	#region MonoBehaviour "Overrides"
@@ -150,12 +168,12 @@ class Pin : MonoBehaviour {
 		if (newValue == true) {
 			// We can reach this item now!
 			this.transform.localScale = this.OrigScale;
-			this.SR.color = this.OrigColor;
+			this._SR.color = this.OrigColor;
 			this._isPossible = true;
 		} else {
 			// We can't reach this item.
 			this.transform.localScale = this.OrigScale * 0.5f;
-			this.SR.color = this.InactiveColor;
+			this._SR.color = this.InactiveColor;
 			this._isPossible = false;
 		}
 	}
