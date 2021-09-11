@@ -94,6 +94,12 @@ namespace RandoMapMod.UnityComponents {
 					DebugLog.Log("Ctrl+T : Toggle Vanilla/Rando Pins");
 					MapModS.ToggleRandoPins();
 				}
+
+				//if (Input.GetKeyDown(KeyCode.O))
+    //            {
+				//	MapModS.GetAllObjectsOnlyInScene();
+    //            }
+
 			}
 
 			//List<(string, Action)> keyPhrases = new List<(string, Action)> {

@@ -20,43 +20,6 @@ namespace RandoMapMod {
 
 		#region Private Methods
 		private void _SetPinGroup(GameObject newPin, PinData pinData) {
-			if (Group1 == null) {
-				Group1 = new GameObject("Group 1");
-				Group1.transform.SetParent(this.transform);
-				//default to off
-				Group1.SetActive(false);
-			}
-			if (Group2 == null) {
-				Group2 = new GameObject("Group 2");
-				Group2.transform.SetParent(this.transform);
-				//default to off
-				Group2.SetActive(false);
-			}
-			if (Group3 == null) {
-				Group3 = new GameObject("Group 3");
-				Group3.transform.SetParent(this.transform);
-				//default to off
-				Group3.SetActive(false);
-			}
-			if (Group4 == null) {
-				Group4 = new GameObject("Group 4");
-				Group4.transform.SetParent(this.transform);
-				//default to off
-				Group4.SetActive(false);
-			}
-			if (Group5 == null) {
-				Group5 = new GameObject("Group 5");
-				Group5.transform.SetParent(this.transform);
-				//default to off
-				Group5.SetActive(false);
-			}
-			if (Group6 == null) {
-				Group6 = new GameObject("Group 6");
-				Group6.transform.SetParent(this.transform);
-				//default to off
-				Group6.SetActive(false);
-			}
-
 			switch (pinData.RandoPool) {
 				case "Skill":
 				case "Dreamer":
@@ -67,6 +30,7 @@ namespace RandoMapMod {
 				case "SplitCloakLocation":
 				case "CursedNail":
 				case "Ore":
+				case "Key":
 					newPin.transform.SetParent(Group1.transform);
 					break;
 				case "Mask":
@@ -133,6 +97,45 @@ namespace RandoMapMod {
 			}
 		}
 
+		public void MakePinGroups () {
+			if (Group1 == null) {
+				Group1 = new GameObject("Group 1");
+				Group1.transform.SetParent(this.transform);
+				//default to off
+				Group1.SetActive(MapModS.Instance.Settings.Group1On);
+			}
+			if (Group2 == null) {
+				Group2 = new GameObject("Group 2");
+				Group2.transform.SetParent(this.transform);
+				//default to off
+				Group2.SetActive(MapModS.Instance.Settings.Group2On);
+			}
+			if (Group3 == null) {
+				Group3 = new GameObject("Group 3");
+				Group3.transform.SetParent(this.transform);
+				//default to off
+				Group3.SetActive(MapModS.Instance.Settings.Group3On);
+			}
+			if (Group4 == null) {
+				Group4 = new GameObject("Group 4");
+				Group4.transform.SetParent(this.transform);
+				//default to off
+				Group4.SetActive(MapModS.Instance.Settings.Group4On);
+			}
+			if (Group5 == null) {
+				Group5 = new GameObject("Group 5");
+				Group5.transform.SetParent(this.transform);
+				//default to off
+				Group5.SetActive(MapModS.Instance.Settings.Group5On);
+			}
+			if (Group6 == null) {
+				Group6 = new GameObject("Group 6");
+				Group6.transform.SetParent(this.transform);
+				//default to off
+				Group6.SetActive(MapModS.Instance.Settings.Group6On);
+			}
+		}
+
 		public void SetRandoSprites(bool IsRando) {
 			foreach (Pin pin in _pins) {
 				pin.SetVanillaRandoSprite(IsRando);
@@ -185,8 +188,6 @@ namespace RandoMapMod {
 			//	newPin.transform.SetParent(MainGroup.transform);
 			//}
 
-			_SetPinGroup(newPin, pinData);
-
 			newPin.layer = 30;
 			newPin.transform.localScale *= 1.2f;
 
@@ -211,6 +212,8 @@ namespace RandoMapMod {
 			newPin.SetActive(true);
 
 			_pins.Add(pinC);
+
+			_SetPinGroup(newPin, pinData);
 
 			Vector3 __GetRoomPos() {
 				//@@OPTIMIZE: Should be indexed or hard-coded but it runs once per game session. Small gain.

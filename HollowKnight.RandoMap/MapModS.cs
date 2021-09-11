@@ -28,7 +28,6 @@ namespace RandoMapMod {
 		}
 		#endregion
 
-
 		#region Static Stuff
 		private const int SAFE = 3;
 		private const float MAP_MIN_X = -24.16f;
@@ -74,68 +73,112 @@ namespace RandoMapMod {
 		//	Instance._PinGroup.HelperGroup.SetActive(!Instance._PinGroup.HelperGroup.activeSelf);
 		//}
 		internal static void ToggleGroup1() {
-			Instance._PinGroup.Group1.SetActive(!Instance._PinGroup.Group1.activeSelf);
+			Instance.Settings.Group1On = !Instance.Settings.Group1On;
+			Instance._PinGroup.Group1.SetActive(Instance.Settings.Group1On);
 		}
 
 		internal static void ToggleGroup2() {
-			Instance._PinGroup.Group2.SetActive(!Instance._PinGroup.Group2.activeSelf);
+			Instance.Settings.Group2On = !Instance.Settings.Group2On;
+			Instance._PinGroup.Group2.SetActive(Instance.Settings.Group2On);
 		}
 
 		internal static void ToggleGroup3() {
-			Instance._PinGroup.Group3.SetActive(!Instance._PinGroup.Group3.activeSelf);
+			Instance.Settings.Group3On = !Instance.Settings.Group3On;
+			Instance._PinGroup.Group3.SetActive(Instance.Settings.Group3On);
 		}
 
 		internal static void ToggleGroup4() {
-			Instance._PinGroup.Group4.SetActive(!Instance._PinGroup.Group4.activeSelf);
+			Instance.Settings.Group4On = !Instance.Settings.Group4On;
+			Instance._PinGroup.Group4.SetActive(Instance.Settings.Group4On);
 		}
 
 		internal static void ToggleGroup5() {
-			Instance._PinGroup.Group5.SetActive(!Instance._PinGroup.Group5.activeSelf);
+			Instance.Settings.Group5On = !Instance.Settings.Group5On;
+			Instance._PinGroup.Group5.SetActive(Instance.Settings.Group5On);
 		}
 
 		internal static void ToggleGroup6() {
-			Instance._PinGroup.Group6.SetActive(!Instance._PinGroup.Group6.activeSelf);
+			Instance.Settings.Group6On = !Instance.Settings.Group6On;
+			Instance._PinGroup.Group6.SetActive(Instance.Settings.Group6On);
+		}
+
+		internal static void SetAllPins() {
+			Instance._PinGroup.Group1.SetActive(Instance.Settings.Group1On);
+			Instance._PinGroup.Group2.SetActive(Instance.Settings.Group2On);
+			Instance._PinGroup.Group3.SetActive(Instance.Settings.Group3On);
+			Instance._PinGroup.Group4.SetActive(Instance.Settings.Group4On);
+			Instance._PinGroup.Group5.SetActive(Instance.Settings.Group5On);
+			Instance._PinGroup.Group6.SetActive(Instance.Settings.Group6On);
 		}
 
 		internal static void ToggleAllPins() {
-			if (!Instance._PinGroup.Group1.activeSelf
-				&& !Instance._PinGroup.Group2.activeSelf
-				&& !Instance._PinGroup.Group3.activeSelf
-				&& !Instance._PinGroup.Group4.activeSelf
-				&& !Instance._PinGroup.Group5.activeSelf
-				&& !Instance._PinGroup.Group6.activeSelf) {
-				Instance._PinGroup.Group1.SetActive(true);
-				Instance._PinGroup.Group2.SetActive(true);
-				Instance._PinGroup.Group3.SetActive(true);
-				Instance._PinGroup.Group4.SetActive(true);
-				Instance._PinGroup.Group5.SetActive(true);
-				Instance._PinGroup.Group6.SetActive(true);
+			if (!Instance.Settings.Group1On
+				&& !Instance.Settings.Group2On
+				&& !Instance.Settings.Group3On
+				&& !Instance.Settings.Group4On
+				&& !Instance.Settings.Group5On
+				&& !Instance.Settings.Group6On) {
+				Instance.Settings.Group1On = true;
+				Instance.Settings.Group2On = true;
+				Instance.Settings.Group3On = true;
+				Instance.Settings.Group4On = true;
+				Instance.Settings.Group5On = true;
+				Instance.Settings.Group6On = true;
+				SetAllPins();
 			} else {
-				Instance._PinGroup.Group1.SetActive(false);
-				Instance._PinGroup.Group2.SetActive(false);
-				Instance._PinGroup.Group3.SetActive(false);
-				Instance._PinGroup.Group4.SetActive(false);
-				Instance._PinGroup.Group5.SetActive(false);
-				Instance._PinGroup.Group6.SetActive(false);
+				Instance.Settings.Group1On = false;
+				Instance.Settings.Group2On = false;
+				Instance.Settings.Group3On = false;
+				Instance.Settings.Group4On = false;
+				Instance.Settings.Group5On = false;
+				Instance.Settings.Group6On = false;
+				SetAllPins();
 			}
 
 		}
 
-		internal static bool RandoPoolOn = false;
-		internal static bool UnknownOn = false;
+		//internal static bool RandoPoolOn = false;
+		//internal static bool UnknownOn = false;
 
 		internal static void ToggleRandoPins() {
-			RandoPoolOn = !RandoPoolOn;
-			UnknownOn = false;
-			Instance._PinGroup.SetRandoSprites(RandoPoolOn);
+			Instance.Settings.RandoPoolOn = !Instance.Settings.RandoPoolOn;
+			Instance.Settings.UnknownOn = false;
+			Instance._PinGroup.SetRandoSprites(Instance.Settings.RandoPoolOn);
+			//RandoPoolOn = !RandoPoolOn;
+			//UnknownOn = false;
+			//Instance._PinGroup.SetRandoSprites(RandoPoolOn);
 		}
 
 		internal static void ToggleUnknownPins() {
-			UnknownOn = !UnknownOn;
-			if (UnknownOn) {
+			//UnknownOn = !UnknownOn;
+			//if (UnknownOn) {
+			//	Instance._PinGroup.SetUnknownSprites();
+			//} else {
+			//	Instance._PinGroup.SetRandoSprites(RandoPoolOn);
+			//}
+			Instance.Settings.UnknownOn = !Instance.Settings.UnknownOn;
+			if (Instance.Settings.UnknownOn) {
 				Instance._PinGroup.SetUnknownSprites();
 			} else {
-				Instance._PinGroup.SetRandoSprites(RandoPoolOn);
+				Instance._PinGroup.SetRandoSprites(Instance.Settings.RandoPoolOn);
+			}
+		}
+
+		//internal static void GetAllObjectsOnlyInScene()
+		//{
+		//	foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
+		//	{
+		//		if (go.activeInHierarchy) {
+		//			DebugLog.Log($"{go.name}");
+		//		}
+		//	}
+		//}
+
+		internal static void DestroyMarkers() {
+
+			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
+				if (go.name == "Map Markers")
+					go.SetActive(false);
 			}
 		}
 
@@ -170,14 +213,16 @@ namespace RandoMapMod {
 			//Instance._PinGroup.MainGroup.SetActive(true);
 			//Instance._PinGroup.HelperGroup.SetActive(true);
 
-			Instance._PinGroup.Group1.SetActive(true);
-			Instance._PinGroup.Group2.SetActive(true);
-			Instance._PinGroup.Group3.SetActive(true);
-			Instance._PinGroup.Group4.SetActive(true);
-			Instance._PinGroup.Group5.SetActive(true);
-			Instance._PinGroup.Group6.SetActive(true);
-			RandoPoolOn = false;
-			UnknownOn = false;
+			Instance.Settings.Group1On = true;
+			Instance.Settings.Group2On = true;
+			Instance.Settings.Group3On = true;
+			Instance.Settings.Group4On = true;
+			Instance.Settings.Group5On = true;
+			Instance.Settings.Group6On = true;
+			SetAllPins();
+
+			//RandoPoolOn = false;
+			//UnknownOn = false;
 
 			AllMapsGiven = true;
 		}
@@ -253,6 +298,8 @@ namespace RandoMapMod {
 				DebugLog.Log("Emptying out HelperData on game start.");
 				HelperLog.NewGame();
 
+				DestroyMarkers();
+
 				//Create the custom pin group, and add all the new pins
 				if (this._pinGroupGO == null) {
 					DebugLog.Log("First Setup. Adding Pin Group and Populating...");
@@ -269,6 +316,8 @@ namespace RandoMapMod {
 					//	}
 					//}
 
+					Instance._PinGroup.MakePinGroups();
+
 					// Find the rando pools when On.GameMap.Start is invoked
 					ResourceHelper.FindRandoPools();
 
@@ -284,6 +333,15 @@ namespace RandoMapMod {
 							this._PinGroup.AddPinToRoom(pin, self);
 						}
 					}
+
+					if (Instance.Settings.UnknownOn) {
+						Instance._PinGroup.SetUnknownSprites();
+					} else {
+						Instance._PinGroup.SetRandoSprites(Instance.Settings.RandoPoolOn);
+					}
+
+					DebugLog.Log($"Settings: RandoPoolOn {Instance.Settings.RandoPoolOn}");
+					DebugLog.Log($"Settings: UnknownOn {Instance.Settings.UnknownOn}");
 
 					InputListener.InstantiateSingleton();
 				}
@@ -324,6 +382,8 @@ namespace RandoMapMod {
 				return;
 			}
 			this._PinGroup.Show();
+
+			SetAllPins();
 		}
 
 		private void _DeleteErrantLifebloodPin(GameMap gameMap) {
