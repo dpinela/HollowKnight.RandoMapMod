@@ -10,6 +10,12 @@ This has been tested with RandomizerMod v3.12(573) on Hollow Knight 1.4.3.2.
 Version 1.0.1:
 - Correct Pins show up when a new game is loaded
 
+- Bugs that need to be fixed:
+    - Sometimes a stray Pin will appear after resting at a bench
+    - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
+    - Some Pins might not be in the right place
+    - The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
+
 Version 1.0.0:
 - Use `CTRL-T` to toggle Pins between vanilla and randomizer item pools
 - Use `CTRL-P` to toggle all Pins on/off
@@ -23,10 +29,3 @@ Version 1.0.0:
     - CTRL-M now gives you all Maps + Quill, but no Wayward Compass
     - Disabled other Pin styles
     - Disabled prereq markers (!)
-
- - Bugs that need to be fixed:
-    - The rando Pins will be wrong until the next time you reopen the game, a hook of some kind is needed
-    - Sometimes a stray Pin will appear in-game
-    - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
-    - Some Pins might not be in the right place
-    - The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
