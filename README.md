@@ -7,14 +7,17 @@ This has been tested with RandomizerMod v3.12(573) on Hollow Knight 1.4.3.2.
 ![Example Screenshot](./readmeAssets/vanillavsrando.png)
 
 # Changelog
-Version 1.0.1:
-- Correct Pins show up when a new game is loaded
+Version 1.0.2:
+- Fixed the hovering map markers bug
+- The state of the Pin groups and Rando/Unknown sprite settings are saved between game loads
 
 - Bugs that need to be fixed:
-    - Sometimes a stray Pin will appear after resting at a bench
     - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
     - Some Pins might not be in the right place
     - The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
+
+Version 1.0.1:
+- Correct Pins show up when a new game is loaded
 
 Version 1.0.0:
 - Use `CTRL-T` to toggle Pins between vanilla and randomizer item pools

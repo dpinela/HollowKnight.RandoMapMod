@@ -16,7 +16,7 @@ namespace RandoMapMod {
 	public class MapModS : Mod {
 		#region Meta
 		public override string GetVersion() {
-			string ver = "1.0.1"; //If you update this, please also update the README.
+			string ver = "1.0.2"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
