@@ -2,6 +2,8 @@
 
 This is a fork of Rando Map Mod v0.5.1, with some different features.
 
+This has been tested with RandomizerMod v3.12(573) on Hollow Knight 1.4.3.2
+
 # Changelog
 Version 1.0.1:
 - Correct Pins show up when a new game is loaded
