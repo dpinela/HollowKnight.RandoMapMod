@@ -16,7 +16,7 @@ namespace RandoMapMod {
 	public class MapModS : Mod {
 		#region Meta
 		public override string GetVersion() {
-			string ver = "1.0.0"; //If you update this, please also update the README.
+			string ver = "1.0.1"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
@@ -230,6 +230,7 @@ namespace RandoMapMod {
 			On.GameMap.WorldMap += this._GameMap_WorldMap;                  //Set big map boundaries
 			On.GameMap.SetupMapMarkers += this._GameMap_SetupMapMarkers;    //Enable the custom pins
 			On.GameMap.DisableMarkers += this._GameMap_DisableMarkers;      //Disable the custom pins
+			//On.GameMap.Update += this._GameMap_Update;
 
 			On.GrubPin.OnEnable += this._GrubPin_Enable;                    //Disable all grub pins so we can use our own. (Only if we were given maps.)
 
@@ -267,6 +268,9 @@ namespace RandoMapMod {
 					//		this._PinGroup.AddPinToRoom(pin, self);
 					//	}
 					//}
+
+					// Find the rando pools when On.GameMap.Start is invoked
+					ResourceHelper.FindRandoPools();
 
 					foreach (KeyValuePair<string, PinData> entry in ResourceHelper.PinDataDictionary) {
 						string itemName = entry.Key;
@@ -346,6 +350,10 @@ namespace RandoMapMod {
 			}
 			orig(self);
 		}
+
+		//private void _GameMap_Update(On.GameMap.orig_Update hook, GameMap self) {
+		//	DebugLog.Log("GameMap Update");
+		//}
 
 		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
 			if (AllMapsGiven) {

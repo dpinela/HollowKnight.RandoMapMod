@@ -161,7 +161,7 @@ namespace RandoMapMod {
 					}
 				}
 			}
-			_FindRandoPools();
+			//_FindRandoPools();
 		}
 		#endregion
 
@@ -240,6 +240,95 @@ namespace RandoMapMod {
 			}
 
 			return FetchSprite(sid);
+		}
+
+		// This method finds the randomized item pool corresponding to each pin, using RandomizerMod's ItemPlacements array
+		public static void FindRandoPools() {
+			foreach (KeyValuePair<string, PinData> entry in PinDataDictionary) {
+				string vanillaItem = entry.Key;
+				string randoItem;
+				PinData pinD = entry.Value;
+
+				// First check if this is a shop pin
+				if (pinD.IsShop) {
+					pinD.VanillaPool = "Shop";
+					pinD.RandoPool = "Shop";
+					randoItem = vanillaItem; // These are actually the shop names ("Sly" etc.)
+					DebugLog.Log($"{vanillaItem} is a shop pin");
+
+					// Then check if this item is randomized
+				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
+					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
+					randoItem = itemLocationPair.Item1;
+
+					// If randoItem's in the PinDataDictionary, we already have the pool
+					if (PinDataDictionary.ContainsKey(randoItem)) {
+						pinD.RandoPool = PinDataDictionary[randoItem].VanillaPool;
+						DebugLog.Log($"In ItemPlacement and PinDataDictionary: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// For dupes and cursed items
+					} else if (GameStatus.IsOtherMajorItem(randoItem)) {
+						pinD.RandoPool = GameStatus.GetOtherMajorItemPool(randoItem);
+						DebugLog.Log($"Other major item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// Shop items WITHOUT a pin in the vanilla pool
+					} else if (GameStatus.IsShopItem(randoItem)) {
+						pinD.RandoPool = GameStatus.GetShopItemPool(randoItem);
+						DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// If it is 1_Geo (cursed on)
+					} else if (randoItem.StartsWith("1_Geo")) {
+						pinD.RandoPool = "Geo";
+						DebugLog.Log($"1 Geo item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
+						// Nothing should end up here!
+					} else {
+						pinD.RandoPool = pinD.VanillaPool;
+						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
+					}
+
+				} else {
+					DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
+					randoItem = vanillaItem;
+					pinD.RandoPool = pinD.VanillaPool;
+				}
+
+				// Need to convert pools for shop items here:
+				// Sly -> Mask, Charm, Key, Charm, Vessel, Skill, Egg
+				// Salubra -> Charm, Notch
+				// Leg Eater -> Charm
+
+				pinD.RandoPool = randoItem switch {
+					"Gathering_Swarm" => "Charm",
+					"Heavy_Blow" => "Charm",
+					"Sprintmaster" => "Charm",
+					"Stalwart_Shell" => "Charm",
+					"Wayward_Compass" => "Charm",
+					"Simple_Key-Sly" => "Key",
+					"Elegant_Key" => "Key",
+					"Mask_Shard-Sly1" => "Mask",
+					"Mask_Shard-Sly2" => "Mask",
+					"Mask_Shard-Sly3" => "Mask",
+					"Mask_Shard-Sly4" => "Mask",
+					"Vessel_Fragment-Sly1" => "Vessel",
+					"Vessel_Fragment-Sly2" => "Vessel",
+					"Lumafly_Lantern" => "Skill",
+					"Rancid_Egg-Sly" => "Egg",
+
+					"Longnail" => "Charm",
+					"Quick_Focus" => "Charm",
+					"Steady_Body" => "Charm",
+					"Shaman_Stone" => "Charm",
+					"Lifeblood_Heart" => "Charm",
+
+					"Fragile_Greed" => "Charm",
+					"Fragile_Heart" => "Charm",
+					"Fragile_Strength" => "Charm",
+					_ => pinD.RandoPool
+				};
+			}
+
+			return;
 		}
 		#endregion
 
@@ -363,95 +452,6 @@ namespace RandoMapMod {
 				retVal.Add(newPin.ID, newPin);
 			}
 			return retVal;
-		}
-
-		// This method finds the randomized item pool corresponding to each pin, using RandomizerMod's ItemPlacements array
-		private static void _FindRandoPools() {
-			foreach (KeyValuePair<string, PinData> entry in PinDataDictionary) {
-				string vanillaItem = entry.Key;
-				string randoItem;
-				PinData pinD = entry.Value;
-
-				// First check if this is a shop pin
-				if (pinD.IsShop) {
-					pinD.VanillaPool = "Shop";
-					pinD.RandoPool = "Shop";
-					randoItem = vanillaItem; // These are actually the shop names ("Sly" etc.)
-					//DebugLog.Log($"{vanillaItem} is a shop pin");
-
-					// Then check if this item is randomized
-				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
-					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
-					randoItem = itemLocationPair.Item1;
-
-					// If randoItem's in the PinDataDictionary, we already have the pool
-					if (PinDataDictionary.ContainsKey(randoItem)) {
-						pinD.RandoPool = PinDataDictionary[randoItem].VanillaPool;
-						//DebugLog.Log($"In ItemPlacement and PinDataDictionary: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
-
-						// For dupes and cursed items
-					} else if (GameStatus.IsOtherMajorItem(randoItem)) {
-						pinD.RandoPool = GameStatus.GetOtherMajorItemPool(randoItem);
-						//DebugLog.Log($"Other major item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
-
-						// Shop items WITHOUT a pin in the vanilla pool
-					} else if (GameStatus.IsShopItem(randoItem)) {
-						pinD.RandoPool = GameStatus.GetShopItemPool(randoItem);
-						//DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
-
-						// If it is 1_Geo (cursed on)
-					} else if (randoItem.StartsWith("1_Geo")) {
-						pinD.RandoPool = "Geo";
-						//DebugLog.Log($"1 Geo item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
-
-						// Nothing should end up here!
-					} else {
-						pinD.RandoPool = pinD.VanillaPool;
-						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
-					}
-
-				} else {
-					//DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
-					randoItem = vanillaItem;
-					pinD.RandoPool = pinD.VanillaPool;
-				}
-
-				// Need to convert pools for shop items here:
-				// Sly -> Mask, Charm, Key, Charm, Vessel, Skill, Egg
-				// Salubra -> Charm, Notch
-				// Leg Eater -> Charm
-
-				pinD.RandoPool = randoItem switch {
-					"Gathering_Swarm" => "Charm",
-					"Heavy_Blow" => "Charm",
-					"Sprintmaster" => "Charm",
-					"Stalwart_Shell" => "Charm",
-					"Wayward_Compass" => "Charm",
-					"Simple_Key-Sly" => "Key",
-					"Elegant_Key" => "Key",
-					"Mask_Shard-Sly1" => "Mask",
-					"Mask_Shard-Sly2" => "Mask",
-					"Mask_Shard-Sly3" => "Mask",
-					"Mask_Shard-Sly4" => "Mask",
-					"Vessel_Fragment-Sly1" => "Vessel",
-					"Vessel_Fragment-Sly2" => "Vessel",
-					"Lumafly_Lantern" => "Skill",
-					"Rancid_Egg-Sly" => "Egg",
-
-					"Longnail" => "Charm",
-					"Quick_Focus" => "Charm",
-					"Steady_Body" => "Charm",
-					"Shaman_Stone" => "Charm",
-					"Lifeblood_Heart" => "Charm",
-
-					"Fragile_Greed" => "Charm",
-					"Fragile_Heart" => "Charm",
-					"Fragile_Strength" => "Charm",
-					_ => pinD.RandoPool
-				};
-			}
-
-			return;
 		}
 		#endregion
 	}
