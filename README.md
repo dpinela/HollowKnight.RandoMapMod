@@ -1,6 +1,6 @@
 # Randomizer Map S
 
-This is a fork of Rando Map Mod v0.5.1, with some different features.
+This is a fork of Rando Map Mod v0.5.1, with some bug fixes and new features.
 
 This has been tested with both RandomizerMod v3.12(573) and v3.12c(884) (the Discord beta).
 
