@@ -2,9 +2,7 @@
 
 This is a fork of Rando Map Mod v0.5.1, with some different features.
 
-This has been tested with RandomizerMod v3.12(573) on Hollow Knight 1.4.3.2.
-
-(It also works with the Discord Beta v3.12c(884))
+This has been tested with both RandomizerMod v3.12(573) and v3.12c(884) (the Discord beta).
 
 ![Example Screenshot](./readmeAssets/vanillavsrando.png)
 
