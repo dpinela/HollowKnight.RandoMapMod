@@ -229,6 +229,7 @@ namespace RandoMapMod {
 				"CursedNail" => Sprites.Skill,
 				"Boss_Geo" => Sprites.Geo,
 				"PalaceLore" => Sprites.Lore,
+				"Focus" => Sprites.Skill,
 
 				"Shop" => Sprites.Shop,
 				_ => Sprites.Unknown
@@ -276,6 +277,11 @@ namespace RandoMapMod {
 						pinD.RandoPool = GameStatus.GetShopItemPool(randoItem);
 						//DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
+						// New items in v3.12c(884), no vanilla pins for these
+					} else if (GameStatus.IsNewItem(randoItem)) {
+						pinD.RandoPool = GameStatus.GetNewItemPool(randoItem);
+						//DebugLog.Log($"New item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+
 						// If it is 1_Geo (cursed on)
 					} else if (randoItem.StartsWith("1_Geo")) {
 						pinD.RandoPool = "Geo";
@@ -284,7 +290,7 @@ namespace RandoMapMod {
 						// Nothing should end up here!
 					} else {
 						pinD.RandoPool = pinD.VanillaPool;
-						//DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
+						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
 					}
 
 				} else {
@@ -350,6 +356,11 @@ namespace RandoMapMod {
 						continue;
 					}
 
+					// Suppress log for new beta items for now
+					if (GameStatus.IsNewItem(itemName)) {
+						continue;
+					}
+
 					DebugLog.Warn($"Unknown Rando Item `{itemName}`. Tell devs to check 'pindata.xml'");
 					foreach (XmlNode chld in node.ChildNodes) {
 						DebugLog.Warn($"    {chld.Name} : {chld.InnerText}");
@@ -358,6 +369,7 @@ namespace RandoMapMod {
 				}
 
 				PinData pinD = PinDataDictionary[itemName];
+				//PinData pinD = new PinData();
 				foreach (XmlNode chld in node.ChildNodes) {
 					if (chld.Name == "sceneName") {
 						pinD.SceneName = chld.InnerText;
@@ -403,7 +415,6 @@ namespace RandoMapMod {
 						pinD.VanillaPool = chld.InnerText;
 						continue;
 					}
-
 				}
 			}
 		}

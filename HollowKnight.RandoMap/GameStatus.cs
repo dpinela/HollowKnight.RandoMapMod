@@ -133,6 +133,72 @@ namespace RandoMapMod {
 			{"Upslash", "Skill" }
 		};
 
+		// These items were added in the current beta of RandomizerMod (v3.12c(884))
+		private static readonly Dictionary<string, string> _newItems = new Dictionary<string, string>() {
+			{"Swim", "Skill"},
+			{"Mask_Shard-Start", "Mask"},
+			{"Mask_Shard-Start_2", "Mask"},
+			{"Mask_Shard-Start_3", "Mask"},
+			{"Mask_Shard-Start_4", "Mask"},
+			{"Mask_Shard-Start_5", "Mask"},
+			{"Mask_Shard-Start_6", "Mask"},
+			{"Mask_Shard-Start_7", "Mask"},
+			{"Mask_Shard-Start_8", "Mask"},
+			{"Mask_Shard-Start_9", "Mask"},
+			{"Mask_Shard-Start_10", "Mask"},
+			{"Mask_Shard-Start_11", "Mask"},
+			{"Mask_Shard-Start_12", "Mask"},
+			{"Mask_Shard-Start_13", "Mask"},
+			{"Mask_Shard-Start_14", "Mask"},
+			{"Mask_Shard-Start_15", "Mask"},
+			{"Mask_Shard-Start_16", "Mask"},
+			{"Charm_Notch-Start", "Notch" },
+			{"Charm_Notch-Start_2", "Notch" },
+			{"8_Geo-Junk_Pit_Chest_1", "Geo" },
+			{"8_Geo-Junk_Pit_Chest_2", "Geo" },
+			{"25_Geo-Junk_Pit_Chest_3", "Geo" },
+			{"Lumafly_Escape-Junk_Pit_Chest_4", "Geo" }, // Not sure about this... ?
+			{"10_Geo-Junk_Pit_Chest_5", "Geo" },
+			{"Mimic_Grub-Deepnest_1", "Grub" },
+			{"Mimic_Grub-Deepnest_2", "Grub" },
+			{"Mimic_Grub-Deepnest_3", "Grub" },
+			{"Mimic_Grub-Crystal_Peak", "Grub" },
+			{"Grub", "Grub" },
+			{"Mimic_Grub", "Mimic_Grub" },
+			{"Hunter's_Journal", "Lore" }, // Not sure about these... maybe should have a Journal pin type?
+			{"Journal_Entry-Void_Tendrils", "Lore" },
+			{"Journal_Entry-Charged_Lumafly", "Lore" },
+			{"Journal_Entry-Goam", "Lore" },
+			{"Journal_Entry-Garpede", "Lore" },
+			{"Journal_Entry-Seal_of_Binding", "Lore" },
+			{"Elevator_Pass", "Key" },
+			{"450_Geo-Egg_Shop_1", "Geo" },
+			{"450_Geo-Egg_Shop_2", "Geo" },
+			{"450_Geo-Egg_Shop_3", "Geo" },
+			{"450_Geo-Egg_Shop_4", "Geo" },
+			{"450_Geo-Egg_Shop_5", "Geo" },
+			{"Rancid_Egg", "Egg" },
+			{"Rancid_Egg_(0)", "Egg" },
+			{"Rancid_Egg_(1)", "Egg" },
+			{"Rancid_Egg_(2)", "Egg" },
+			{"Rancid_Egg_(3)", "Egg" },
+			{"Rancid_Egg_(4)", "Egg" },
+			{"Rancid_Egg_(5)", "Egg" },
+			{"Rancid_Egg_(6)", "Egg" },
+			{"Rancid_Egg_(7)", "Egg" },
+			{"Rancid_Egg_(8)", "Egg" },
+			{"Rancid_Egg_(9)", "Egg" },
+			{"Rancid_Egg_(10)", "Egg" },
+			{"Rancid_Egg_(11)", "Egg" },
+			{"Rancid_Egg_(12)", "Egg" },
+			{"Rancid_Egg_(13)", "Egg" },
+			{"Rancid_Egg_(14)", "Egg" },
+			{"Rancid_Egg_(15)", "Egg" },
+			{"Rancid_Egg_(16)", "Egg" },
+			{"Rancid_Egg_(17)", "Egg" },
+			{"Rancid_Egg_(18)", "Egg" },
+			{"Rancid_Egg_(19)", "Egg" },
+		};
 		public static bool ItemIsChecked(string itemName) {
 			if (_HData == null) {
 				return false;
@@ -207,21 +273,29 @@ namespace RandoMapMod {
 		//public static bool IsSeerItem(string itemName) {
 		//	return "Seer".Equals(_shopItems[itemName]);
 		//}
+		#endregion
+
+		#region Public Methods
 		public static bool IsShopItem(string itemName) {
 			return _shopItems.ContainsKey(itemName);
 		}
 		public static bool IsOtherMajorItem(string itemName) {
 			return _otherMajorItems.ContainsKey(itemName);
 		}
-		#endregion
+		public static bool IsNewItem(string itemName) {
+			return _newItems.ContainsKey(itemName);
+		}
 
-		#region Public Methods
 		public static string GetShopItemPool(string itemName) {
 			return _shopItems[itemName];
 		}
 
 		public static string GetOtherMajorItemPool(string itemName) {
 			return _otherMajorItems[itemName];
+		}
+
+		public static string GetNewItemPool(string itemName) {
+			return _newItems[itemName];
 		}
 		#endregion
 	}
