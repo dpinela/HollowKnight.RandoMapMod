@@ -8,7 +8,7 @@ This has been tested with both RandomizerMod v3.12(573) and v3.12c(884) (the Dis
 
 # Changelog
 Version 1.0.3:
-- Added new items in v3.12(884)
+- Added new items in v3.12(884). However the new Pin locations haven't been added yet.
 
 - Bugs that need to be fixed:
     - Mod load fails upon first try. Reopening the game should fix it.
