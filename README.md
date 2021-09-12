@@ -11,6 +11,7 @@ Version 1.0.3:
 - Added new items in v3.12(884)
 
 - Bugs that need to be fixed:
+    - Mod load fails upon first try. Reopening the game should fix it.
     - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
     - Some Pins might not be in the right place, or don't appear at all
     - The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
