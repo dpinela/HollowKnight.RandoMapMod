@@ -3,7 +3,7 @@ using ModCommon;
 using Modding;
 //using RandoMapMod.BoringInternals;
 using RandoMapMod.UnityComponents;
-using RandoMapMod.VersionDiffs;
+//using RandoMapMod.VersionDiffs;
 using SereCore;
 using System;
 using System.Collections.Generic;
@@ -42,36 +42,8 @@ namespace RandoMapMod {
 			get; private set;
 		}
 
-		private static IVersionController _vc = null;
-		public static IVersionController VersionController {
-			get {
-				if (_vc == null) {
-					//DebugLog.Log("Finding Version");
-					//if (RandomizerMod.RandomizerMod.Instance.GetVersion().Contains("MW")) {
-					//	//Multiworld
-					//	DebugLog.Log("MultiWorld Detected");
-					//	_vc = new MultiWorldRando3();
-					//} else {
-					//	//Standard
-					//	DebugLog.Log("Standard Rando Detected");
-					//	_vc = new StandardRando3();
-					//}
-					_vc = new StandardRando3();
-				}
-
-				return _vc;
-			}
-		}
-
 		public static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
 
-		//internal static void TogglePins() {
-		//	Instance._PinGroup.MainGroup.SetActive(!Instance._PinGroup.MainGroup.activeSelf);
-		//}
-
-		//public static void ToggleResourceHelpers() {
-		//	Instance._PinGroup.HelperGroup.SetActive(!Instance._PinGroup.HelperGroup.activeSelf);
-		//}
 		internal static void ToggleGroup1() {
 			Instance.Settings.Group1On = !Instance.Settings.Group1On;
 			Instance._PinGroup.Group1.SetActive(Instance.Settings.Group1On);
@@ -137,25 +109,13 @@ namespace RandoMapMod {
 
 		}
 
-		//internal static bool RandoPoolOn = false;
-		//internal static bool UnknownOn = false;
-
 		internal static void ToggleRandoPins() {
 			Instance.Settings.RandoPoolOn = !Instance.Settings.RandoPoolOn;
 			Instance.Settings.UnknownOn = false;
 			Instance._PinGroup.SetRandoSprites(Instance.Settings.RandoPoolOn);
-			//RandoPoolOn = !RandoPoolOn;
-			//UnknownOn = false;
-			//Instance._PinGroup.SetRandoSprites(RandoPoolOn);
 		}
 
 		internal static void ToggleUnknownPins() {
-			//UnknownOn = !UnknownOn;
-			//if (UnknownOn) {
-			//	Instance._PinGroup.SetUnknownSprites();
-			//} else {
-			//	Instance._PinGroup.SetRandoSprites(RandoPoolOn);
-			//}
 			Instance.Settings.UnknownOn = !Instance.Settings.UnknownOn;
 			if (Instance.Settings.UnknownOn) {
 				Instance._PinGroup.SetUnknownSprites();
@@ -164,18 +124,15 @@ namespace RandoMapMod {
 			}
 		}
 
-		//internal static void GetAllObjectsOnlyInScene()
-		//{
-		//	foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[])
-		//	{
-		//		if (go.activeInHierarchy) {
-		//			DebugLog.Log($"{go.name}");
-		//		}
-		//	}
-		//}
+		internal static void GetAllObjectsOnlyInScene() {
+			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
+				if (go.activeInHierarchy) {
+					DebugLog.Log($"{go.name}");
+				}
+			}
+		}
 
-		internal static void DestroyMarkers() {
-
+		internal static void DestroyBuggyMarkers() {
 			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
 				if (go.name == "Map Markers")
 					go.SetActive(false);
@@ -196,10 +153,8 @@ namespace RandoMapMod {
 				pd.SetBool(field.Name, true);
 			}
 
-			//Give them compass and Quill
-			//pd.SetBool(nameof(pd.gotCharm_2), true);
+			//Give them Quill
 			pd.SetBool(nameof(pd.hasQuill), true);
-			//GiveCollectorsMap();
 
 			// Set cornifer as having left all the areas. This could be condensed into the previous foreach for one less GetFields(), but I value the clarity more.
 			foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
@@ -209,42 +164,10 @@ namespace RandoMapMod {
 			// Set Cornifer as sleeping at home
 			pd.SetBool(nameof(pd.corniferAtHome), true);
 
-			//Make sure both groups are activated
-			//Instance._PinGroup.MainGroup.SetActive(true);
-			//Instance._PinGroup.HelperGroup.SetActive(true);
-
-			Instance.Settings.Group1On = true;
-			Instance.Settings.Group2On = true;
-			Instance.Settings.Group3On = true;
-			Instance.Settings.Group4On = true;
-			Instance.Settings.Group5On = true;
-			Instance.Settings.Group6On = true;
 			SetAllPins();
-
-			//RandoPoolOn = false;
-			//UnknownOn = false;
 
 			AllMapsGiven = true;
 		}
-
-		//public enum PinStyles {
-		//	Normal,
-		//	Afraid,
-		//	AlsoAfraid
-		//}
-
-		//public static PinStyles PinStyle { get; private set; } = PinStyles.Normal;
-
-		//public static void SetPinStyleOrReturnToNormal(PinStyles style) {
-		//	DebugLog.Log($"SetPins: {PinStyle} => {style}");
-		//	if (PinStyle == style) {
-		//		PinStyle = PinStyles.Normal;
-		//		DebugLog.Log($"Back to Normal: {PinStyle}");
-		//		return;
-		//	}
-		//	PinStyle = style;
-		//	DebugLog.Log($"New Stuff: {PinStyle}");
-		//}
 		#endregion
 
 		#region Private Non-Methods
@@ -264,6 +187,7 @@ namespace RandoMapMod {
 		}
 
 		public override void Initialize() {
+
 			if (Instance != null) {
 				DebugLog.Warn("Initialized twice... Stop that.");
 				return;
@@ -298,7 +222,7 @@ namespace RandoMapMod {
 				DebugLog.Log("Emptying out HelperData on game start.");
 				HelperLog.NewGame();
 
-				DestroyMarkers();
+				DestroyBuggyMarkers();
 
 				//Create the custom pin group, and add all the new pins
 				if (this._pinGroupGO == null) {
@@ -310,12 +234,6 @@ namespace RandoMapMod {
 					this._pinGroupGO.transform.SetParent(self.transform);
 					this._pinGroupGO.transform.position = new Vector3(0f, 0f, 0f);
 
-					//foreach (PinData pin in ResourceHelper.PinData.Values) {
-					//	if (pin.CreationRequired) {
-					//		this._PinGroup.AddPinToRoom(pin, self);
-					//	}
-					//}
-
 					Instance._PinGroup.MakePinGroups();
 
 					// Find the rando pools when On.GameMap.Start is invoked
@@ -324,10 +242,7 @@ namespace RandoMapMod {
 					foreach (KeyValuePair<string, PinData> entry in ResourceHelper.PinDataDictionary) {
 						string itemName = entry.Key;
 						PinData pin = entry.Value;
-						//DebugLog.Log($"Adding pin: {itemName} at {pin.VanillaPool}, randomized to {pin.RandoPool}");
-						//if (!GameStatus.IsShopItem(itemName)) {
-						//	this._PinGroup.AddPinToRoom(pin, self);
-						//}
+
 						// Either the pin shows a shop, or it doesn't appear in the list of items INSIDE the shop
 						if (pin.IsShop || !GameStatus.IsShopItem(itemName)) {
 							this._PinGroup.AddPinToRoom(pin, self);
@@ -410,11 +325,6 @@ namespace RandoMapMod {
 			}
 			orig(self);
 		}
-
-		//private void _GameMap_Update(On.GameMap.orig_Update hook, GameMap self) {
-		//	DebugLog.Log("GameMap Update");
-		//}
-
 		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
 			if (AllMapsGiven) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
@@ -469,21 +379,6 @@ namespace RandoMapMod {
 						DebugLog.Log("returning original");
 						return Language.Language.GetInternal(key, sheetTitle);
 					} else if (_convoCheck == 0) {
-						//string talk = "Welcome to RandoMapMod!" +
-						//	"\nA BIG pin means look there for progression. LITTLE means the next key item won't be there. \"!\" means you need something else, maybe grubs or a key? \"$\" indicates a shop that may have items." +
-						//	"\nTalk to me 2 more times, and I'll give you all the maps." +
-						//	"\nIf you're playing BINGO, you should probably not do that.";
-						//talk += "I will also go ahead and give you some special PINK pins." +
-						//	"\nThese will show you the locations of Grubs and/or Essence Locations if they are NOT randomized." +
-						//	"\nSome locations require either grubs or essence to unlock them, so these Resource Helpers should help.";
-						//talk += "<page>And also, instead of talking to me, you can simply do the following:" +
-						//	"\"Ctrl + M\" - Gives you all the maps\n" +
-						//	"\"Ctrl + G\" - Reveals all grub locations (if they aren't randomized)\n" +
-						//	"\"Ctrl + P\" - Toggles the pins";
-						//talk += "<page>Okay, so finally if you type in 'afraidofchange' at any point, the pins will show in the old style. Big ol' \"?\" circles. Just for you Colette! <3" +
-						//	"\nBig thanks to everyone in the HK Discord, the HK Racing Discord, other coders, and everyone who helped me test." +
-						//	"\nI really appreciate all that test ease!";
-
 						string talk = "Welcome to Randomizer Map S! This is a fork of Randomizer Map v0.5.1 with some different features." +
 							"\nA BIG pin means you can reach the item. LITTLE means you are missing a key item. \"$\" indicates a shop." +
 							"\nTalk to me 2 more times, and I'll give you all the Maps." +

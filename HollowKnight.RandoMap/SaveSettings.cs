@@ -30,6 +30,7 @@ namespace RandoMapMod {
 			get => GetBool(false);
 			set => SetBool(value);
 		}
+
 		public bool Group1On {
 			get => GetBool(true);
 			set => SetBool(value);

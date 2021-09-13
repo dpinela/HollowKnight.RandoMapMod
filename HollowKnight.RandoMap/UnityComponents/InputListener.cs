@@ -3,7 +3,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
-using RandoMapMod.BoringInternals;
+//using RandoMapMod.BoringInternals;
 
 namespace RandoMapMod.UnityComponents {
 	class InputListener : MonoBehaviour {
@@ -31,7 +31,6 @@ namespace RandoMapMod.UnityComponents {
 		#endregion
 
 		#region Private Non-Methods
-		//private string _typedString = "";
 		#endregion
 
 		#region MonoBehaviour "Overrides"
@@ -67,14 +66,6 @@ namespace RandoMapMod.UnityComponents {
 					MapModS.ToggleGroup6();
 				}
 
-				//if (Input.GetKeyDown(KeyCode.P)) {
-				//	DebugLog.Log("Ctrl+P : Toggle Pins");
-				//	MapMod.TogglePins();
-				//}
-				//if (Input.GetKeyDown(KeyCode.G)) {
-				//	DebugLog.Log("Ctrl+G : Toggle Resource Helpers");
-				//	MapMod.ToggleResourceHelpers();
-				//}
 				if (Input.GetKeyDown(KeyCode.M)) {
 					DebugLog.Log("Ctrl+M : Give All Maps");
 					MapModS.GiveAllMaps("Hotkey");
@@ -95,37 +86,11 @@ namespace RandoMapMod.UnityComponents {
 					MapModS.ToggleRandoPins();
 				}
 
-				//if (Input.GetKeyDown(KeyCode.O))
-    //            {
-				//	MapModS.GetAllObjectsOnlyInScene();
-    //            }
+				if (Input.GetKeyDown(KeyCode.O)) {
+					MapModS.GetAllObjectsOnlyInScene();
+				}
 
 			}
-
-			//List<(string, Action)> keyPhrases = new List<(string, Action)> {
-			//	("alsoafraidofchange", () => MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.AlsoAfraid)),
-			//	("afraidofchange", () => MapMod.SetPinStyleOrReturnToNormal(MapMod.PinStyles.Afraid)),
-			//	(SeriouslyBoring.BORING_PHRASE_1, SeriouslyBoring.ToggleBoringMode1),
-			//	(SeriouslyBoring.BORING_PHRASE_2, SeriouslyBoring.ToggleBoringMode2),
-			//};
-
-			//string inputString = Input.inputString;
-			//if (inputString != string.Empty) {
-			//	_typedString += inputString.Replace("'", "").ToLower();
-
-			//	foreach ((string phrase, Action call) in keyPhrases) {
-			//		if (_typedString.ToLower().Contains(phrase.ToLower())) {
-			//			DebugLog.Log($"'{phrase}' KeyPhrase found!");
-			//			call.Invoke();
-
-			//			_typedString = "";
-			//		}
-			//	}
-
-			//	if (_typedString.Length > 20) {
-			//		_typedString.Substring(1);
-			//	}
-			//}
 		}
 		#endregion
 

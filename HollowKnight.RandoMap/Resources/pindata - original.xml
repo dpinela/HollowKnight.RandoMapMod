@@ -1207,19 +1207,14 @@
 	</pin>
 
 	<!--Stag Stations-->
-	<pin name="Dirtmouth_Stag">
-		<offsetX>0.0</offsetX>
-	</pin>
-	<pin name="Stag_Nest_Stag">
-		<offsetX>0.0</offsetX>
-	</pin>
+	<pin name="Dirtmouth_Stag" />
+	<pin name="Stag_Nest_Stag" />
 	<pin name="Crossroads_Stag">
 	</pin>
 	<pin name="Greenpath_Stag">
 		<offsetX>-0.05</offsetX>
 	</pin>
 	<pin name="Queen's_Station_Stag">
-		<offsetX>0.0</offsetX>
 	</pin>
 	<pin name="Queen's_Gardens_Stag">
 		<offsetX>1.8</offsetX>

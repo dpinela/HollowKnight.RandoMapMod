@@ -47,10 +47,6 @@
       <HintPath>G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\PlayMaker.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RandomizerLib3.0">
-      <HintPath>G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\RandomizerLib3.0.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="RandomizerMod3.0, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>H:\Programs\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\RandomizerMod3.0.dll</HintPath>
@@ -58,10 +54,6 @@
     </Reference>
     <Reference Include="SereCore">
       <HintPath>G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\SereCore.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="StandardRando3">
-      <HintPath>G:\Games\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\Disabled\StandardRando3.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
@@ -106,7 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoringInternals\SeriouslyBoring.cs" />
     <Compile Include="UnityComponents\InputListener.cs" />
     <Compile Include="UnityComponents\MapTextOverlay.cs" />
     <Compile Include="HelperLog.cs" />
@@ -119,14 +110,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SaveSettings.cs" />
-    <Compile Include="VersionDiffs\IVersionController.cs" />
-    <Compile Include="VersionDiffs\StandardRando3.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\pindata.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Map\modPrereq.png" />
     <EmbeddedResource Include="Resources\Map\pinCharm.png" />
     <EmbeddedResource Include="Resources\Map\pinCocoon.png" />
     <EmbeddedResource Include="Resources\Map\pinDreamer.png" />
@@ -147,13 +135,8 @@
     <EmbeddedResource Include="Resources\Map\pinSkill.png" />
     <EmbeddedResource Include="Resources\Map\pinStag.png" />
     <EmbeddedResource Include="Resources\Map\pinTotem.png" />
-    <EmbeddedResource Include="Resources\Map\pinVessel.png" />
-    <EmbeddedResource Include="Resources\Map\reqEssenceBoss.png" />
-    <EmbeddedResource Include="Resources\Map\reqGrub.png" />
-    <EmbeddedResource Include="Resources\Map\reqRoot.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Map\old_prereqPin.png" />
     <EmbeddedResource Include="Resources\Map\pinUnknown.png" />
     <EmbeddedResource Include="Resources\Map\pinShop.png" />
   </ItemGroup>
@@ -168,18 +151,6 @@
     <PackageReference Include="Mono.Cecil">
       <Version>0.10.4</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Map\pinUnknown_GeoRock.png" />
-    <EmbeddedResource Include="Resources\Map\pinUnknown_Grub.png" />
-    <EmbeddedResource Include="Resources\Map\pinUnknown_Lifeblood.png" />
-    <EmbeddedResource Include="Resources\Map\pinUnknown_Totem.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Map\pinUnknown_GeoRockInv.png" />
-    <EmbeddedResource Include="Resources\Map\pinUnknown_GrubInv.png" />
-    <EmbeddedResource Include="Resources\Map\pinUnknown_LifebloodInv.png" />
-    <EmbeddedResource Include="Resources\Map\pinUnknown_TotemInv.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />

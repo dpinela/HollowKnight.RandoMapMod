@@ -1,5 +1,4 @@
-﻿using RandoMapMod.BoringInternals;
-using System;
+﻿//using RandoMapMod.BoringInternals;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -61,16 +60,12 @@ namespace RandoMapMod {
 		#endregion
 
 		#region Non-Private Non-Methods
-		//public GameObject MainGroup { get; private set; } = null;
-		//public GameObject HelperGroup { get; private set; } = null;
 		public GameObject Group1 { get; private set; } = null;
 		public GameObject Group2 { get; private set; } = null;
 		public GameObject Group3 { get; private set; } = null;
 		public GameObject Group4 { get; private set; } = null;
 		public GameObject Group5 { get; private set; } = null;
 		public GameObject Group6 { get; private set; } = null;
-		//public GameObject RandoPoolOn { get; private set; } = null;
-		//public GameObject UnknownOn { get; private set; } = null;
 		public bool Hidden { get; private set; } = false;
 		#endregion
 
@@ -155,9 +150,6 @@ namespace RandoMapMod {
 			}
 
 			string roomName = pinData.PinScene ?? ResourceHelper.PinDataDictionary[pinData.ID].SceneName;
-			//Sprite pinSprite = pinData.IsShop ?
-			//	pinSprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Shop) :
-			//	pinSprite = ResourceHelper.FetchSpriteByPool(pinData.Pool);
 
 			Sprite pinSprite;
 
@@ -168,26 +160,6 @@ namespace RandoMapMod {
 			}
 
 			GameObject newPin = new GameObject("pin_rando");
-			//if (pinSprite.name.StartsWith("req")) {
-			//	if (HelperGroup == null) {
-			//		HelperGroup = new GameObject("Resource Helpers");
-			//		HelperGroup.transform.SetParent(this.transform);
-			//		//default to off
-			//		HelperGroup.SetActive(false);
-			//	}
-
-			//	newPin.transform.SetParent(HelperGroup.transform);
-			//} else {
-			//	if (MainGroup == null) {
-			//		MainGroup = new GameObject("Main Group");
-			//		MainGroup.transform.SetParent(this.transform);
-			//		//default to off
-			//		MainGroup.SetActive(false);
-			//	}
-
-			//	newPin.transform.SetParent(MainGroup.transform);
-			//}
-
 			newPin.layer = 30;
 			newPin.transform.localScale *= 1.2f;
 
@@ -206,8 +178,8 @@ namespace RandoMapMod {
 			Pin pinC = newPin.AddComponent<Pin>();
 			pinC.SetPinData(pinData);
 
-			//Don't worry about this one. It just does some totally normal non-spoilery things.
-			newPin.AddComponent<BoringPinThing>();
+			////Don't worry about this one. It just does some totally normal non-spoilery things.
+			//newPin.AddComponent<BoringPinThing>();
 
 			newPin.SetActive(true);
 

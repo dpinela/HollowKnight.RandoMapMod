@@ -1,13 +1,20 @@
 ﻿using System;
-using System.CodeDom;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using UnityEngine;
 
 namespace RandoMapMod {
 	public static class DebugLog {
 		#region Statics
+		static DebugLog() {
+			try {
+				using (var myFile = File.Create(_LogFile)) {
+					// opens stream while creating fresh log file, then closes it
+				}
+			} catch {
+				MapModS.Instance.LogWarn("RandoMapLog.log could not be created...");
+			}
+		}
 		public enum Level {
 			Log = 0,			//Regular debug stuff
 			Warn = 1,			//Refactor or really minor/annoying things
@@ -82,13 +89,7 @@ namespace RandoMapMod {
 			string nickName = _DetermineClassNickName();
 
 			string msg = $"{DateTime.Now:HH:mm:ss tt} {levelString,5} {nameof(MapModS),12} - {line}";
-			if (!File.Exists(_LogFile)) {
-				try {
-					File.Create(_LogFile);
-				} catch {
-					MapModS.Instance.LogWarn("RandoMapLog.log could not be created...");
-				}
-			}
+
 			using StreamWriter writer = new StreamWriter(_LogFile, true);
 			writer.WriteLine(msg);
 		}

@@ -11,20 +11,20 @@ namespace RandoMapMod {
 	static class ResourceHelper {
 		#region Constants
 		public enum Sprites {
-			old_prereq,
+			//old_prereq,
 
-			oldGeoRock,
-			oldGrub,
-			oldLifeblood,
-			oldTotem,
+			//oldGeoRock,
+			//oldGrub,
+			//oldLifeblood,
+			//oldTotem,
 
-			oldGeoRockInv,
-			oldGrubInv,
-			oldLifebloodInv,
-			oldTotemInv,
+			//oldGeoRockInv,
+			//oldGrubInv,
+			//oldLifebloodInv,
+			//oldTotemInv,
 
 			Unknown,
-			Prereq,
+			//Prereq,
 
 			Charm,
 			Cocoon,
@@ -49,9 +49,9 @@ namespace RandoMapMod {
 			Totem,
 			Vessel,
 
-			reqRoot,
-			reqGrub,
-			reqEssenceBoss,
+			//reqRoot,
+			//reqGrub,
+			//reqEssenceBoss,
 		}
 		#endregion
 
@@ -70,20 +70,20 @@ namespace RandoMapMod {
 					Texture2D texture = new Texture2D(1, 1);
 					texture.LoadImage(buff, true);
 					Sprites? key = resource switch {
-						"RandoMapMod.Resources.Map.old_prereqPin.png" => Sprites.old_prereq,
+						//"RandoMapMod.Resources.Map.old_prereqPin.png" => Sprites.old_prereq,
 
-						"RandoMapMod.Resources.Map.pinUnknown_GeoRock.png" => Sprites.oldGeoRock,
-						"RandoMapMod.Resources.Map.pinUnknown_Grub.png" => Sprites.oldGrub,
-						"RandoMapMod.Resources.Map.pinUnknown_Lifeblood.png" => Sprites.oldLifeblood,
-						"RandoMapMod.Resources.Map.pinUnknown_Totem.png" => Sprites.oldTotem,
+						//"RandoMapMod.Resources.Map.pinUnknown_GeoRock.png" => Sprites.oldGeoRock,
+						//"RandoMapMod.Resources.Map.pinUnknown_Grub.png" => Sprites.oldGrub,
+						//"RandoMapMod.Resources.Map.pinUnknown_Lifeblood.png" => Sprites.oldLifeblood,
+						//"RandoMapMod.Resources.Map.pinUnknown_Totem.png" => Sprites.oldTotem,
 
-						"RandoMapMod.Resources.Map.pinUnknown_GeoRockInv.png" => Sprites.oldGeoRockInv,
-						"RandoMapMod.Resources.Map.pinUnknown_GrubInv.png" => Sprites.oldGrubInv,
-						"RandoMapMod.Resources.Map.pinUnknown_LifebloodInv.png" => Sprites.oldLifebloodInv,
-						"RandoMapMod.Resources.Map.pinUnknown_TotemInv.png" => Sprites.oldTotemInv,
+						//"RandoMapMod.Resources.Map.pinUnknown_GeoRockInv.png" => Sprites.oldGeoRockInv,
+						//"RandoMapMod.Resources.Map.pinUnknown_GrubInv.png" => Sprites.oldGrubInv,
+						//"RandoMapMod.Resources.Map.pinUnknown_LifebloodInv.png" => Sprites.oldLifebloodInv,
+						//"RandoMapMod.Resources.Map.pinUnknown_TotemInv.png" => Sprites.oldTotemInv,
 
 						"RandoMapMod.Resources.Map.pinUnknown.png" => Sprites.Unknown,
-						"RandoMapMod.Resources.Map.modPrereq.png" => Sprites.Prereq,
+						//"RandoMapMod.Resources.Map.modPrereq.png" => Sprites.Prereq,
 
 						"RandoMapMod.Resources.Map.pinCharm.png" => Sprites.Charm,
 						"RandoMapMod.Resources.Map.pinCocoon.png" => Sprites.Cocoon,
@@ -108,9 +108,9 @@ namespace RandoMapMod {
 						"RandoMapMod.Resources.Map.pinTotem.png" => Sprites.Totem,
 						"RandoMapMod.Resources.Map.pinVessel.png" => Sprites.Vessel,
 
-						"RandoMapMod.Resources.Map.reqEssenceBoss.png" => Sprites.reqEssenceBoss,
-						"RandoMapMod.Resources.Map.reqGrub.png" => Sprites.reqGrub,
-						"RandoMapMod.Resources.Map.reqRoot.png" => Sprites.reqRoot,
+						//"RandoMapMod.Resources.Map.reqEssenceBoss.png" => Sprites.reqEssenceBoss,
+						//"RandoMapMod.Resources.Map.reqGrub.png" => Sprites.reqGrub,
+						//"RandoMapMod.Resources.Map.reqRoot.png" => Sprites.reqRoot,
 						_ => null
 					};
 					if (key == null) {
@@ -135,7 +135,8 @@ namespace RandoMapMod {
 
 			static void __ParseItems(XmlDocument xml) => _LoadItemData(xml.SelectNodes("randomizer/item"));
 
-			Assembly randoDLL = MapModS.VersionController.GetInfoAssembly();
+			//Assembly randoDLL = MapModS.VersionController.GetInfoAssembly();
+			Assembly randoDLL = typeof(RandomizerMod.RandomizerMod).Assembly;
 			Dictionary<String, Action<XmlDocument>> resourceProcessors = new Dictionary<String, Action<XmlDocument>>
 			{
 				{"items.xml", __ParseItems},
@@ -161,7 +162,6 @@ namespace RandoMapMod {
 					}
 				}
 			}
-			//_FindRandoPools();
 		}
 		#endregion
 
@@ -187,14 +187,6 @@ namespace RandoMapMod {
 		internal static Sprite FetchSpriteByPool(string pool) {
 			Sprites sid;
 
-			//if (pool == "Grub" && !RandomizerMod.RandomizerMod.Instance.Settings.RandomizeGrubs) {
-			//	sid = Sprites.reqGrub;
-			//} else if (pool == "Root" && !RandomizerMod.RandomizerMod.Instance.Settings.RandomizeWhisperingRoots) {
-			//	sid = Sprites.reqRoot;
-			//} else if (pool == "Essence_Boss") {
-			//	//Pretty sure these aren't randomized... We'll just leave them on!
-			//	sid = Sprites.reqEssenceBoss;
-			//} else {
 			sid = pool switch {
 				"Dreamer" => Sprites.Dreamer,
 				"Skill" => Sprites.Skill,
@@ -234,7 +226,6 @@ namespace RandoMapMod {
 				"Shop" => Sprites.Shop,
 				_ => Sprites.Unknown
 			};
-			//}
 
 			if (sid == Sprites.Unknown) {
 				DebugLog.Log($"{pool} => unknown sprite");
