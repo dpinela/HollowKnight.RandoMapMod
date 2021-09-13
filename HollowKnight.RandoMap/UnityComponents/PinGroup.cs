@@ -159,7 +159,7 @@ namespace RandoMapMod {
 				pinSprite = ResourceHelper.FetchSpriteByPool(pinData.VanillaPool);
 			}
 
-			GameObject newPin = new GameObject("pin_rando");
+			GameObject newPin = new GameObject($"pin_rando_{pinData.ID}");
 			newPin.layer = 30;
 			newPin.transform.localScale *= 1.2f;
 

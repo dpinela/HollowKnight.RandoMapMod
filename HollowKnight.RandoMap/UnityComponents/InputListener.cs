@@ -86,9 +86,9 @@ namespace RandoMapMod.UnityComponents {
 					MapModS.ToggleRandoPins();
 				}
 
-				if (Input.GetKeyDown(KeyCode.O)) {
-					MapModS.GetAllObjectsOnlyInScene();
-				}
+				//if (Input.GetKeyDown(KeyCode.O)) {
+				//	MapModS.GetAllObjectsOnlyInScene();
+				//}
 
 			}
 		}
