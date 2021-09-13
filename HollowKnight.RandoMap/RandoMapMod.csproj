@@ -112,6 +112,7 @@
     <Compile Include="SaveSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Map\pinVessel.png" />
     <EmbeddedResource Include="Resources\pindata.xml" />
   </ItemGroup>
   <ItemGroup>

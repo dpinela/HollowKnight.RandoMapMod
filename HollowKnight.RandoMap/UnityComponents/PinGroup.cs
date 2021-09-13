@@ -178,9 +178,6 @@ namespace RandoMapMod {
 			Pin pinC = newPin.AddComponent<Pin>();
 			pinC.SetPinData(pinData);
 
-			////Don't worry about this one. It just does some totally normal non-spoilery things.
-			//newPin.AddComponent<BoringPinThing>();
-
 			newPin.SetActive(true);
 
 			_pins.Add(pinC);

@@ -323,6 +323,7 @@ namespace RandoMapMod {
 					"Fragile_Strength" => "Charm",
 					_ => pinD.RandoPool
 				};
+				DebugLog.Log($"{vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 			}
 
 			return;
@@ -451,7 +452,9 @@ namespace RandoMapMod {
 							break;
 					}
 				}
+				
 				retVal.Add(newPin.ID, newPin);
+				
 			}
 			return retVal;
 		}

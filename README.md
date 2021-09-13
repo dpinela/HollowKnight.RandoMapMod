@@ -24,6 +24,10 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
 These settings are saved between game loads.
 
 # Changelog
+Version 1.0.4:
+- Fixed the "FAILED TO LOAD" bug when the log file wasn't present
+- Lots of code cleanup
+
 Version 1.0.3:
 - Added new items in v3.12(884). However the new Pin locations haven't been added yet.
 
@@ -44,8 +48,7 @@ Version 1.0.0:
     - Disabled other Pin styles
     - Disabled prereq markers (!)
 
-# Known Bugs
-- Mod load fails upon first try. Reopening the game should fix it.
+# Known Bugs/Missing Features
 - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
 - Some Pins might not be in the right place, or don't appear at all
-- The "reachable" Pins are based on the items found in the RandomizerHelperLog.txt. These don't include items that aren't randomized.
+- Not compatible when RandomizerMod isn't installed
