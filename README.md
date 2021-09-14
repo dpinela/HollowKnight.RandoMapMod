@@ -53,7 +53,7 @@ Version 1.0.0:
     - Disabled prereq markers (!)
 
 # Known Bugs / Missing Features
-- Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
+- Shop Pin doesn't disappear when the Shop items are bought out, but earlier instead
 - Some Pins are not in the right place
 - Some Pins are missing! These include several Lore Tablets and Boss Geo Pins
 - Not compatible when RandomizerMod isn't installed
