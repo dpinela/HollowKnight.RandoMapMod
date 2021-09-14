@@ -77,9 +77,14 @@ class Pin : MonoBehaviour {
 
 			//Disable Pin if we've already obtained / checked this location.
 			if (GameStatus.ItemIsChecked(this.PinData.ID)) {
+				if (this.name == "Stag_Nest_Stag") {
+					DebugLog.Log("Hi");
+				}
 				this._DisableSelf();
 			} else {
-
+				if (this.name == "Stag_Nest_Stag") {
+					DebugLog.Log("Bye");
+				}
 			}
 		} catch (Exception e) {
 			DebugLog.Error($"Failed to enable pin! ID: {this.PinData.ID}", e);

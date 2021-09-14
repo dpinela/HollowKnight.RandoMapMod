@@ -1,9 +1,6 @@
 ﻿using HutongGames.PlayMaker;
-using ModCommon;
 using Modding;
-//using RandoMapMod.BoringInternals;
 using RandoMapMod.UnityComponents;
-//using RandoMapMod.VersionDiffs;
 using SereCore;
 using System;
 using System.Collections.Generic;
@@ -16,7 +13,7 @@ namespace RandoMapMod {
 	public class MapModS : Mod {
 		#region Meta
 		public override string GetVersion() {
-			string ver = "1.0.4"; //If you update this, please also update the README.
+			string ver = "1.0.5"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
@@ -127,7 +124,12 @@ namespace RandoMapMod {
 		internal static void GetAllObjectsOnlyInScene() {
 			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
 				if (go.activeInHierarchy) {
-					DebugLog.Log($"{go.name}");
+					if (go.name.Contains("Map") || go.name.Contains("map")) {
+						DebugLog.Log($"{go.name}");
+						DebugLog.Log($"{go.layer}");
+						DebugLog.Log($"{go.activeSelf}");
+					}
+					
 				}
 			}
 		}
@@ -138,35 +140,56 @@ namespace RandoMapMod {
 					go.SetActive(false);
 			}
 		}
-
-		public static bool AllMapsGiven { get; private set; } = false;
-		public static void GiveAllMaps(string from) {
-			DebugLog.Log($"Maps granted from {from}");
-
+		
+		// This needs to be done once every game load when you don't have Quill, otherwise the map will be broken
+		internal static void ForceMapUpdate() {
 			PlayerData pd = PlayerData.instance;
-			Type playerData = typeof(PlayerData);
 
-			// Give the maps to the player
-			pd.SetBool(nameof(pd.hasMap), true);
+			if (!pd.hasQuill) {
+				// Give Quill, because it's required to...
+				pd.SetBool(nameof(pd.hasQuill), true);
 
-			foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
-				pd.SetBool(field.Name, true);
+				// ... uncover the full map!!
+				foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
+					if (go.name == "Game_Map(Clone)")
+						go.GetComponent<GameMap>().SetupMap();
+				}
+
+				// Remove Quill
+				pd.SetBool(nameof(pd.hasQuill), false);
 			}
+		}
 
-			//Give them Quill
-			pd.SetBool(nameof(pd.hasQuill), true);
+		//public static bool AllMapsGiven { get; private set; } = false;
+		public static void GiveAllMaps(string from) {
+			if (!Instance.Settings.MapsGiven) {
+				DebugLog.Log($"Maps granted from {from}");
 
-			// Set cornifer as having left all the areas. This could be condensed into the previous foreach for one less GetFields(), but I value the clarity more.
-			foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
-				pd.SetBool(field.Name, true);
+				PlayerData pd = PlayerData.instance;
+				Type playerData = typeof(PlayerData);
+
+				// Give the maps to the player
+				pd.SetBool(nameof(pd.hasMap), true);
+
+				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
+					pd.SetBool(field.Name, true);
+				}
+
+				ForceMapUpdate();
+
+				// Set cornifer as having left all the areas. This could be condensed into the previous foreach for one less GetFields(), but I value the clarity more.
+				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
+					pd.SetBool(field.Name, true);
+				}
+
+				// Set Cornifer as sleeping at home
+				pd.SetBool(nameof(pd.corniferAtHome), true);
+
+				SetAllPins();
+
+				Instance.Settings.MapsGiven = true;
+				GameManager.instance.SaveGame();
 			}
-
-			// Set Cornifer as sleeping at home
-			pd.SetBool(nameof(pd.corniferAtHome), true);
-
-			SetAllPins();
-
-			AllMapsGiven = true;
 		}
 		#endregion
 
@@ -218,6 +241,7 @@ namespace RandoMapMod {
 				orig(self);
 				return;
 			}
+
 			try {
 				DebugLog.Log("Emptying out HelperData on game start.");
 				HelperLog.NewGame();
@@ -299,6 +323,8 @@ namespace RandoMapMod {
 			this._PinGroup.Show();
 
 			SetAllPins();
+
+			ForceMapUpdate();
 		}
 
 		private void _DeleteErrantLifebloodPin(GameMap gameMap) {
@@ -326,7 +352,7 @@ namespace RandoMapMod {
 			orig(self);
 		}
 		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
-			if (AllMapsGiven) {
+			if (Instance.Settings.MapsGiven) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 
@@ -358,7 +384,7 @@ namespace RandoMapMod {
 			}
 
 			if (to.name == SceneNames.Menu_Title) {
-				Settings.MapsGiven = false;
+				//Settings.MapsGiven = false;
 			}
 			if (from.name == SceneNames.Menu_Title) {
 				//Nothing to clean up since PinGroup deletes itself when you go to the menu. Neat!
@@ -366,7 +392,7 @@ namespace RandoMapMod {
 		}
 
 		private string _HandleLanguageGet(string key, string sheetTitle) {
-			if (IsRando && _convoCheck < SAFE) {
+			if (IsRando && _convoCheck < SAFE && !Settings.MapsGiven) {
 				if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(sheetTitle)) {
 					return string.Empty;
 				}
@@ -384,7 +410,7 @@ namespace RandoMapMod {
 							"\nTalk to me 2 more times, and I'll give you all the Maps." +
 							"\nIf you're playing BINGO, you should probably not do that.";
 						talk += "<page>Hotkeys:\n" +
-							"\"Ctrl + M\" - Gives you all the Maps, Pins + Quill. Rest at a bench to fully update the Maps.\n" +
+							"\"Ctrl + M\" - Gives you all the Maps and Pins.\n" +
 							"\"Ctrl + T\" - Toggles between vanilla and current randomizer item locations\n" +
 							"\"Ctrl + R\" - Replace all Pins with question marks";
 						talk += "<page>The following controls toggle Pins on/off by the RANDOMIZED item pools:\n" +
@@ -395,11 +421,8 @@ namespace RandoMapMod {
 							"\"Ctrl + 4\" - Toggles Grubs, Essence Roots and Boss Essence\n" +
 							"\"Ctrl + 5\" - Toggles Relics, Eggs, Geo Deposits and Boss Geo\n" +
 							"\"Ctrl + 6\" - Toggles everything else";
-
-						if (Settings.MapsGiven) _convoCheck = 3; //Skip the rest of the conversation; just wanted to give the people a refresher at least.
-
 						message = talk;
-					} else if (_convoCheck == 1 && !Settings.MapsGiven) {
+					} else if (_convoCheck == 1) {
 						//Seriously? Trying to cover up Dirtmouth's scandal, are you? Tell you what, I'll tone it down a little bit but come on man; you can't tell me Elder Bug is 100% innocent.
 						//  And besides,A) Who is Iselda longingly staring and sighing at all day if not Elder Bug
 						//  and B) What else is Elder Bug going to do but "talk to" literally the only resident in town before you arrive
@@ -408,10 +431,9 @@ namespace RandoMapMod {
 						message = "I frequently *ahem* \"visit\" Cornifer's wife... " +
 							"She tells me he lies to travelers to get Geo for an inferior product... " +
 							"The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me." +
-							"<page>I'll let you have the Maps and the Quill if you talk to me 1 more time, since you're new around here.";
+							"<page>I'll let you have the Maps if you talk to me 1 more time, since you're new around here.";
 
-					} else if (_convoCheck == 2 && !Settings.MapsGiven) {
-						//string maps = "Okay hang on";
+					} else if (_convoCheck == 2) {
 						string maps = "Okay, hang on";
 						System.Random random = new System.Random(RandomizerMod.RandomizerMod.Instance.Settings.Seed);
 						for (int i = 0; i < random.Next(3, 10); i++) {

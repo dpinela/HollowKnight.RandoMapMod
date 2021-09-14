@@ -9,7 +9,7 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
 ![Example Screenshot](./readmeAssets/vanillavsrando.png)
 
 # Features
-- Use `CTRL-M` to give all Maps to the player + Quill. This can also be done by talking to Elderbug a few times.
+- Use `CTRL-M` to give all Maps to the player. This can also be done by talking to Elderbug a few times.
 - Use `CTRL-T` to toggle Pins between vanilla and randomizer item pools
 - Use `CTRL-R` to toggle all Pins to question marks
 - Use `CTRL-P` to toggle all Pins on/off
@@ -24,6 +24,11 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
 These settings are saved between game loads.
 
 # Changelog
+Version 1.0.5:
+- Quill is no longer given
+- Fixed the broken map bug
+- Elderbug will revert to normal behaviour after all maps are given
+
 Version 1.0.4:
 - Fixed the "FAILED TO LOAD" bug when the log file wasn't present
 - Lots of code cleanup
@@ -43,12 +48,11 @@ Version 1.0.0:
 - Fixed some question mark Pins appearing by default
 
 - Removed some stuff (based on my own preference/code clashes):
-    - No Multiworld support for now (shold be easy to add later)
-    - CTRL-M now gives you all Maps + Quill, but no Wayward Compass
+    - No Wayward Compass given
     - Disabled other Pin styles
     - Disabled prereq markers (!)
 
-# Known Bugs/Missing Features
+# Known Bugs / Missing Features
 - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
 - Some Pins might not be in the right place, or don't appear at all
 - Not compatible when RandomizerMod isn't installed

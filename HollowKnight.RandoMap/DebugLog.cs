@@ -8,7 +8,7 @@ namespace RandoMapMod {
 		#region Statics
 		static DebugLog() {
 			try {
-				using (var myFile = File.Create(_LogFile)) {
+				using (FileStream myFile = File.Create(_LogFile)) {
 					// opens stream while creating fresh log file, then closes it
 				}
 			} catch {

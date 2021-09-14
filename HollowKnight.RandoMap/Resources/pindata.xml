@@ -118,7 +118,7 @@
 	<pin name="Iselda">
 		<pinScene>Town</pinScene>
 		<offsetX>0.4</offsetX>
-		<offsetY>-0.4</offsetY>
+		<offsetY>0.1</offsetY>
 		<isShop>true</isShop>
 	</pin>
 	<pin name="Grubsong">
@@ -129,7 +129,7 @@
 	<pin name="Sly">
 		<pinScene>Town</pinScene>
 		<offsetX>-0.45</offsetX>
-		<offsetY>-0.2</offsetY>
+		<offsetY>0.3</offsetY>
 		<offsetZ>0.06</offsetZ>
 		<isShop>true</isShop>
 	</pin>
@@ -288,7 +288,7 @@
 	<pin name="Sly_(Key)">
 		<pinScene>Town</pinScene>
 		<offsetX>-0.45</offsetX>
-		<offsetY>0.2</offsetY>
+		<offsetY>0.7</offsetY>
 		<offsetZ>0.1</offsetZ>
 		<isShop>true</isShop>
 	</pin>
@@ -1208,7 +1208,15 @@
 
 	<!--Stag Stations-->
 	<pin name="Dirtmouth_Stag" />
-	<pin name="Stag_Nest_Stag" />
+		<pinScene>Town</pinScene>
+		<offsetX>-0.45</offsetX>
+		<offsetY>-0.2</offsetY>
+		<offsetZ>0.06</offsetZ>
+	<pin name="Stag_Nest_Stag">
+		<pinScene>Cliffs_02</pinScene>
+		<offsetX>-2.9</offsetX>
+		<offsetY>2.0</offsetY>
+	</pin>
 	<pin name="Crossroads_Stag">
 	</pin>
 	<pin name="Greenpath_Stag">
