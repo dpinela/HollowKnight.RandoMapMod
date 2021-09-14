@@ -322,9 +322,9 @@ namespace RandoMapMod {
 			}
 			this._PinGroup.Show();
 
-			SetAllPins();
-
 			ForceMapUpdate();
+
+			SetAllPins();
 		}
 
 		private void _DeleteErrantLifebloodPin(GameMap gameMap) {
