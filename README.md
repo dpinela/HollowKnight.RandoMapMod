@@ -54,5 +54,6 @@ Version 1.0.0:
 
 # Known Bugs / Missing Features
 - Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
-- Some Pins might not be in the right place, or don't appear at all
+- Some Pins are not in the right place
+- Some Pins are missing! These include several Lore Tablets and Boss Geo Pins
 - Not compatible when RandomizerMod isn't installed
