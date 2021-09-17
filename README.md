@@ -23,6 +23,9 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
 
 These settings are saved between game loads.
 
+# Acknolwedgements
+A BIG thank you to the Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions!
+
 # Changelog
 Version 1.0.5:
 - Quill is no longer given
