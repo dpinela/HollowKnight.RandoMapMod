@@ -10,10 +10,10 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
 
 # Features
 - Use `CTRL-M` to give all Maps to the player. This can also be done by talking to Elderbug a few times.
-- Use `CTRL-T` to toggle Pins between vanilla (non-spoiler) and randomizer (spoiler) item pools
+- Use `CTRL-T` to toggle Pins between vanilla (non-spoiler) and spoiler item pools
 - Use `CTRL-R` to toggle all Pins to question marks
 - Use `CTRL-P` to toggle all Pins on/off
-- Use `CTRL-1` ... `CTRL-6` to toggle Pin groups on/off
+- Use `CTRL-1` ... `CTRL-6` to toggle Pin groups on/off (sorted by spoiler item pools):
     - Ctrl + 1 - Toggles major progression items/skills
     - Ctrl + 2 - Toggles Mask Shards and Vessel Fragments
     - Ctrl + 3 - Toggles Charms and Charm Notches
