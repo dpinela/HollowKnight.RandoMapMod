@@ -6,7 +6,7 @@ This has been tested with both RandomizerMod v3.12(573) and v3.12c(884) (the Dis
 
 In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemSync 1.2.3, however further testing may be required.
 
-![Example Screenshot](./readmeAssets/vanillavsrando.png)
+![Example Screenshot](./readmeAssets/screenshot.jpg)
 
 # Features
 - Use `CTRL-M` to give all Maps to the player. This can also be done by talking to Elderbug a few times.
