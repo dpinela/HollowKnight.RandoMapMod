@@ -10,10 +10,10 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
 
 # Features
 - Use `CTRL-M` to give all Maps to the player. This can also be done by talking to Elderbug a few times.
-- Use `CTRL-T` to toggle Pins between vanilla and randomizer item pools
+- Use `CTRL-T` to toggle Pins between vanilla (non-spoiler) and spoiler item pools
 - Use `CTRL-R` to toggle all Pins to question marks
 - Use `CTRL-P` to toggle all Pins on/off
-- Use `CTRL-1` ... `CTRL-6` to toggle Pin groups on/off
+- Use `CTRL-1` ... `CTRL-6` to toggle Pin groups on/off (sorted by spoiler item pools):
     - Ctrl + 1 - Toggles major progression items/skills
     - Ctrl + 2 - Toggles Mask Shards and Vessel Fragments
     - Ctrl + 3 - Toggles Charms and Charm Notches
@@ -22,6 +22,9 @@ In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemS
     - Ctrl + 6 - Toggles everything else
 
 These settings are saved between game loads.
+
+# Acknowledgements
+A BIG thank you to the Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions!
 
 # Changelog
 Version 1.0.5:
@@ -53,6 +56,7 @@ Version 1.0.0:
     - Disabled prereq markers (!)
 
 # Known Bugs / Missing Features
-- Shop Pin doesn't disappear when it is exhausted of items, but earlier instead
-- Some Pins might not be in the right place, or don't appear at all
+- Shop Pin doesn't disappear when the Shop items are bought out, but earlier instead
+- Some Pins are not in the right place
+- Some Pins are missing! These include several Lore Tablets and Boss Geo Pins
 - Not compatible when RandomizerMod isn't installed
