@@ -9,17 +9,26 @@ namespace RandoMapMod {
 		#region Constructors
 		public PinData() {
 			//Some of these things don't appear in the items.xml file, so I'll just set some defaults...
+			this.HidePin = false;
 			this.SceneName = "";
 			this.OriginalName = "";
 			this.LogicRaw = "";
 			this.ObtainedBool = "";
 			this.NewShiny = false;
+			this.OffsetX = 0.0f;
+			this.OffsetY = 0.0f;
+			this.OffsetZ = 0.0f;
+			this.VanillaPool = "";
 		}
 		#endregion
 
 		#region Private Non-Methods
 		//Assigned with pindata.xml
 		public string ID {
+			get;
+			internal set;
+		}
+		public bool HidePin {
 			get;
 			internal set;
 		}
@@ -82,7 +91,7 @@ namespace RandoMapMod {
 			get;
 			internal set;
 		}
-		public string RandoPool {
+		public string SpoilerPool {
 			get;
 			internal set;
 		}

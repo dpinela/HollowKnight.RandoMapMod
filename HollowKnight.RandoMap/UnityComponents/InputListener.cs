@@ -82,13 +82,14 @@ namespace RandoMapMod.UnityComponents {
 				}
 
 				if (Input.GetKeyDown(KeyCode.T)) {
-					DebugLog.Log("Ctrl+T : Toggle Vanilla/Rando Pins");
+					DebugLog.Log("Ctrl+T : Toggle Vanilla/Spoiler Pins");
 					MapModS.ToggleRandoPins();
 				}
 
 #if DEBUG
+				// Used for various debugging tasks
 				if (Input.GetKeyDown(KeyCode.O)) {
-					MapModS.GetAllObjectsOnlyInScene();
+					MapModS.ReloadGameMapPins();
 				}
 #endif
 			}

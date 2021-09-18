@@ -98,9 +98,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ItemPickup.cs" />
     <Compile Include="UnityComponents\InputListener.cs" />
-    <Compile Include="UnityComponents\MapTextOverlay.cs" />
-    <Compile Include="HelperLog.cs" />
     <Compile Include="DebugLog.cs" />
     <Compile Include="GameStatus.cs" />
     <Compile Include="UnityComponents\Pin.cs" />

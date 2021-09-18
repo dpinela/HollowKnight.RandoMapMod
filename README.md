@@ -27,6 +27,13 @@ These settings are saved between game loads.
 A BIG thank you to the Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions!
 
 # Changelog
+Version 1.0.6:
+- Fully implemented new items in RandomizerMod v3.12c(884) (Junk Pit, Boss Geo, Mimics, etc.)
+- All the pins have been clean-sweeped and are positioned better on the map
+- The pins when reachable are now slightly smaller for better visibility
+- Using Quick Map also properly updates the Pins
+- Lots more code cleanup
+
 Version 1.0.5:
 - Quill is no longer given
 - Fixed the broken map bug
@@ -56,7 +63,6 @@ Version 1.0.0:
     - Disabled prereq markers (!)
 
 # Known Bugs / Missing Features
-- Shop Pin doesn't disappear when the Shop items are bought out, but earlier instead
-- Some Pins are not in the right place
-- Some Pins are missing! These include several Lore Tablets and Boss Geo Pins
 - Not compatible when RandomizerMod isn't installed
+- Missing an option to switch to old question mark style pins
+- Non-randomized items don't get checked off on the map

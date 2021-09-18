@@ -1,21 +1,16 @@
 ﻿using RandoMapMod;
-//using RandoMapMod.BoringInternals;
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 [DebugName(nameof(Pin))]
 class Pin : MonoBehaviour {
 	#region Private Non-Methods
 	internal readonly Color InactiveColor = Color.gray;
 
-	private bool? _isPossible = null;
-	private bool _updateTrigger = false;
-
 	internal Vector3 OrigScale;
 	internal Color OrigColor;
 	internal Sprite VanillaSprite;
-	internal Sprite RandoSprite;
+	internal Sprite SpoilerSprite;
 	internal Vector3 OrigPosition;
 
 	private SpriteRenderer _SR => this.gameObject.GetComponent<SpriteRenderer>();
@@ -31,87 +26,63 @@ class Pin : MonoBehaviour {
 		this.VanillaSprite = this._SR.sprite;
 		this.OrigPosition = this.transform.localPosition;
 
-		// Store the sprite for toggling to randomized items
-		this.RandoSprite = ResourceHelper.FetchSpriteByPool(pd.RandoPool);
+		// Store the sprite for toggling to spoiler items
+		this.SpoilerSprite = ResourceHelper.FetchSpriteByPool(pd.SpoilerPool);
 
-		this._UpdateState();
-	} // As a setter, this totally counts as a non-method >_>
+		this.UpdateState();
+	}
 	#endregion
 
 	#region Public Methods
-	public void SetVanillaRandoSprite(bool RandoOn) {
-		try {
-			if (RandoOn) {
-				this._SR.sprite = this.RandoSprite;
-			} else {
-				this._SR.sprite = this.VanillaSprite;
-			}
-		} catch (Exception e) {
-			DebugLog.Error($"Failed to toggle pin sprite! ID: {this.PinData.ID}", e);
-		}
-	}
-	public void SetUnknownSprite() {
-		this._SR.sprite = ResourceHelper.FetchSprite(ResourceHelper.Sprites.Unknown);
-	}
-	#endregion
-
-	#region MonoBehaviour "Overrides"
-	protected void OnEnable() {
-		_updateTrigger = true;
-	}
-	protected void Update() {
-		if (_updateTrigger) {
-			this._UpdateState();
-		}
+	public void SetSprite(string SpriteName) {
+		this._SR.sprite = SpriteName switch {
+			"Vanilla" => this.VanillaSprite,
+			"Spoiler" => this.SpoilerSprite,
+			_ => ResourceHelper.FetchSprite(ResourceHelper.Sprites.Unknown),
+		};
 	}
 	#endregion
 
 	#region Private Methods
-	private void _UpdateState() {
+	public void UpdateState() {
 		try {
 			if (this.PinData == null) {
 				throw new Exception("Cannot enable pin with null pindata. Ensure game object is disabled before adding as component, then call SetPinData(<pd>) before enabling.");
 			}
 
-			this._UpdateReachableState();
+			// Check if item is in RandoLogger's obtainedLocations
+			this._UpdateChecked();
+			// Check if item is in RandoLogger's uncheckedLocations
+			this._UpdateReachable();
 
-			//Disable Pin if we've already obtained / checked this location.
-			if (GameStatus.ItemIsChecked(this.PinData.ID)) {
-				if (this.name == "Stag_Nest_Stag") {
-					DebugLog.Log("Hi");
-				}
-				this._DisableSelf();
-			} else {
-				if (this.name == "Stag_Nest_Stag") {
-					DebugLog.Log("Bye");
-				}
-			}
 		} catch (Exception e) {
-			DebugLog.Error($"Failed to enable pin! ID: {this.PinData.ID}", e);
+			DebugLog.Error($"Failed to update pin! ID: {this.PinData.ID}", e);
 		}
 	}
 
-	private void _DisableSelf() {
+	public void DisableSelf() {
 		this.gameObject.SetActive(false);
 	}
 
-	private void _UpdateReachableState() {
-		bool newValue = GameStatus.ItemIsReachable(this.PinData.ID);
-
-		if (newValue == this._isPossible) {
-			return;
+	private void _UpdateChecked() {
+		if (RandomizerMod.RandoLogger.obtainedLocations.Contains(this.PinData.ID)) {
+			this.gameObject.SetActive(false);
 		}
-
-		if (newValue == true) {
+	}
+	private void _UpdateReachable() {
+#if DEBUG
+		// for visibility
+		//this.transform.localScale = this.OrigScale * 0.7f;
+		//return;
+#endif
+		if (RandomizerMod.RandoLogger.uncheckedLocations.Contains(this.PinData.ID)) {
 			// We can reach this item now!
-			this.transform.localScale = this.OrigScale;
+			this.transform.localScale = this.OrigScale * 0.7f;
 			this._SR.color = this.OrigColor;
-			this._isPossible = true;
 		} else {
 			// We can't reach this item.
 			this.transform.localScale = this.OrigScale * 0.5f;
 			this._SR.color = this.InactiveColor;
-			this._isPossible = false;
 		}
 	}
 	#endregion

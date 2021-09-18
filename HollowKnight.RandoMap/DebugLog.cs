@@ -12,7 +12,7 @@ namespace RandoMapMod {
 					// opens stream while creating fresh log file, then closes it
 				}
 			} catch {
-				MapModS.Instance.LogWarn("RandoMapLog.log could not be created...");
+				MapModS.Mm.LogWarn("RandoMapLog.log could not be created...");
 			}
 		}
 		public enum Level {
@@ -39,7 +39,7 @@ namespace RandoMapMod {
 		public static void Trace(Level level = Level.Error) {
 			string msg = new StackTrace(1, true).ToString();
 			_Write(level, msg);
-			MapModS.Instance.LogError(msg);
+			MapModS.Mm.LogError(msg);
 		}
 
 		public static void Critical(string msg, Exception inner) {
@@ -49,7 +49,7 @@ namespace RandoMapMod {
 		public static void Critical(string msg) {
 			msg += "\n" + new StackTrace(1, true).ToString();
 			_Write(Level.Critical, msg);
-			MapModS.Instance.LogError(msg);
+			MapModS.Mm.LogError(msg);
 		}
 
 		public static void Error(string msg, Exception inner) {
@@ -59,17 +59,17 @@ namespace RandoMapMod {
 		public static void Error(string msg) {
 			msg += "\n" + new StackTrace(1, true).ToString();
 			_Write(Level.Error, msg);
-			MapModS.Instance.LogError(msg);
+			MapModS.Mm.LogError(msg);
 		}
 
 		public static void Log(string v) {
 			_Write(Level.Log, v);
-			MapModS.Instance.Log(v);
+			MapModS.Mm.Log(v);
 		}
 
 		public static void Warn(string v) {
 			_Write(Level.Warn, v);
-			MapModS.Instance.LogWarn(v);
+			MapModS.Mm.LogWarn(v);
 		}
 
 		private static void _Write(Level level, string line) {

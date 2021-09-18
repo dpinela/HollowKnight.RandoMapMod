@@ -5,7 +5,7 @@ namespace RandoMapMod {
 	[DebugName(nameof(GameStatus))]
 	public static class GameStatus {
 		#region Statics
-		private static HelperLog.DataStore _HData => HelperLog.Data;
+		// TO DO: reorganize all the following into a single dictionary
 
 		private static readonly Dictionary<string, string> _shopItems = new Dictionary<string, string>() {
 			{"Gathering_Swarm", "Sly"},
@@ -74,67 +74,65 @@ namespace RandoMapMod {
 			{"Void_Heart_(1)", "Charm"},
 
 			// Cursed or split
-			{"Focus", "Skill"},
-			{"Left_Mothwing_Cloak", "Skill"},
+			//{"Focus", "Skill"},
+			//{"Left_Mothwing_Cloak", "Skill"},
 			{"Left_Mothwing_Cloak_(1)", "Skill"},
-			{"Right_Mothwing_Cloak", "Skill" },
+			//{"Right_Mothwing_Cloak", "Skill" },
 			{"Right_Mothwing_Cloak_(1)", "Skill" },
-			{"Left_Shade_Cloak", "Skill" },
+			//{"Left_Shade_Cloak", "Skill" },
 			{"Left_Shade_Cloak_(1)", "Skill" },
-			{"Right_Shade_Cloak", "Skill" },
+			//{"Right_Shade_Cloak", "Skill" },
 			{"Right_Shade_Cloak_(1)", "Skill" },
-			{"Split_Mothwing_Cloak", "Skill" },
-			{"Left_Mantis_Claw", "Skill" },
-			{"Right_Mantis_Claw", "Skill" },
-			{"Leftslash", "Skill" },
-			{"Rightslash", "Skill" },
-			{"Upslash", "Skill" }
+			//{"Split_Mothwing_Cloak", "Skill" },
+			//{"Left_Mantis_Claw", "Skill" },
+			//{"Right_Mantis_Claw", "Skill" },
+			//{"Leftslash", "Skill" },
+			//{"Rightslash", "Skill" },
+			//{"Upslash", "Skill" }
 		};
 
-		// These items were added in the current beta of RandomizerMod (v3.12c(884))
+		// These items were added in the current beta of RandomizerMod (v3.12c(884)) (AND not in the pindata.xml file)
 		private static readonly Dictionary<string, string> _newItems = new Dictionary<string, string>() {
-			{"Swim", "Skill"},
-			{"Mask_Shard-Start", "Mask"},
-			{"Mask_Shard-Start_2", "Mask"},
-			{"Mask_Shard-Start_3", "Mask"},
-			{"Mask_Shard-Start_4", "Mask"},
-			{"Mask_Shard-Start_5", "Mask"},
-			{"Mask_Shard-Start_6", "Mask"},
-			{"Mask_Shard-Start_7", "Mask"},
-			{"Mask_Shard-Start_8", "Mask"},
-			{"Mask_Shard-Start_9", "Mask"},
-			{"Mask_Shard-Start_10", "Mask"},
-			{"Mask_Shard-Start_11", "Mask"},
-			{"Mask_Shard-Start_12", "Mask"},
-			{"Mask_Shard-Start_13", "Mask"},
-			{"Mask_Shard-Start_14", "Mask"},
-			{"Mask_Shard-Start_15", "Mask"},
-			{"Mask_Shard-Start_16", "Mask"},
-			{"Charm_Notch-Start", "Notch" },
-			{"Charm_Notch-Start_2", "Notch" },
-			{"8_Geo-Junk_Pit_Chest_1", "Geo" },
-			{"8_Geo-Junk_Pit_Chest_2", "Geo" },
-			{"25_Geo-Junk_Pit_Chest_3", "Geo" },
-			{"Lumafly_Escape-Junk_Pit_Chest_4", "Geo" }, // Not sure about this... ?
-			{"10_Geo-Junk_Pit_Chest_5", "Geo" },
-			{"Mimic_Grub-Deepnest_1", "Grub" },
-			{"Mimic_Grub-Deepnest_2", "Grub" },
-			{"Mimic_Grub-Deepnest_3", "Grub" },
-			{"Mimic_Grub-Crystal_Peak", "Grub" },
-			{"Grub", "Grub" },
-			{"Mimic_Grub", "Mimic_Grub" },
-			{"Hunter's_Journal", "Lore" }, // Not sure about these... maybe should have a Journal pin type?
-			{"Journal_Entry-Void_Tendrils", "Lore" },
-			{"Journal_Entry-Charged_Lumafly", "Lore" },
-			{"Journal_Entry-Goam", "Lore" },
-			{"Journal_Entry-Garpede", "Lore" },
-			{"Journal_Entry-Seal_of_Binding", "Lore" },
-			{"Elevator_Pass", "Key" },
-			{"450_Geo-Egg_Shop_1", "Geo" },
-			{"450_Geo-Egg_Shop_2", "Geo" },
-			{"450_Geo-Egg_Shop_3", "Geo" },
-			{"450_Geo-Egg_Shop_4", "Geo" },
-			{"450_Geo-Egg_Shop_5", "Geo" },
+			//{"Swim", "Skill"},
+			//{"Mask_Shard-Start", "Mask"},
+			//{"Mask_Shard-Start_2", "Mask"},
+			//{"Mask_Shard-Start_3", "Mask"},
+			//{"Mask_Shard-Start_4", "Mask"},
+			//{"Mask_Shard-Start_5", "Mask"},
+			//{"Mask_Shard-Start_6", "Mask"},
+			//{"Mask_Shard-Start_7", "Mask"},
+			//{"Mask_Shard-Start_8", "Mask"},
+			//{"Mask_Shard-Start_9", "Mask"},
+			//{"Mask_Shard-Start_10", "Mask"},
+			//{"Mask_Shard-Start_11", "Mask"},
+			//{"Mask_Shard-Start_12", "Mask"},
+			//{"Mask_Shard-Start_13", "Mask"},
+			//{"Mask_Shard-Start_14", "Mask"},
+			//{"Mask_Shard-Start_15", "Mask"},
+			//{"Mask_Shard-Start_16", "Mask"},
+			//{"Charm_Notch-Start", "Notch" },
+			//{"Charm_Notch-Start_2", "Notch" },
+			//{"8_Geo-Junk_Pit_Chest_1", "Geo" },
+			//{"8_Geo-Junk_Pit_Chest_2", "Geo" },
+			//{"25_Geo-Junk_Pit_Chest_3", "Geo" },
+			//{"Lumafly_Escape-Junk_Pit_Chest_4", "Geo" }, // Not sure about this... ?
+			//{"10_Geo-Junk_Pit_Chest_5", "Geo" },
+			//{"Mimic_Grub-Deepnest_1", "Grub" },
+			//{"Mimic_Grub-Deepnest_2", "Grub" },
+			//{"Mimic_Grub-Deepnest_3", "Grub" },
+			//{"Mimic_Grub-Crystal_Peak", "Grub" },
+			//{"Hunter's_Journal", "Lore" }, // Not sure about these... maybe should have a Journal pin type?
+			//{"Journal_Entry-Void_Tendrils", "Lore" },
+			//{"Journal_Entry-Charged_Lumafly", "Lore" },
+			//{"Journal_Entry-Goam", "Lore" },
+			//{"Journal_Entry-Garpede", "Lore" },
+			//{"Journal_Entry-Seal_of_Binding", "Lore" },
+			//{"Elevator_Pass", "Key" },
+			//{"450_Geo-Egg_Shop_1", "Geo" },
+			//{"450_Geo-Egg_Shop_2", "Geo" },
+			//{"450_Geo-Egg_Shop_3", "Geo" },
+			//{"450_Geo-Egg_Shop_4", "Geo" },
+			//{"450_Geo-Egg_Shop_5", "Geo" },
 			{"Rancid_Egg", "Egg" },
 			{"Rancid_Egg_(0)", "Egg" },
 			{"Rancid_Egg_(1)", "Egg" },
@@ -156,44 +154,60 @@ namespace RandoMapMod {
 			{"Rancid_Egg_(17)", "Egg" },
 			{"Rancid_Egg_(18)", "Egg" },
 			{"Rancid_Egg_(19)", "Egg" },
+			{"Grub", "Grub" },
+			{"Grub_(0)", "Grub" },
+			{"Grub_(1)", "Grub" },
+			{"Grub_(2)", "Grub" },
+			{"Grub_(3)", "Grub" },
+			{"Grub_(4)", "Grub" },
+			{"Grub_(5)", "Grub" },
+			{"Grub_(6)", "Grub" },
+			{"Grub_(7)", "Grub" },
+			{"Grub_(8)", "Grub" },
+			{"Grub_(9)", "Grub" },
+			{"Grub_(10)", "Grub" },
+			{"Grub_(11)", "Grub" },
+			{"Grub_(12)", "Grub" },
+			{"Grub_(13)", "Grub" },
+			{"Grub_(14)", "Grub" },
+			{"Grub_(15)", "Grub" },
+			{"Grub_(16)", "Grub" },
+			{"Grub_(17)", "Grub" },
+			{"Grub_(18)", "Grub" },
+			{"Grub_(19)", "Grub" },
+			{"Grub_(20)", "Grub" },
+			{"Grub_(21)", "Grub" },
+			{"Grub_(22)", "Grub" },
+			{"Grub_(23)", "Grub" },
+			{"Grub_(24)", "Grub" },
+			{"Grub_(25)", "Grub" },
+			{"Grub_(26)", "Grub" },
+			{"Grub_(27)", "Grub" },
+			{"Grub_(28)", "Grub" },
+			{"Grub_(29)", "Grub" },
+			{"Grub_(30)", "Grub" },
+			{"Grub_(31)", "Grub" },
+			{"Grub_(32)", "Grub" },
+			{"Grub_(33)", "Grub" },
+			{"Grub_(34)", "Grub" },
+			{"Grub_(35)", "Grub" },
+			{"Grub_(36)", "Grub" },
+			{"Grub_(37)", "Grub" },
+			{"Grub_(38)", "Grub" },
+			{"Grub_(39)", "Grub" },
+			{"Grub_(40)", "Grub" },
+			{"Grub_(41)", "Grub" },
+			{"Grub_(42)", "Grub" },
+			{"Grub_(43)", "Grub" },
+			{"Grub_(44)", "Grub" },
+			{"Grub_(45)", "Grub" },
+			{ "Mimic_Grub", "Mimic_Grub" },
+			{ "Mimic_Grub_(0)", "Mimic_Grub" },
+			{ "Mimic_Grub_(1)", "Mimic_Grub" },
+			{ "Mimic_Grub_(2)", "Mimic_Grub" },
+			{ "Mimic_Grub_(3)", "Mimic_Grub" },
 		};
-		public static bool ItemIsChecked(string itemName) {
-			if (_HData == null) {
-				return false;
-			}
-			return _HData.HasChecked(itemName);
-		}
 
-		public static bool ItemIsReachable(string itemName) {
-			//return MapMod.VersionController.CanGet(itemName);
-
-			//return false;
-			string cleanName = itemName.Replace('_', ' ');
-			if (_HData == null) {
-				return false;
-			}
-
-			if (_HData.CanReach(cleanName)) {
-				return true;
-			}
-
-			// Need to fix the cleanName
-			if (_shopItems.ContainsKey(cleanName)) {
-				/*
-				 * If this is a shop item, we need to say it's reachable whether the item
-				 * is in HelperData's "checked" or "reachable", or else after the player
-				 * checks the shop once, the pins will all shrink.
-				 */
-				string shopName = _shopItems[cleanName];
-				if (_HData.CheckedShopItems != null && _HData.CheckedShopItems.Contains(shopName)) {
-					return true;
-				}
-				if (_HData.ReachableShopItems != null && _HData.ReachableShopItems.Contains(shopName)) {
-					return true;
-				}
-			}
-			return false;
-		}
 		#endregion
 
 		#region Public Methods

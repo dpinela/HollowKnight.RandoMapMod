@@ -21,7 +21,7 @@ namespace RandoMapMod {
 			set => SetBool(value);
 		}
 
-		public bool RandoPoolOn {
+		public bool SpoilerOn {
 			get => GetBool(false);
 			set => SetBool(value);
 		}

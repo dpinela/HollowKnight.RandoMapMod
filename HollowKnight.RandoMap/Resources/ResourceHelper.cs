@@ -56,6 +56,7 @@ namespace RandoMapMod {
 		#endregion
 
 		#region Constructors
+
 		static ResourceHelper() {
 			Assembly theDLL = typeof(MapModS).Assembly;
 			_pSprites = new Dictionary<Sprites, Sprite>();
@@ -170,7 +171,8 @@ namespace RandoMapMod {
 		#endregion
 
 		#region Non-Private Non-Methods
-		public static Dictionary<string, PinData> PinDataDictionary { get; }
+		//public static Dictionary<string, PinData> PinDataDictionary { get; }
+		public static Dictionary<string, PinData> PinDataDictionary { get; set; }
 		#endregion
 
 		#region Non-Private Methods
@@ -213,15 +215,25 @@ namespace RandoMapMod {
 				"Essence_Boss" => Sprites.EssenceBoss, //See above comment
 
 				//"?Fake" => Sprites.Unknown,
+				"Swim" => Sprites.Skill,
 				"Cursed" => Sprites.Skill,
 				"Spell" => Sprites.Skill,
 				"SplitCloak" => Sprites.Skill,
 				"SplitClaw" => Sprites.Skill,
 				"SplitCloakLocation" => Sprites.Skill,
+				"CursedMask" => Sprites.Mask,
 				"CursedNail" => Sprites.Skill,
+				"CursedNotch" => Sprites.Notch,
+				"JunkPitChest" => Sprites.Geo,
+				"Mimic" => Sprites.Grub,
+				"Mimic_Grub" => Sprites.Grub,
+				"Journal" => Sprites.Lore,
+				"PalaceJournal" => Sprites.Lore,
+				"ElevatorPass" => Sprites.Key,
 				"Boss_Geo" => Sprites.Geo,
 				"PalaceLore" => Sprites.Lore,
 				"Focus" => Sprites.Skill,
+				"EggShopLocation" => Sprites.Egg,
 
 				"Shop" => Sprites.Shop,
 				_ => Sprites.Unknown
@@ -234,60 +246,70 @@ namespace RandoMapMod {
 			return FetchSprite(sid);
 		}
 
-		// This method finds the randomized item pool corresponding to each pin, using RandomizerMod's ItemPlacements array
-		public static void FindRandoPools() {
+		// This method finds the spoiler item pools corresponding to each Pin, using RandomizerMod's ItemPlacements array
+		public static void FindSpoilerPools() {
 			foreach (KeyValuePair<string, PinData> entry in PinDataDictionary) {
 				string vanillaItem = entry.Key;
-				string randoItem;
+				string spoilerItem;
 				PinData pinD = entry.Value;
 
 				// First check if this is a shop pin
 				if (pinD.IsShop) {
 					pinD.VanillaPool = "Shop";
-					pinD.RandoPool = "Shop";
-					randoItem = vanillaItem; // These are actually the shop names ("Sly" etc.)
+					pinD.SpoilerPool = "Shop";
+					spoilerItem = vanillaItem; // These are actually the shop names ("Sly" etc.)
 					//DebugLog.Log($"{vanillaItem} is a shop pin");
 
 					// Then check if this item is randomized
 				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
 					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
-					randoItem = itemLocationPair.Item1;
+					spoilerItem = itemLocationPair.Item1;
 
 					// If randoItem's in the PinDataDictionary, we already have the pool
-					if (PinDataDictionary.ContainsKey(randoItem)) {
-						pinD.RandoPool = PinDataDictionary[randoItem].VanillaPool;
+					if (PinDataDictionary.ContainsKey(spoilerItem)) {
+						pinD.SpoilerPool = PinDataDictionary[spoilerItem].VanillaPool;
 						//DebugLog.Log($"In ItemPlacement and PinDataDictionary: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// For dupes and cursed items
-					} else if (GameStatus.IsOtherMajorItem(randoItem)) {
-						pinD.RandoPool = GameStatus.GetOtherMajorItemPool(randoItem);
+					} else if (GameStatus.IsOtherMajorItem(spoilerItem)) {
+						pinD.SpoilerPool = GameStatus.GetOtherMajorItemPool(spoilerItem);
 						//DebugLog.Log($"Other major item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// Shop items WITHOUT a pin in the vanilla pool
-					} else if (GameStatus.IsShopItem(randoItem)) {
-						pinD.RandoPool = GameStatus.GetShopItemPool(randoItem);
+					} else if (GameStatus.IsShopItem(spoilerItem)) {
+						pinD.SpoilerPool = GameStatus.GetShopItemPool(spoilerItem);
 						//DebugLog.Log($"Shop item (no pin): {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// New items in v3.12c(884), no vanilla pins for these
-					} else if (GameStatus.IsNewItem(randoItem)) {
-						pinD.RandoPool = GameStatus.GetNewItemPool(randoItem);
+					} else if (GameStatus.IsNewItem(spoilerItem)) {
+						pinD.SpoilerPool = GameStatus.GetNewItemPool(spoilerItem);
 						//DebugLog.Log($"New item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// If it is 1_Geo (cursed on)
-					} else if (randoItem.StartsWith("1_Geo")) {
-						pinD.RandoPool = "Geo";
+					} else if (spoilerItem.StartsWith("1_Geo")) {
+						pinD.SpoilerPool = "Geo";
 						//DebugLog.Log($"1 Geo item: {vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
 
 						// Nothing should end up here!
 					} else {
-						pinD.RandoPool = pinD.VanillaPool;
-						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {randoItem}, {pinD.VanillaPool}");
+						pinD.SpoilerPool = pinD.VanillaPool;
+						DebugLog.Warn($"Item not found anywhere: {vanillaItem} -> {spoilerItem}, {pinD.VanillaPool}");
 					}
 
+					// Hide the Pin if it is not recognized by RandomizerMod
+				} else if (pinD.VanillaPool == "") {
+					// DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
+
+					spoilerItem = vanillaItem;
+					pinD.SpoilerPool = pinD.VanillaPool;
+
+					// Hide the pin (likely needed if using v3.12(573)
+					pinD.HidePin = true;
+
+					// The items are recognized by RandomizerMod, but not randomized
 				} else {
-					//DebugLog.Log($"Not in ItemPlacement: {vanillaItem}, {pinD.VanillaPool}");
-					randoItem = vanillaItem;
-					pinD.RandoPool = pinD.VanillaPool;
+					spoilerItem = vanillaItem;
+					pinD.SpoilerPool = pinD.VanillaPool;
 				}
 
 				// Need to convert pools for shop items here:
@@ -295,7 +317,7 @@ namespace RandoMapMod {
 				// Salubra -> Charm, Notch
 				// Leg Eater -> Charm
 
-				pinD.RandoPool = randoItem switch {
+				pinD.SpoilerPool = spoilerItem switch {
 					"Gathering_Swarm" => "Charm",
 					"Heavy_Blow" => "Charm",
 					"Sprintmaster" => "Charm",
@@ -321,9 +343,9 @@ namespace RandoMapMod {
 					"Fragile_Greed" => "Charm",
 					"Fragile_Heart" => "Charm",
 					"Fragile_Strength" => "Charm",
-					_ => pinD.RandoPool
+					_ => pinD.SpoilerPool
 				};
-				DebugLog.Log($"{vanillaItem} -> {randoItem}, {pinD.VanillaPool} -> {pinD.RandoPool}");
+				DebugLog.Log($"{vanillaItem} -> {spoilerItem}, {pinD.VanillaPool} -> {pinD.SpoilerPool}");
 			}
 
 			return;
@@ -335,6 +357,7 @@ namespace RandoMapMod {
 			foreach (XmlNode node in nodes) {
 				string itemName = node.Attributes["name"].Value;
 				if (!PinDataDictionary.ContainsKey(itemName)) {
+					DebugLog.Log($"The dictionary doesn't contain {itemName}");
 					//Skip warnings for:
 					string[] skipPools = {
 						"fake",					//These aren't real items
@@ -343,7 +366,7 @@ namespace RandoMapMod {
 						"shop",					//One pin per shop
 					};
 					if (skipPools.Contains(node.SelectSingleNode("pool").InnerText.ToLower()) ||
-						    types.Contains(node.SelectSingleNode("type").InnerText.ToLower())
+							types.Contains(node.SelectSingleNode("type").InnerText.ToLower())
 						) {
 						continue;
 					}
@@ -353,13 +376,12 @@ namespace RandoMapMod {
 						continue;
 					}
 
-					DebugLog.Warn($"Unknown Rando Item `{itemName}`. Tell devs to check 'pindata.xml'");
+					DebugLog.Warn($"Unknown Spoiler Item `{itemName}`. Tell devs to check 'pindata.xml'");
 					foreach (XmlNode chld in node.ChildNodes) {
 						DebugLog.Warn($"    {chld.Name} : {chld.InnerText}");
 					}
 					continue;
 				}
-
 				PinData pinD = PinDataDictionary[itemName];
 				//PinData pinD = new PinData();
 				foreach (XmlNode chld in node.ChildNodes) {
@@ -426,6 +448,9 @@ namespace RandoMapMod {
 						continue;
 					}
 					switch (chld.Name) {
+						case "hidePin":
+							newPin.HidePin = XmlConvert.ToBoolean(chld.InnerText);
+							break;
 						case "pinScene":
 							newPin.PinScene = chld.InnerText;
 							break;
@@ -441,9 +466,6 @@ namespace RandoMapMod {
 						case "offsetZ":
 							newPin.OffsetZ = XmlConvert.ToSingle(chld.InnerText);
 							break;
-						case "hasPrereq":
-							//newPin.HasPrereq = XmlConvert.ToBoolean(chld.InnerText);
-							break;
 						case "isShop":
 							newPin.IsShop = XmlConvert.ToBoolean(chld.InnerText);
 							break;
@@ -454,10 +476,68 @@ namespace RandoMapMod {
 				}
 				
 				retVal.Add(newPin.ID, newPin);
-				
+
 			}
 			return retVal;
 		}
 		#endregion
+
+#if DEBUG
+		// This stuff was used to update pin positions during run time
+		private static string _pinPath = "";
+		private static string _PinPath {
+			get {
+				if (_pinPath == "") {
+					string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+					UriBuilder uri = new UriBuilder(codeBase);
+					_pinPath = Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
+				}
+				return _pinPath;
+			}
+		}
+
+		private static string _PinData => _PinPath + @"/pindebug.xml";
+
+		public static void ReloadPinData() {
+			try {
+				using (Stream stream = File.Open(_PinData, FileMode.Open)) {
+					XmlDocument xml = new XmlDocument();
+					xml.Load(stream);
+					foreach (XmlNode node in xml.SelectNodes("randomap/pin")) {
+						string ID = node.Attributes["name"].Value;
+						foreach (XmlNode chld in node.ChildNodes) {
+							if (chld.NodeType == XmlNodeType.Comment) {
+								continue;
+							}
+							if (PinDataDictionary.ContainsKey(ID)) {
+								switch (chld.Name) {
+									case "hidePin":
+										PinDataDictionary[ID].HidePin = XmlConvert.ToBoolean(chld.InnerText);
+										break;
+									case "pinScene":
+										PinDataDictionary[ID].PinScene = chld.InnerText;
+										break;
+									case "offsetX":
+										PinDataDictionary[ID].OffsetX = XmlConvert.ToSingle(chld.InnerText);
+										break;
+									case "offsetY":
+										PinDataDictionary[ID].OffsetY = XmlConvert.ToSingle(chld.InnerText);
+										break;
+									case "offsetZ":
+										PinDataDictionary[ID].OffsetZ = XmlConvert.ToSingle(chld.InnerText);
+										break;
+									default:
+										break;
+								}
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				DebugLog.Error("pindebug.xml Load Failed!");
+				DebugLog.Error(e.ToString());
+			}
+		}
+#endif
 	}
 }
