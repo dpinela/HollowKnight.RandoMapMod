@@ -29,8 +29,8 @@ A BIG thank you to the Hollow Knight/Hollow Knight Speedrun Discord Channels for
 # Changelog
 Version 1.0.6:
 - Fully implemented new items in RandomizerMod v3.12c(884) (Junk Pit, Boss Geo, Mimics, etc.)
-- All the pins have been clean-sweeped and are positioned better on the map
-- The pins when reachable are now slightly smaller for better visibility
+- All the Pins have been clean-sweeped and are positioned better on the map
+- The Pins when reachable are now slightly smaller for better visibility
 - Using Quick Map also properly updates the Pins
 - Lots more code cleanup
 
