@@ -25,6 +25,7 @@ These settings are saved between game loads.
 
 # Acknowledgements
 A BIG thank you to the Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions!
+Also to CaptainDapper for making the original mod!
 
 # Changelog
 Version 1.0.6:
