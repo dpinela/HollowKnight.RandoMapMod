@@ -11,8 +11,6 @@ using UnityEngine.SceneManagement;
 namespace RandoMapMod {
 
 	public class MapModS : Mod {
-		internal GameObject PinGroupGO = null;
-
 		private const float MAP_MAX_X = 17.3f;
 
 		private const float MAP_MAX_Y = 15.6913f;
@@ -24,8 +22,6 @@ namespace RandoMapMod {
 		private const int MAPS_TRIGGER = 3;
 
 		private static int _convoCounter = 0;
-
-		private List<GameObject> _objectsToDisable = new List<GameObject>();
 
 		public static MapModS Instance {
 			get; private set;
@@ -39,8 +35,6 @@ namespace RandoMapMod {
 		public SaveSettings Settings { get; private set; } = new SaveSettings();
 
 		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
-
-		internal PinGroup PinGroupInstance => PinGroupGO?.GetComponent<PinGroup>();
 
 		public override string GetVersion() {
 			string ver = "1.1.0 DEBUG"; //If you update this, please also update the README.
@@ -91,6 +85,8 @@ namespace RandoMapMod {
 
 			Instance.Log("RandoMapMod Initialize complete!");
 		}
+
+		private List<GameObject> _objectsToDisable = new List<GameObject>();
 
 		private void _FindObjectsToDisable() {
 			_objectsToDisable.Clear();
@@ -172,6 +168,9 @@ namespace RandoMapMod {
 			}
 			orig(self);
 		}
+
+		internal GameObject PinGroupGO = null;
+		internal PinGroup PinGroupInstance => PinGroupGO?.GetComponent<PinGroup>();
 
 		// Everything for initializing stuff *per game load* is here
 		private void _GameMap_Start(On.GameMap.orig_Start orig, GameMap self) {
