@@ -52,7 +52,7 @@ namespace RandoMapMod.UnityComponents {
 					}
 
 					if (Input.GetKeyDown(KeyCode.Alpha4)) {
-						MapModS.Instance.PinGroupInstance.ToggleUnrandomized();
+						MapModS.Instance.PinGroupInstance.ToggleOthers();
 					}
 				}
 

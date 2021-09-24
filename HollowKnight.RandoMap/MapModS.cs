@@ -543,8 +543,6 @@ namespace RandoMapMod {
 			}
 
 			if (to.name == "Quit_To_Menu") {
-				//UnityEngine.Object.Destroy(this.PinGroupGO);
-
 				InputListener.DestroySingleton();
 				GUIController.Unload();
 			}

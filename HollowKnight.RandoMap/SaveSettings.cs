@@ -199,7 +199,7 @@ namespace RandoMapMod {
 			set => SetBool(value);
 		}
 
-		public bool UnrandomizedOn {
+		public bool OthersOn {
 			get => GetBool(true);
 			set => SetBool(value);
 		}

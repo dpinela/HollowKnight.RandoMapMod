@@ -15,7 +15,8 @@ namespace RandoMapMod {
 
 		private static GUIController _instance;
 
-		private GameObject _canvas;
+		private GameObject _pauseCanvas;
+		private GameObject _mapCanvas;
 
 		public static GUIController Instance {
 			get {
@@ -48,27 +49,42 @@ namespace RandoMapMod {
 		}
 
 		public static void Unload() {
-			Destroy(_instance._canvas);
+			Destroy(_instance._pauseCanvas);
+			Destroy(_instance._mapCanvas);
 			Destroy(_instance.gameObject);
 		}
 		public void BuildMenus() {
 			_LoadResources();
 
-			_canvas = new GameObject();
-			_canvas.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-			CanvasScaler scaler = _canvas.AddComponent<CanvasScaler>();
-			scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-			scaler.referenceResolution = new Vector2(1920f, 1080f);
-			_canvas.AddComponent<GraphicRaycaster>();
+			_pauseCanvas = new GameObject();
+			_pauseCanvas.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+			CanvasScaler pauseScaler = _pauseCanvas.AddComponent<CanvasScaler>();
+			pauseScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+			pauseScaler.referenceResolution = new Vector2(1920f, 1080f);
+			_pauseCanvas.AddComponent<GraphicRaycaster>();
 
-			PauseGUI.BuildMenu(_canvas);
+			PauseGUI.BuildMenu(_pauseCanvas);
 
-			DontDestroyOnLoad(_canvas);
+			DontDestroyOnLoad(_pauseCanvas);
+
+			_mapCanvas = new GameObject();
+			_mapCanvas.AddComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+			CanvasScaler mapScaler = _mapCanvas.AddComponent<CanvasScaler>();
+			mapScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+			mapScaler.referenceResolution = new Vector2(1920f, 1080f);
+			_pauseCanvas.AddComponent<GraphicRaycaster>();
+
+			MapText.BuildMenu(_mapCanvas);
+
+			DontDestroyOnLoad(_mapCanvas);
+
+			_mapCanvas.transform.SetParent(MapModS.Instance.PinGroupInstance.transform);
 		}
 
 		public void Update() {
 			try {
 				PauseGUI.Update();
+				MapText.Update();
 			} catch (Exception e) {
 				MapModS.Instance.LogError(e);
 			}

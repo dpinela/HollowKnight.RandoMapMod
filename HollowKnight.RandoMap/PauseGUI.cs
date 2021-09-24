@@ -14,7 +14,7 @@ namespace RandoMapMod {
 			["Spoilers"] = (_SpoilersClicked, new Vector2(0f, 0f)),
 			["Style"] = (_StyleClicked, new Vector2(100f, 0f)),
 			["Randomized"] = (_RandomizedClicked, new Vector2(200f, 0f)),
-			["Others"] = (_UnrandomizedClicked, new Vector2(300f, 0f)),
+			["Others"] = (_OthersClicked, new Vector2(300f, 0f)),
 		};
 
 		private static readonly Dictionary<string, (UnityAction<string>, Vector2)> _groupButtons = new Dictionary<string, (UnityAction<string>, Vector2)> {
@@ -160,7 +160,7 @@ namespace RandoMapMod {
 			_SetPoolButton("Shops", MapModS.Instance.Settings.ShopOn);
 
 			_SetRandomized();
-			_SetUnrandomized();
+			_SetOthers();
 			_SetStyle();
 		}
 
@@ -185,8 +185,8 @@ namespace RandoMapMod {
 			MapModS.Instance.PinGroupInstance.ToggleRandomized();
 		}
 
-		private static void _UnrandomizedClicked(string buttonName) {
-			MapModS.Instance.PinGroupInstance.ToggleUnrandomized();
+		private static void _OthersClicked(string buttonName) {
+			MapModS.Instance.PinGroupInstance.ToggleOthers();
 		}
 
 		private static void _StyleClicked(string buttonName) {
@@ -338,28 +338,29 @@ namespace RandoMapMod {
 				MapModS.Instance.Settings.RandomizedOn = false;
 			} else if (MapModS.Instance.PinGroupInstance.RandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.green);
-				MapModS.Instance.Settings.RandomizedOn = true;
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\non");
-			} else {
 				MapModS.Instance.Settings.RandomizedOn = true;
+				
+			} else {
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\ncustom");
+				MapModS.Instance.Settings.RandomizedOn = true;
 			}
 		}
 
-		private static void _SetUnrandomized() {
-			if (!MapModS.Instance.PinGroupInstance.UnrandomizedGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
+		private static void _SetOthers() {
+			if (!MapModS.Instance.PinGroupInstance.OthersGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.white);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\noff");
-				MapModS.Instance.Settings.UnrandomizedOn = false;
-			} else if (MapModS.Instance.PinGroupInstance.UnrandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
+				MapModS.Instance.Settings.OthersOn = false;
+			} else if (MapModS.Instance.PinGroupInstance.OthersGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.green);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\non");
-				MapModS.Instance.Settings.UnrandomizedOn = true;
+				MapModS.Instance.Settings.OthersOn = true;
 			} else {
-				MapModS.Instance.Settings.UnrandomizedOn = true;
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\ncustom");
+				MapModS.Instance.Settings.OthersOn = true;
 			}
 		}
 

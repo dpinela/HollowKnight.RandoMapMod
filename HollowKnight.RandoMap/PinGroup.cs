@@ -232,7 +232,7 @@ namespace RandoMapMod {
 		// Used for updating button states
 		public List<GroupName> RandomizedGroups = new List<GroupName>();
 
-		public List<GroupName> UnrandomizedGroups = new List<GroupName>();
+		public List<GroupName> OthersGroups = new List<GroupName>();
 
 		public bool Hidden { get; private set; } = false;
 
@@ -335,7 +335,7 @@ namespace RandoMapMod {
 				} else if (Dictionaries.GetRandomizerSetting(group)) {
 					RandomizedGroups.Add(group);
 				} else {
-					UnrandomizedGroups.Add(group);
+					OthersGroups.Add(group);
 				}
 			}
 		}
@@ -357,12 +357,14 @@ namespace RandoMapMod {
 			MapModS.Instance.Settings.SetBoolFromGroup(group, !MapModS.Instance.Settings.GetBoolFromGroup(group));
 			GroupDictionary[group].SetActive(MapModS.Instance.Settings.GetBoolFromGroup(group));
 			PauseGUI.SetButtons();
+			MapText.SetTexts();
 		}
 
 		internal void ToggleSpoilers() {
 			MapModS.Instance.Settings.SpoilerOn = !MapModS.Instance.Settings.SpoilerOn;
 			SetSprites();
 			PauseGUI.SetButtons();
+			MapText.SetTexts();
 		}
 
 		internal void TogglePinStyle() {
@@ -386,6 +388,7 @@ namespace RandoMapMod {
 
 			SetSprites();
 			PauseGUI.SetButtons();
+			MapText.SetTexts();
 		}
 
 		internal void ToggleRandomized() {
@@ -395,15 +398,17 @@ namespace RandoMapMod {
 				GroupDictionary[group].SetActive(MapModS.Instance.Settings.RandomizedOn);
 			}
 			PauseGUI.SetButtons();
+			MapText.SetTexts();
 		}
 
-		internal void ToggleUnrandomized() {
-			MapModS.Instance.Settings.UnrandomizedOn = !MapModS.Instance.Settings.UnrandomizedOn;
-			foreach (GroupName group in UnrandomizedGroups) {
-				MapModS.Instance.Settings.SetBoolFromGroup(group, MapModS.Instance.Settings.UnrandomizedOn);
-				GroupDictionary[group].SetActive(MapModS.Instance.Settings.UnrandomizedOn);
+		internal void ToggleOthers() {
+			MapModS.Instance.Settings.OthersOn = !MapModS.Instance.Settings.OthersOn;
+			foreach (GroupName group in OthersGroups) {
+				MapModS.Instance.Settings.SetBoolFromGroup(group, MapModS.Instance.Settings.OthersOn);
+				GroupDictionary[group].SetActive(MapModS.Instance.Settings.OthersOn);
 			}
 			PauseGUI.SetButtons();
+			MapText.SetTexts();
 		}
 
 		private Vector3 _GetRoomPos(string roomName, GameMap gameMap) {

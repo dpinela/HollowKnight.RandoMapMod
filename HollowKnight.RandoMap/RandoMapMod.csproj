@@ -104,6 +104,7 @@
     <Compile Include="CanvasUtil\CanvasText.cs" />
     <Compile Include="GUIController.cs" />
     <Compile Include="InputListener.cs" />
+    <Compile Include="MapText.cs" />
     <Compile Include="PauseGUI.cs" />
     <Compile Include="Pin.cs" />
     <Compile Include="PinGroup.cs" />
