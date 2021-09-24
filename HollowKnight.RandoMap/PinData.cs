@@ -4,8 +4,6 @@ namespace RandoMapMod {
 
 	public class PinData {
 
-		#region Constructors
-
 		public PinData() {
 			this.NotPin = false;
 			this.OffsetX = 0.0f;
@@ -15,10 +13,6 @@ namespace RandoMapMod {
 			this.MapArea = "";
 			this.VanillaPool = "";
 		}
-
-		#endregion Constructors
-
-		#region Private Non-Methods
 
 		//Assigned with pindata.xml
 		public string ID {
@@ -79,14 +73,8 @@ namespace RandoMapMod {
 
 		public Vector3 Offset => new Vector3(this.OffsetX, this.OffsetY, this.OffsetZ);
 
-		#endregion Private Non-Methods
-
-		#region <> Overrides
-
 		public override string ToString() {
 			return "Pin_" + this.ID;
 		}
-
-		#endregion <> Overrides
 	}
 }

@@ -6,8 +6,6 @@ namespace RandoMapMod {
 	// This class has some useful Get methods / value lookups
 	public static class Dictionaries {
 
-		#region Statics
-
 		// Used for figuring out which MapArea a Pin belongs to (for Quick Map)
 		private static readonly Dictionary<string, string> _areatoMapArea = new Dictionary<string, string>
 		{
@@ -152,10 +150,6 @@ namespace RandoMapMod {
 			{ "Mimic_Grub_(3)"          , "MimicItem"   },
 		};
 
-		#endregion Statics
-
-		#region Public Methods
-
 		public static bool GetRandomizerSetting(PinGroup.GroupName group) {
 			object randoSettings = RandomizerMod.RandomizerMod.Instance.Settings;
 			System.Type randoSettingsType = randoSettings.GetType();
@@ -296,7 +290,5 @@ namespace RandoMapMod {
 			}
 			return false;
 		}
-
-		#endregion Public Methods
 	}
 }

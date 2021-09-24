@@ -127,10 +127,24 @@ namespace RandoMapMod {
 			BuildMenu(Canvas);
 		}
 
-		public static void SetButtons() {
-			_SetButton("Spoilers", MapModS.Instance.Settings.SpoilerOn);
-			//_SetButton("Q Marks", MapModS.Instance.Settings.QMarksOn);
+		public static void Update() {
+			if (_mapControlPanel == null || GameManager.instance == null
+				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
+				|| !MapModS.Instance.Settings.MapsGiven) {
+				return;
+			}
 
+			if (HeroController.instance == null || !GameManager.instance.IsGameplayScene() || !GameManager.instance.IsGamePaused()) {
+				if (_mapControlPanel.Active) _mapControlPanel.SetActive(false, true);
+				return;
+			} else {
+				if (!_mapControlPanel.Active) {
+					RebuildMenu();
+				}
+			}
+		}
+
+		public static void SetButtons() {
 			_SetPoolButton("Dreamers", MapModS.Instance.Settings.DreamerOn);
 			_SetPoolButton("Skills", MapModS.Instance.Settings.SkillOn);
 			_SetPoolButton("Charms", MapModS.Instance.Settings.CharmOn);
@@ -161,25 +175,48 @@ namespace RandoMapMod {
 			_SetPoolButton("Grimmkin\nFlames", MapModS.Instance.Settings.FlameOn);
 			_SetPoolButton("Shops", MapModS.Instance.Settings.ShopOn);
 
+			_SetSpoilers();
 			_SetRandomized();
 			_SetOthers();
 			_SetStyle();
 		}
 
-		public static void Update() {
-			if (_mapControlPanel == null || GameManager.instance == null
-				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
-				|| !MapModS.Instance.Settings.MapsGiven) {
-				return;
-			}
+		private static void _SpoilersClicked(string buttonName) {
+			MapModS.Instance.PinGroupInstance.ToggleSpoilers();
+		}
 
-			if (HeroController.instance == null || !GameManager.instance.IsGameplayScene() || !GameManager.instance.IsGamePaused()) {
-				if (_mapControlPanel.Active) _mapControlPanel.SetActive(false, true);
-				return;
-			} else {
-				if (!_mapControlPanel.Active) {
-					RebuildMenu();
-				}
+		private static void _SetSpoilers() {
+			_mapControlPanel.GetButton("Spoilers").SetTextColor
+				(
+					MapModS.Instance.Settings.SpoilerOn ? Color.green : Color.white
+				);
+			_mapControlPanel.GetButton("Spoilers").UpdateText
+				(
+					MapModS.Instance.Settings.SpoilerOn ? ("Spoilers\non") : ("Spoilers\noff")
+				);
+		}
+
+		private static void _StyleClicked(string buttonName) {
+			MapModS.Instance.PinGroupInstance.TogglePinStyle();
+		}
+
+		private static void _SetStyle() {
+			switch (MapModS.Instance.Settings.PinStyle) {
+				case PinGroup.PinStyles.Normal:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nnormal");
+					break;
+
+				case PinGroup.PinStyles.Q_Marks:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks");
+					break;
+
+				case PinGroup.PinStyles.Old_1:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nold 1");
+					break;
+
+				case PinGroup.PinStyles.Old_2:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nold 2");
+					break;
 			}
 		}
 
@@ -187,12 +224,48 @@ namespace RandoMapMod {
 			MapModS.Instance.PinGroupInstance.ToggleRandomized();
 		}
 
+		private static void _SetRandomized() {
+			if (!MapModS.Instance.PinGroupInstance.RandomizedGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
+				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.white);
+				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\noff");
+				MapModS.Instance.Settings.RandomizedOn = false;
+			} else if (MapModS.Instance.PinGroupInstance.RandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
+				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.green);
+				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\non");
+				MapModS.Instance.Settings.RandomizedOn = true;
+			} else {
+				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.yellow);
+				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\ncustom");
+				MapModS.Instance.Settings.RandomizedOn = true;
+			}
+		}
+
 		private static void _OthersClicked(string buttonName) {
 			MapModS.Instance.PinGroupInstance.ToggleOthers();
 		}
 
-		private static void _StyleClicked(string buttonName) {
-			MapModS.Instance.PinGroupInstance.TogglePinStyle();
+		private static void _SetOthers() {
+			if (!MapModS.Instance.PinGroupInstance.OthersGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
+				_mapControlPanel.GetButton("Others").SetTextColor(Color.white);
+				_mapControlPanel.GetButton("Others").UpdateText("Others\noff");
+				MapModS.Instance.Settings.OthersOn = false;
+			} else if (MapModS.Instance.PinGroupInstance.OthersGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
+				_mapControlPanel.GetButton("Others").SetTextColor(Color.green);
+				_mapControlPanel.GetButton("Others").UpdateText("Others\non");
+				MapModS.Instance.Settings.OthersOn = true;
+			} else {
+				_mapControlPanel.GetButton("Others").SetTextColor(Color.yellow);
+				_mapControlPanel.GetButton("Others").UpdateText("Others\ncustom");
+				MapModS.Instance.Settings.OthersOn = true;
+			}
+		}
+
+		private static void _TogglePoolPanel() {
+			_mapControlPanel.TogglePanel("Pools");
+			_mapControlPanel.GetButton("Pools").UpdateText
+				(
+					_mapControlPanel.GetPanel("Pools").Active ? "Hide Pools" : "Show Pools"
+				);
 		}
 
 		private static void _BossGeoClicked(string buttonName) {
@@ -303,10 +376,6 @@ namespace RandoMapMod {
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Soul);
 		}
 
-		private static void _SpoilersClicked(string buttonName) {
-			MapModS.Instance.PinGroupInstance.ToggleSpoilers();
-		}
-
 		private static void _StagClicked(string buttonName) {
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Stag);
 		}
@@ -315,81 +384,10 @@ namespace RandoMapMod {
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Vessel);
 		}
 
-		private static void _SetButton(string buttonName, bool setting) {
-			_mapControlPanel.GetButton(buttonName).SetTextColor
-				(
-					setting ? Color.green : Color.white
-				);
-			_mapControlPanel.GetButton(buttonName).UpdateText
-				(
-					setting ? (buttonName + "\non") : (buttonName + "\noff")
-				);
-		}
-
 		private static void _SetPoolButton(string buttonName, bool setting) {
 			_mapControlPanel.GetPanel("Pools").GetButton(buttonName).SetTextColor
 				(
 					setting ? Color.green : Color.white
-				);
-		}
-
-		private static void _SetRandomized() {
-			if (!MapModS.Instance.PinGroupInstance.RandomizedGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
-				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.white);
-				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\noff");
-				MapModS.Instance.Settings.RandomizedOn = false;
-			} else if (MapModS.Instance.PinGroupInstance.RandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
-				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.green);
-				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\non");
-				MapModS.Instance.Settings.RandomizedOn = true;
-			} else {
-				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.yellow);
-				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\ncustom");
-				MapModS.Instance.Settings.RandomizedOn = true;
-			}
-		}
-
-		private static void _SetOthers() {
-			if (!MapModS.Instance.PinGroupInstance.OthersGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
-				_mapControlPanel.GetButton("Others").SetTextColor(Color.white);
-				_mapControlPanel.GetButton("Others").UpdateText("Others\noff");
-				MapModS.Instance.Settings.OthersOn = false;
-			} else if (MapModS.Instance.PinGroupInstance.OthersGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
-				_mapControlPanel.GetButton("Others").SetTextColor(Color.green);
-				_mapControlPanel.GetButton("Others").UpdateText("Others\non");
-				MapModS.Instance.Settings.OthersOn = true;
-			} else {
-				_mapControlPanel.GetButton("Others").SetTextColor(Color.yellow);
-				_mapControlPanel.GetButton("Others").UpdateText("Others\ncustom");
-				MapModS.Instance.Settings.OthersOn = true;
-			}
-		}
-
-		private static void _SetStyle() {
-			switch (MapModS.Instance.Settings.PinStyle) {
-				case PinGroup.PinStyles.Normal:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nnormal");
-					break;
-
-				case PinGroup.PinStyles.Q_Marks:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks");
-					break;
-
-				case PinGroup.PinStyles.Old_1:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nold 1");
-					break;
-
-				case PinGroup.PinStyles.Old_2:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nold 2");
-					break;
-			}
-		}
-
-		private static void _TogglePoolPanel() {
-			_mapControlPanel.TogglePanel("Pools");
-			_mapControlPanel.GetButton("Pools").UpdateText
-				(
-					_mapControlPanel.GetPanel("Pools").Active ? "Hide Pools" : "Show Pools"
 				);
 		}
 	}

@@ -16,6 +16,10 @@ internal class Pin : MonoBehaviour {
 		this._origColor = this._SR.color;
 	}
 
+	public void SetSprite(Sprite SpriteName) {
+		this._SR.sprite = SpriteName;
+	}
+
 	public void SetPinState(string mapAreaName) {
 		try {
 			if (this.PinData == null) {
@@ -30,8 +34,13 @@ internal class Pin : MonoBehaviour {
 		}
 	}
 
-	public void SetSprite(Sprite SpriteName) {
-		this._SR.sprite = SpriteName;
+	// This method hides or shows the pin depending on which map was opened
+	private void _ShowIfCorrectMap(string mapAreaName) {
+		if (mapAreaName == this.PinData.MapArea || mapAreaName == "WorldMap") {
+			this.gameObject.SetActive(true);
+		} else {
+			this.gameObject.SetActive(false);
+		}
 	}
 
 	private void _HideIfFound() {
@@ -53,15 +62,6 @@ internal class Pin : MonoBehaviour {
 			// We can't reach this item.
 			this.transform.localScale = this._origScale * 0.5f;
 			this._SR.color = this._inactiveColor;
-		}
-	}
-
-	// This method hides or shows the pin depending on which map was opened
-	private void _ShowIfCorrectMap(string mapAreaName) {
-		if (mapAreaName == this.PinData.MapArea || mapAreaName == "WorldMap") {
-			this.gameObject.SetActive(true);
-		} else {
-			this.gameObject.SetActive(false);
 		}
 	}
 }

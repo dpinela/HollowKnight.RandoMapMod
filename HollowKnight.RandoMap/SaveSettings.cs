@@ -3,14 +3,7 @@
 namespace RandoMapMod {
 
 	public class SaveSettings : BaseSettings {
-
-		#region Statics
-
 		public static SaveSettings Instance;
-
-		#endregion Statics
-
-		#region Constructors
 
 		public SaveSettings() {
 			AfterDeserialize += () => {
@@ -18,10 +11,6 @@ namespace RandoMapMod {
 			};
 			Instance = this;
 		}
-
-		#endregion Constructors
-
-		#region Non-Private Methods
 
 		public bool GetBoolFromGroup(PinGroup.GroupName group) {
 			return group switch {
@@ -177,10 +166,6 @@ namespace RandoMapMod {
 					break;
 			}
 		}
-
-		#endregion Non-Private Methods
-
-		#region Non-Private Non-Methods
 
 		public bool MapsGiven {
 			get => GetBool(false);
@@ -348,7 +333,5 @@ namespace RandoMapMod {
 			get => GetBool(true);
 			set => SetBool(value);
 		}
-
-		#endregion Non-Private Non-Methods
 	}
 }

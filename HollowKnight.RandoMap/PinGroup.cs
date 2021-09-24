@@ -40,6 +40,55 @@ namespace RandoMapMod {
 			Shop,
 		}
 
+		public Dictionary<GroupName, GameObject> GroupDictionary = new Dictionary<GroupName, GameObject> {
+			{GroupName.Dreamer, new GameObject("Group Dreamer") },
+			{GroupName.Skill, new GameObject("Group Skill") },
+			{GroupName.Charm, new GameObject("Group Charm") },
+			{GroupName.Key, new GameObject("Group Key") },
+			{GroupName.Geo, new GameObject("Group Geo") },
+			{GroupName.Junk, new GameObject("Group Junk") },
+			{GroupName.Mask, new GameObject("Group Mask") },
+			{GroupName.Vessel, new GameObject("Group Vessel") },
+			{GroupName.Notch, new GameObject("Group Notch") },
+			{GroupName.Ore, new GameObject("Group Ore") },
+			{GroupName.Egg, new GameObject("Group Egg") },
+			{GroupName.Relic, new GameObject("Group Relic") },
+			{GroupName.Map, new GameObject("Group Map") },
+			{GroupName.Stag, new GameObject("Group Stag") },
+			{GroupName.Grub, new GameObject("Group Grub") },
+			{GroupName.Mimic, new GameObject("Group Mimic") },
+			{GroupName.Root, new GameObject("Group Root") },
+			{GroupName.Rock, new GameObject("Group Rock") },
+			{GroupName.BossGeo, new GameObject("Group BossGeo") },
+			{GroupName.Soul, new GameObject("Group Soul") },
+			{GroupName.Lore, new GameObject("Group Lore") },
+			{GroupName.PalaceSoul, new GameObject("Group PalaceSoul") },
+			{GroupName.PalaceLore, new GameObject("Group PalaceLore") },
+			{GroupName.PalaceJournal, new GameObject("Group PalaceJournal") },
+			{GroupName.Cocoon, new GameObject("Group Cocoon") },
+			{GroupName.Flame, new GameObject("Group Flame") },
+			{GroupName.EssenceBoss, new GameObject("Group EssenceBoss") },
+			{GroupName.Journal, new GameObject("Group Journal") },
+			{GroupName.Shop, new GameObject("Group Shop") },
+		};
+
+		// Used for updating button states
+		public List<GroupName> RandomizedGroups = new List<GroupName>();
+
+		public List<GroupName> OthersGroups = new List<GroupName>();
+
+		internal void FindRandomizedGroups() {
+			foreach (GroupName group in Enum.GetValues(typeof(GroupName))) {
+				if (group == GroupName.Shop) {
+					continue;
+				} else if (Dictionaries.GetRandomizerSetting(group)) {
+					RandomizedGroups.Add(group);
+				} else {
+					OthersGroups.Add(group);
+				}
+			}
+		}
+
 		public enum PinStyles {
 			Normal,
 			Q_Marks,
@@ -47,16 +96,69 @@ namespace RandoMapMod {
 			Old_2,
 		}
 
-		#region Private Non-Methods
-
 		private readonly List<Pin> _pins = new List<Pin>();
 
-		#endregion Private Non-Methods
+		public bool Hidden { get; private set; } = false;
 
-		#region Private Methods
+		public void AddPinToRoom(PinData pinData, GameMap gameMap) {
+			if (_pins.Any(pin => pin.PinData.ID == pinData.ID)) {
+				MapModS.Instance.LogWarn($"Duplicate pin found for group: {pinData.ID} - Skipped.");
+				return;
+			}
+
+			// Get room name from pindata's overwrite, otherwise from RandomizerMod
+			string roomName = pinData.PinScene ?? ResourceLoader.PinDataDictionary[pinData.ID].SceneName;
+
+			Sprite pinSprite;
+
+			pinSprite = ResourceLoader.GetSpriteFromPool(pinData.VanillaPool);
+
+			GameObject pinObject = new GameObject($"pin_rando_{pinData.ID}") {
+				layer = 30
+			};
+
+			pinObject.transform.localScale *= 1.2f;
+
+			SpriteRenderer sr = pinObject.AddComponent<SpriteRenderer>();
+			sr.sprite = pinSprite;
+			sr.sortingLayerName = "HUD";
+			sr.size = new Vector2(1f, 1f);
+
+			Vector3 vec = _GetRoomPos(roomName, gameMap);
+
+			if (vec == new Vector3(0, 0, 0)) {
+				MapModS.Instance.LogWarn($"{pinData.ID} doesn't have a valid room name!");
+			}
+
+			vec.Scale(new Vector3(1.46f, 1.46f, 1));
+			vec += ResourceLoader.PinDataDictionary[pinData.ID].Offset;
+
+			pinObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z - 1f);
+
+			Pin pinComponent = pinObject.AddComponent<Pin>();
+
+			pinComponent.SetPinData(pinData);
+
+			_pins.Add(pinComponent);
+
+			_AssignPinGroup(pinObject, pinData);
+		}
+
+		private Vector3 _GetRoomPos(string roomName, GameMap gameMap) {
+			foreach (Transform areaObj in gameMap.transform) {
+				foreach (Transform roomObj in areaObj.transform) {
+					if (roomObj.gameObject.name == roomName) {
+						Vector3 roomVec = roomObj.transform.localPosition;
+						roomVec.Scale(areaObj.transform.localScale);
+						return areaObj.transform.localPosition + roomVec;
+					}
+				}
+			}
+			return new Vector3(0, 0, 0);
+		}
 
 		// Set each Pin to the correct Parent Group
-		private void _SetPinGroup(GameObject newPin, PinData pinData) {
+		private void _AssignPinGroup(GameObject newPin, PinData pinData) {
 			switch (pinData.SpoilerPool) {
 				case "Dreamer":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Dreamer].transform);
@@ -193,153 +295,6 @@ namespace RandoMapMod {
 			}
 		}
 
-		#endregion Private Methods
-
-		#region Non-Private Non-Methods
-
-		public Dictionary<GroupName, GameObject> GroupDictionary = new Dictionary<GroupName, GameObject> {
-			{GroupName.Dreamer, new GameObject("Group Dreamer") },
-			{GroupName.Skill, new GameObject("Group Skill") },
-			{GroupName.Charm, new GameObject("Group Charm") },
-			{GroupName.Key, new GameObject("Group Key") },
-			{GroupName.Geo, new GameObject("Group Geo") },
-			{GroupName.Junk, new GameObject("Group Junk") },
-			{GroupName.Mask, new GameObject("Group Mask") },
-			{GroupName.Vessel, new GameObject("Group Vessel") },
-			{GroupName.Notch, new GameObject("Group Notch") },
-			{GroupName.Ore, new GameObject("Group Ore") },
-			{GroupName.Egg, new GameObject("Group Egg") },
-			{GroupName.Relic, new GameObject("Group Relic") },
-			{GroupName.Map, new GameObject("Group Map") },
-			{GroupName.Stag, new GameObject("Group Stag") },
-			{GroupName.Grub, new GameObject("Group Grub") },
-			{GroupName.Mimic, new GameObject("Group Mimic") },
-			{GroupName.Root, new GameObject("Group Root") },
-			{GroupName.Rock, new GameObject("Group Rock") },
-			{GroupName.BossGeo, new GameObject("Group BossGeo") },
-			{GroupName.Soul, new GameObject("Group Soul") },
-			{GroupName.Lore, new GameObject("Group Lore") },
-			{GroupName.PalaceSoul, new GameObject("Group PalaceSoul") },
-			{GroupName.PalaceLore, new GameObject("Group PalaceLore") },
-			{GroupName.PalaceJournal, new GameObject("Group PalaceJournal") },
-			{GroupName.Cocoon, new GameObject("Group Cocoon") },
-			{GroupName.Flame, new GameObject("Group Flame") },
-			{GroupName.EssenceBoss, new GameObject("Group EssenceBoss") },
-			{GroupName.Journal, new GameObject("Group Journal") },
-			{GroupName.Shop, new GameObject("Group Shop") },
-		};
-
-		// Used for updating button states
-		public List<GroupName> RandomizedGroups = new List<GroupName>();
-
-		public List<GroupName> OthersGroups = new List<GroupName>();
-
-		public bool Hidden { get; private set; } = false;
-
-		#endregion Non-Private Non-Methods
-
-		#region MonoBehaviour "Overrides"
-
-		protected void Start() {
-			this.Hide();
-		}
-
-		#endregion MonoBehaviour "Overrides"
-
-		#region Non-Private Methods
-
-		public void AddPinToRoom(PinData pinData, GameMap gameMap) {
-			if (_pins.Any(pin => pin.PinData.ID == pinData.ID)) {
-				MapModS.Instance.LogWarn($"Duplicate pin found for group: {pinData.ID} - Skipped.");
-				return;
-			}
-
-			// Get room name from pindata's overwrite, otherwise from RandomizerMod
-			string roomName = pinData.PinScene ?? ResourceLoader.PinDataDictionary[pinData.ID].SceneName;
-
-			Sprite pinSprite;
-
-			pinSprite = ResourceLoader.GetSpriteFromPool(pinData.VanillaPool);
-
-			GameObject pinObject = new GameObject($"pin_rando_{pinData.ID}") {
-				layer = 30
-			};
-
-			pinObject.transform.localScale *= 1.2f;
-
-			SpriteRenderer sr = pinObject.AddComponent<SpriteRenderer>();
-			sr.sprite = pinSprite;
-			sr.sortingLayerName = "HUD";
-			sr.size = new Vector2(1f, 1f);
-
-			Vector3 vec = _GetRoomPos(roomName, gameMap);
-
-			if (vec == new Vector3(0, 0, 0)) {
-				MapModS.Instance.LogWarn($"{pinData.ID} doesn't have a valid room name!");
-			}
-
-			vec.Scale(new Vector3(1.46f, 1.46f, 1));
-			vec += ResourceLoader.PinDataDictionary[pinData.ID].Offset;
-
-			pinObject.transform.localPosition = new Vector3(vec.x, vec.y, vec.z - 1f);
-
-			Pin pinComponent = pinObject.AddComponent<Pin>();
-
-			pinComponent.SetPinData(pinData);
-
-			_pins.Add(pinComponent);
-
-			_SetPinGroup(pinObject, pinData);
-		}
-
-		public void DestroyPins() {
-			foreach (Pin pin in _pins) {
-				Destroy(pin.gameObject);
-			}
-			_pins.Clear();
-		}
-
-		public void Show(bool force = false) {
-			if (force) Hidden = false;
-
-			if (!Hidden) {
-				this.gameObject.SetActive(true);
-			}
-		}
-
-		public void Hide(bool force = false) {
-			if (force) Hidden = true;
-			this.gameObject.SetActive(false);
-		}
-
-		public void SetPinStates(string mapName) {
-			foreach (Pin pin in _pins) {
-				pin.SetPinState(mapName);
-			}
-		}
-
-		public void SetSprites() {
-			foreach (Pin pin in _pins) {
-				if (MapModS.Instance.Settings.SpoilerOn) {
-					pin.SetSprite(ResourceLoader.GetSpriteFromPool(pin.PinData.SpoilerPool));
-				} else {
-					pin.SetSprite(ResourceLoader.GetSpriteFromPool(pin.PinData.VanillaPool));
-				}
-			}
-		}
-
-		internal void FindRandomizedGroups() {
-			foreach (GroupName group in Enum.GetValues(typeof(GroupName))) {
-				if (group == GroupName.Shop) {
-					continue;
-				} else if (Dictionaries.GetRandomizerSetting(group)) {
-					RandomizedGroups.Add(group);
-				} else {
-					OthersGroups.Add(group);
-				}
-			}
-		}
-
 		internal void InitializePinGroups() {
 			foreach (KeyValuePair<GroupName, GameObject> entry in GroupDictionary) {
 				entry.Value.transform.SetParent(this.transform);
@@ -411,17 +366,37 @@ namespace RandoMapMod {
 			MapText.SetTexts();
 		}
 
-		private Vector3 _GetRoomPos(string roomName, GameMap gameMap) {
-			foreach (Transform areaObj in gameMap.transform) {
-				foreach (Transform roomObj in areaObj.transform) {
-					if (roomObj.gameObject.name == roomName) {
-						Vector3 roomVec = roomObj.transform.localPosition;
-						roomVec.Scale(areaObj.transform.localScale);
-						return areaObj.transform.localPosition + roomVec;
-					}
+		public void SetSprites() {
+			foreach (Pin pin in _pins) {
+				if (MapModS.Instance.Settings.SpoilerOn) {
+					pin.SetSprite(ResourceLoader.GetSpriteFromPool(pin.PinData.SpoilerPool));
+				} else {
+					pin.SetSprite(ResourceLoader.GetSpriteFromPool(pin.PinData.VanillaPool));
 				}
 			}
-			return new Vector3(0, 0, 0);
+		}
+
+		public void SetPinStates(string mapName) {
+			foreach (Pin pin in _pins) {
+				pin.SetPinState(mapName);
+			}
+		}
+
+		protected void Start() {
+			this.Hide();
+		}
+
+		public void Show(bool force = false) {
+			if (force) Hidden = false;
+
+			if (!Hidden) {
+				this.gameObject.SetActive(true);
+			}
+		}
+
+		public void Hide(bool force = false) {
+			if (force) Hidden = true;
+			this.gameObject.SetActive(false);
 		}
 
 		//public void RefreshPins(GameMap gameMap) {
@@ -442,6 +417,11 @@ namespace RandoMapMod {
 		//	}
 		//}
 
-		#endregion Non-Private Methods
+		//public void DestroyPins() {
+		//	foreach (Pin pin in _pins) {
+		//		Destroy(pin.gameObject);
+		//	}
+		//	_pins.Clear();
+		//}
 	}
 }

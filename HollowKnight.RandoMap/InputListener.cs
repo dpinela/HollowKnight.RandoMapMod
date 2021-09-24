@@ -4,9 +4,6 @@ namespace RandoMapMod.UnityComponents {
 
 	// This class handles hotkey behaviour
 	internal class InputListener : MonoBehaviour {
-
-		#region Statics
-
 		private static GameObject _instance_GO = null;
 
 		public static void DestroySingleton() {
@@ -27,10 +24,6 @@ namespace RandoMapMod.UnityComponents {
 			}
 		}
 
-		#endregion Statics
-
-		#region MonoBehaviour "Overrides"
-
 		protected void Update() {
 			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
 				if (Input.GetKeyDown(KeyCode.M)) {
@@ -43,7 +36,6 @@ namespace RandoMapMod.UnityComponents {
 					}
 
 					if (Input.GetKeyDown(KeyCode.Alpha2)) {
-						//MapModS.Instance.PinGroupInstance.ToggleQMarkPins();
 						MapModS.Instance.PinGroupInstance.TogglePinStyle();
 					}
 
@@ -63,7 +55,5 @@ namespace RandoMapMod.UnityComponents {
 				//}
 			}
 		}
-
-		#endregion MonoBehaviour "Overrides"
 	}
 }

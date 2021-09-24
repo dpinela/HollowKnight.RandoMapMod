@@ -11,8 +11,36 @@ using UnityEngine.SceneManagement;
 namespace RandoMapMod {
 
 	public class MapModS : Mod {
+		internal GameObject PinGroupGO = null;
 
-		#region Meta
+		private const float MAP_MAX_X = 17.3f;
+
+		private const float MAP_MAX_Y = 15.6913f;
+
+		private const float MAP_MIN_X = -24.16f;
+
+		private const float MAP_MIN_Y = -12.58548f;
+
+		private const int MAPS_TRIGGER = 3;
+
+		private static int _convoCounter = 0;
+
+		private List<GameObject> _objectsToDisable = new List<GameObject>();
+
+		public static MapModS Instance {
+			get; private set;
+		}
+
+		public override ModSettings SaveSettings {
+			get => Settings ??= new SaveSettings();
+			set => Settings = value is SaveSettings saveSettings ? saveSettings : Settings;
+		}
+
+		public SaveSettings Settings { get; private set; } = new SaveSettings();
+
+		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
+
+		internal PinGroup PinGroupInstance => PinGroupGO?.GetComponent<PinGroup>();
 
 		public override string GetVersion() {
 			string ver = "1.1.0 DEBUG"; //If you update this, please also update the README.
@@ -24,151 +52,6 @@ namespace RandoMapMod {
 			}
 
 			return ver;
-		}
-
-		#endregion Meta
-
-		public static MapModS Instance {
-			get; private set;
-		}
-
-		#region Private Non-Methods
-
-		private const float MAP_MAX_X = 17.3f;
-		private const float MAP_MAX_Y = 15.6913f;
-		private const float MAP_MIN_X = -24.16f;
-		private const float MAP_MIN_Y = -12.58548f;
-		private const int MAPS_TRIGGER = 3;
-		private static int _convoCounter = 0;
-
-		private List<GameObject> _objectsToDisable = new List<GameObject>();
-
-		#endregion Private Non-Methods
-
-		#region Non-Private Non-Methods
-
-		internal GameObject PinGroupGO = null;
-		public SaveSettings Settings { get; private set; } = new SaveSettings();
-		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
-		internal PinGroup PinGroupInstance => PinGroupGO?.GetComponent<PinGroup>();
-
-		#endregion Non-Private Non-Methods
-
-		#region Public Methods
-
-		//internal static void ReloadGameMapPins() {
-		//	try {
-		//		GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
-		//		// Change PinDataDictionary during run-time! Used for editing pin positions while the game is running
-		//		ResourceLoader.ReloadPinData();
-		//		Instance.PinGroupInstance.RefreshPins(gameMap);
-
-		//	} catch (Exception e) {
-		//		Instance.LogError(e);
-		//	}
-		//}
-
-		//internal static void GetAllMapNames() {
-		//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-		//	foreach (GameObject go in allObjects) {
-		//		if (go.name == "Inventory") {
-		//			foreach (Transform invObj in go.transform) {
-		//				Instance.Log($"- {invObj.gameObject.name}");
-		//				foreach (Transform invObj1 in invObj.transform) {
-		//					Instance.Log($"- - {invObj1.gameObject.name}");
-		//					if (invObj1.gameObject.name == "World Map") {
-		//						foreach (Transform invObj2 in invObj1.transform) {
-		//							Instance.Log($"- - - {invObj2.gameObject.name}");
-		//							foreach (Transform invObj3 in invObj2.transform) {
-		//								Instance.Log($"- - - - {invObj3.gameObject.name}");
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
-		//	}
-		//}
-
-		//GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
-		//foreach (Transform areaObj in gameMap.transform) {
-		//	DebugLog.Log($"{areaObj.gameObject.name}");
-		//	foreach (Transform roomObj in areaObj.transform) {
-		//		DebugLog.Log($"- {roomObj.gameObject.name}");
-		//	}
-		//}
-		//}
-
-		//	internal static void GetAllActiveObjects() {
-		//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-		//	foreach (GameObject go in allObjects) {
-		//		if (go.activeInHierarchy) {
-		//			Instance.Log(go.name + " is an active object");
-		//		}
-		//	}
-		//}
-
-		// This needs to be done once every game load when you don't have Quill, otherwise the map will be broken
-		internal static void ForceMapUpdate() {
-			PlayerData pd = PlayerData.instance;
-
-			if (!pd.hasQuill) {
-				try {
-					// Give Quill, because it's required to...
-					pd.SetBool(nameof(pd.hasQuill), true);
-
-					// ... uncover the full map
-					GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
-					gameMap.SetupMap();
-
-					// Remove Quill
-					pd.SetBool(nameof(pd.hasQuill), false);
-				} catch (Exception e) {
-					Instance.LogError($"Map object not found: {e}");
-				}
-			}
-		}
-
-		internal static void GiveAllMaps(string from) {
-			if (!Instance.Settings.MapsGiven) {
-				Instance.Log($"Maps granted from {from}");
-
-				PlayerData pd = PlayerData.instance;
-				Type playerData = typeof(PlayerData);
-
-				// Give the maps to the player
-				pd.SetBool(nameof(pd.hasMap), true);
-
-				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
-					pd.SetBool(field.Name, true);
-				}
-
-				ForceMapUpdate();
-
-				// Set cornifer as having left all the areas. This could be condensed into the previous foreach for one less GetFields(), but I value the clarity more.
-				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
-					pd.SetBool(field.Name, true);
-				}
-
-				// Set Cornifer as sleeping at home
-				pd.SetBool(nameof(pd.corniferAtHome), true);
-
-				Instance.Settings.MapsGiven = true;
-
-				GUIController.Setup();
-				GUIController.Instance.BuildMenus();
-
-				GameManager.instance.SaveGame();
-			}
-		}
-
-		#endregion Public Methods
-
-		#region <Mod> Overrides
-
-		public override ModSettings SaveSettings {
-			get => Settings ??= new SaveSettings();
-			set => Settings = value is SaveSettings saveSettings ? saveSettings : Settings;
 		}
 
 		public override void Initialize() {
@@ -209,17 +92,6 @@ namespace RandoMapMod {
 			Instance.Log("RandoMapMod Initialize complete!");
 		}
 
-		#endregion <Mod> Overrides
-
-		#region Private Methods
-
-		private void _DisableVanillaMapAssets() {
-			foreach (GameObject go in _objectsToDisable) {
-				go.transform.localPosition = new Vector3(0, 0, 10);
-				go.SetActive(false);
-			}
-		}
-
 		private void _FindObjectsToDisable() {
 			_objectsToDisable.Clear();
 
@@ -248,6 +120,13 @@ namespace RandoMapMod {
 			}
 		}
 
+		private void _DisableVanillaMapAssets() {
+			foreach (GameObject go in _objectsToDisable) {
+				go.transform.localPosition = new Vector3(0, 0, 10);
+				go.SetActive(false);
+			}
+		}
+
 		private void _BrummFlamePin_Enable(On.BrummFlamePin.orig_OnEnable orig, BrummFlamePin self) {
 			orig(self);
 			if (Instance.Settings.MapsGiven) {
@@ -269,6 +148,18 @@ namespace RandoMapMod {
 			}
 		}
 
+		private void _GameMap_SetupMapMarkers(On.GameMap.orig_SetupMapMarkers orig, GameMap self) {
+			orig(self);
+
+			if (!IsRando) {
+				return;
+			}
+
+			this.PinGroupInstance.Show();
+			ForceMapUpdate();
+			Instance.PinGroupInstance.SetPinGroups();
+		}
+
 		private void _GameMap_DisableMarkers(On.GameMap.orig_DisableMarkers orig, GameMap self) {
 			if (!IsRando) {
 				orig(self);
@@ -280,6 +171,87 @@ namespace RandoMapMod {
 				Instance.Log($"Failed to DisableMarkers {e.Message}");
 			}
 			orig(self);
+		}
+
+		// Everything for initializing stuff *per game load* is here
+		private void _GameMap_Start(On.GameMap.orig_Start orig, GameMap self) {
+			Instance.Log("GameMap_Start");
+			if (!IsRando) {
+				orig(self);
+				return;
+			}
+
+			try {
+				Instance.Log("Emptying out HelperData on game start.");
+
+				_FindObjectsToDisable();
+
+				_DisableVanillaMapAssets();
+
+				//GetAllMapNames();
+
+				// This will refresh the spoiler pools if a different game is loaded
+				ResourceLoader.FindSpoilerPools();
+
+				// Create the custom pin group, and add all the new pins
+				// The pins are preserved between loading different games
+				// ie. one PinGroup every time Hollow Knight is opened
+				if (this.PinGroupGO == null) {
+					Instance.Log("First Setup. Adding Pin Group and Populating...");
+					this.PinGroupGO = new GameObject($"Map Mod Pin Group");
+					this.PinGroupGO.AddComponent<PinGroup>();
+					this.PinGroupGO.transform.SetParent(self.transform);
+
+					foreach (KeyValuePair<string, PinData> entry in ResourceLoader.PinDataDictionary) {
+						string itemName = entry.Key;
+						PinData pin = entry.Value;
+
+						if (!pin.NotPin) {
+							this.PinGroupInstance.AddPinToRoom(pin, self);
+						}
+					}
+				}
+
+				PinGroupInstance.InitializePinGroups();
+				PinGroupInstance.SetSprites();
+				PinGroupInstance.FindRandomizedGroups();
+
+				// Set up UI and hotkeys
+				InputListener.InstantiateSingleton();
+
+				if (Instance.Settings.MapsGiven) {
+					GUIController.Setup();
+					GUIController.Instance.BuildMenus();
+				}
+			} catch (Exception e) {
+				Instance.LogError($"Error: {e}");
+			}
+
+			Instance.Log("Finished.");
+			orig(self);
+		}
+
+		private void _GameMap_WorldMap(On.GameMap.orig_WorldMap orig, GameMap self) {
+			orig(self);
+
+			if (!IsRando) {
+				return;
+			}
+
+			_DisableVanillaMapAssets();
+
+			// Check reachable, item picked up, etc.
+			Instance.PinGroupInstance.SetPinStates("WorldMap");
+
+			// Set the maximum scroll boundaries, so we can scroll the entire map, even if we don't have the maps unlocked.
+			if (self.panMinX > MAP_MIN_X)
+				self.panMinX = MAP_MIN_X;
+			if (self.panMaxX < MAP_MAX_X)
+				self.panMaxX = MAP_MAX_X;
+			if (self.panMinY > MAP_MIN_Y)
+				self.panMinY = MAP_MIN_Y;
+			if (self.panMaxY < MAP_MAX_Y)
+				self.panMaxY = MAP_MAX_Y;
 		}
 
 		private void _GameMap_QuickMapAncientBasin(On.GameMap.orig_QuickMapAncientBasin orig, GameMap self) {
@@ -366,97 +338,58 @@ namespace RandoMapMod {
 			_DisableVanillaMapAssets();
 		}
 
-		private void _GameMap_SetupMapMarkers(On.GameMap.orig_SetupMapMarkers orig, GameMap self) {
-			orig(self);
+		// This needs to be done once every game load when you don't have Quill, otherwise the map will be broken
+		internal static void ForceMapUpdate() {
+			PlayerData pd = PlayerData.instance;
 
-			if (!IsRando) {
-				return;
+			if (!pd.hasQuill) {
+				try {
+					// Give Quill, because it's required to...
+					pd.SetBool(nameof(pd.hasQuill), true);
+
+					// ... uncover the full map
+					GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+					gameMap.SetupMap();
+
+					// Remove Quill
+					pd.SetBool(nameof(pd.hasQuill), false);
+				} catch (Exception e) {
+					Instance.LogError($"Map object not found: {e}");
+				}
 			}
-
-			this.PinGroupInstance.Show();
-			ForceMapUpdate();
-			Instance.PinGroupInstance.SetPinGroups();
 		}
 
-		// Everything for initializing stuff *per game load* is here
-		private void _GameMap_Start(On.GameMap.orig_Start orig, GameMap self) {
-			Instance.Log("GameMap_Start");
-			if (!IsRando) {
-				orig(self);
-				return;
-			}
+		internal static void GiveAllMaps(string from) {
+			if (!Instance.Settings.MapsGiven) {
+				Instance.Log($"Maps granted from {from}");
 
-			try {
-				Instance.Log("Emptying out HelperData on game start.");
+				PlayerData pd = PlayerData.instance;
+				Type playerData = typeof(PlayerData);
 
-				_FindObjectsToDisable();
+				// Give the maps to the player
+				pd.SetBool(nameof(pd.hasMap), true);
 
-				_DisableVanillaMapAssets();
-
-				//GetAllMapNames();
-
-				// This will refresh the spoiler pools if a different game is loaded
-				ResourceLoader.FindSpoilerPools();
-
-				// Create the custom pin group, and add all the new pins
-				// The pins are preserved between loading different games
-				// ie. one PinGroup every time Hollow Knight is opened
-				if (this.PinGroupGO == null) {
-					Instance.Log("First Setup. Adding Pin Group and Populating...");
-					this.PinGroupGO = new GameObject($"Map Mod Pin Group");
-					this.PinGroupGO.AddComponent<PinGroup>();
-					this.PinGroupGO.transform.SetParent(self.transform);
-
-					foreach (KeyValuePair<string, PinData> entry in ResourceLoader.PinDataDictionary) {
-						string itemName = entry.Key;
-						PinData pin = entry.Value;
-
-						if (!pin.NotPin) {
-							this.PinGroupInstance.AddPinToRoom(pin, self);
-						}
-					}
+				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
+					pd.SetBool(field.Name, true);
 				}
 
-				PinGroupInstance.InitializePinGroups();
-				PinGroupInstance.SetSprites();
-				PinGroupInstance.FindRandomizedGroups();
+				ForceMapUpdate();
 
-				// Set up UI and hotkeys
-				InputListener.InstantiateSingleton();
-
-				if (Instance.Settings.MapsGiven) {
-					GUIController.Setup();
-					GUIController.Instance.BuildMenus();
+				// Set cornifer as having left all the areas. This could be condensed into the previous foreach for one less GetFields(), but I value the clarity more.
+				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
+					pd.SetBool(field.Name, true);
 				}
-			} catch (Exception e) {
-				Instance.LogError($"Error: {e}");
+
+				// Set Cornifer as sleeping at home
+				pd.SetBool(nameof(pd.corniferAtHome), true);
+
+				Instance.Settings.MapsGiven = true;
+
+				GUIController.Setup();
+				GUIController.Instance.BuildMenus();
+
+				GameManager.instance.SaveGame();
 			}
-
-			Instance.Log("Finished.");
-			orig(self);
-		}
-
-		private void _GameMap_WorldMap(On.GameMap.orig_WorldMap orig, GameMap self) {
-			orig(self);
-
-			if (!IsRando) {
-				return;
-			}
-
-			_DisableVanillaMapAssets();
-
-			// Check reachable, item picked up, etc.
-			Instance.PinGroupInstance.SetPinStates("WorldMap");
-
-			// Set the maximum scroll boundaries, so we can scroll the entire map, even if we don't have the maps unlocked.
-			if (self.panMinX > MAP_MIN_X)
-				self.panMinX = MAP_MIN_X;
-			if (self.panMaxX < MAP_MAX_X)
-				self.panMaxX = MAP_MAX_X;
-			if (self.panMinY > MAP_MIN_Y)
-				self.panMinY = MAP_MIN_Y;
-			if (self.panMaxY < MAP_MAX_Y)
-				self.panMaxY = MAP_MAX_Y;
 		}
 
 		private string _HandleLanguageGet(string key, string sheetTitle) {
@@ -543,10 +476,6 @@ namespace RandoMapMod {
 			}
 		}
 
-		#endregion Private Methods
-
-		#region Mastercard
-
 		private class ElderbugIsACoolDude : FsmStateAction {
 
 			public override void OnEnter() {
@@ -557,7 +486,57 @@ namespace RandoMapMod {
 				Finish();
 			}
 		}
-
-		#endregion Mastercard
 	}
+
+	//internal static void ReloadGameMapPins() {
+	//	try {
+	//		GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+	//		// Change PinDataDictionary during run-time! Used for editing pin positions while the game is running
+	//		ResourceLoader.ReloadPinData();
+	//		Instance.PinGroupInstance.RefreshPins(gameMap);
+
+	//	} catch (Exception e) {
+	//		Instance.LogError(e);
+	//	}
+	//}
+
+	//internal static void GetAllMapNames() {
+	//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+	//	foreach (GameObject go in allObjects) {
+	//		if (go.name == "Inventory") {
+	//			foreach (Transform invObj in go.transform) {
+	//				Instance.Log($"- {invObj.gameObject.name}");
+	//				foreach (Transform invObj1 in invObj.transform) {
+	//					Instance.Log($"- - {invObj1.gameObject.name}");
+	//					if (invObj1.gameObject.name == "World Map") {
+	//						foreach (Transform invObj2 in invObj1.transform) {
+	//							Instance.Log($"- - - {invObj2.gameObject.name}");
+	//							foreach (Transform invObj3 in invObj2.transform) {
+	//								Instance.Log($"- - - - {invObj3.gameObject.name}");
+	//							}
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+
+	//GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+	//foreach (Transform areaObj in gameMap.transform) {
+	//	DebugLog.Log($"{areaObj.gameObject.name}");
+	//	foreach (Transform roomObj in areaObj.transform) {
+	//		DebugLog.Log($"- {roomObj.gameObject.name}");
+	//	}
+	//}
+	//}
+
+	//	internal static void GetAllActiveObjects() {
+	//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+	//	foreach (GameObject go in allObjects) {
+	//		if (go.activeInHierarchy) {
+	//			Instance.Log(go.name + " is an active object");
+	//		}
+	//	}
+	//}
 }

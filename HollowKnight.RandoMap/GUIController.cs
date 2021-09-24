@@ -14,8 +14,8 @@ namespace RandoMapMod {
 
 		private static GUIController _instance;
 
-		private GameObject _pauseCanvas;
 		private GameObject _mapCanvas;
+		private GameObject _pauseCanvas;
 
 		public static GUIController Instance {
 			get {

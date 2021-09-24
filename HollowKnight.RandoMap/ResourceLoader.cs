@@ -13,8 +13,13 @@ namespace RandoMapMod {
 	// - The Pin sprites
 	// - Data from the RandomizerMod xml files
 	internal static class ResourceLoader {
+		private static readonly Dictionary<Sprites, Sprite> _pSprites;
 
-		#region Constants
+		static ResourceLoader() {
+			_pSprites = new Dictionary<Sprites, Sprite>();
+			_LoadMapModAssets();
+			_LoadRandoModAssets();
+		}
 
 		public enum Sprites {
 			oldGeoRock,
@@ -52,85 +57,7 @@ namespace RandoMapMod {
 			Vessel,
 		}
 
-		#endregion Constants
-
-		#region Constructors
-
-		static ResourceLoader() {
-			_pSprites = new Dictionary<Sprites, Sprite>();
-			_LoadMapModAssets();
-			_LoadRandoModAssets();
-		}
-
-		#endregion Constructors
-
-		#region Private Non-Methods
-
-		private static readonly Dictionary<Sprites, Sprite> _pSprites;
-
-		#endregion Private Non-Methods
-
-		#region Non-Private Non-Methods
-
 		public static Dictionary<string, PinData> PinDataDictionary { get; set; }
-
-		#endregion Non-Private Non-Methods
-
-		#region Non-Private Methods
-
-		// This method finds the spoiler item pools corresponding to each Pin, using RandomizerMod's ItemPlacements array
-		public static void FindSpoilerPools() {
-			foreach (KeyValuePair<string, PinData> entry in PinDataDictionary) {
-				string vanillaItem = entry.Key;
-				string spoilerItem;
-				PinData pinD = entry.Value;
-
-				// First check if this is a shop pin
-				if (pinD.IsShop) {
-					pinD.VanillaPool = "Shop";
-					pinD.SpoilerPool = "Shop";
-					spoilerItem = vanillaItem;
-
-					// Then check if this item is randomized
-				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
-					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
-					spoilerItem = itemLocationPair.Item1;
-
-					// If spoilerItem's in the PinDataDictionary, use that Value
-					if (PinDataDictionary.ContainsKey(spoilerItem)) {
-						pinD.SpoilerPool = PinDataDictionary[spoilerItem].VanillaPool;
-
-						// Items that are not in RandomizerMod's xml files but are created during randomization
-					} else if (Dictionaries.IsClonedItem(spoilerItem)) {
-						pinD.SpoilerPool = Dictionaries.GetPoolFromClonedItem(spoilerItem);
-
-						// For cursed mode
-					} else if (spoilerItem.StartsWith("1_Geo") || spoilerItem.StartsWith("Lumafly_Escape")) {
-						pinD.SpoilerPool = "Rock";
-
-						// Nothing should end up here!
-					} else {
-						pinD.SpoilerPool = pinD.VanillaPool;
-						MapModS.Instance.LogWarn($"Item in RandomizerMod not recognized: {vanillaItem} -> {spoilerItem}, {pinD.VanillaPool}");
-					}
-
-					// Don't create the Pin if it is not recognized by RandomizerMod
-				} else if (pinD.VanillaPool == "") {
-					spoilerItem = vanillaItem;
-					pinD.SpoilerPool = pinD.VanillaPool;
-					pinD.NotPin = true;
-
-					// These items are recognized by RandomizerMod, but not randomized
-				} else {
-					spoilerItem = vanillaItem;
-					pinD.SpoilerPool = pinD.VanillaPool;
-				}
-
-				//MapModS.Instance.Log($"{vanillaItem} -> {spoilerItem}, {pinD.VanillaPool} -> {pinD.SpoilerPool}");
-			}
-
-			return;
-		}
 
 		internal static Sprite GetSprite(Sprites pSpriteName) {
 			if (_pSprites.TryGetValue(pSpriteName, out Sprite sprite)) {
@@ -227,9 +154,34 @@ namespace RandoMapMod {
 			return GetSprite(sid);
 		}
 
-		#endregion Non-Private Methods
+		private static void _LoadRandoModAssets() {
+			static void __ParseItems(XmlDocument xml) => _LoadItemData(xml.SelectNodes("randomizer/item"));
 
-		#region Private Methods
+			Assembly randoDLL = typeof(RandomizerMod.RandomizerMod).Assembly;
+			Dictionary<string, Action<XmlDocument>> resourceProcessors = new Dictionary<string, Action<XmlDocument>>
+			{
+				{"items.xml", __ParseItems},
+				{"rocks.xml", __ParseItems},
+				{"soul_lore.xml", __ParseItems},
+			};
+			foreach (string resource in randoDLL.GetManifestResourceNames()) {
+				foreach (string resourceEnding in resourceProcessors.Keys) {
+					if (resource.EndsWith(resourceEnding)) {
+						MapModS.Instance.Log($"Loading data from {nameof(RandomizerMod)}'s {resource} file.");
+						try {
+							using (Stream stream = randoDLL.GetManifestResourceStream(resource)) {
+								XmlDocument xml = new XmlDocument();
+								xml.Load(stream);
+								resourceProcessors[resourceEnding].Invoke(xml);
+							}
+						} catch (Exception e) {
+							MapModS.Instance.LogError($"{resourceEnding} Load Failed!\n{e}");
+						}
+						break;
+					}
+				}
+			}
+		}
 
 		private static void _LoadItemData(XmlNodeList nodes) {
 			foreach (XmlNode node in nodes) {
@@ -380,36 +332,59 @@ namespace RandoMapMod {
 			return retVal;
 		}
 
-		private static void _LoadRandoModAssets() {
-			static void __ParseItems(XmlDocument xml) => _LoadItemData(xml.SelectNodes("randomizer/item"));
+		// This method finds the spoiler item pools corresponding to each Pin, using RandomizerMod's ItemPlacements array
+		public static void FindSpoilerPools() {
+			foreach (KeyValuePair<string, PinData> entry in PinDataDictionary) {
+				string vanillaItem = entry.Key;
+				string spoilerItem;
+				PinData pinD = entry.Value;
 
-			Assembly randoDLL = typeof(RandomizerMod.RandomizerMod).Assembly;
-			Dictionary<string, Action<XmlDocument>> resourceProcessors = new Dictionary<string, Action<XmlDocument>>
-			{
-				{"items.xml", __ParseItems},
-				{"rocks.xml", __ParseItems},
-				{"soul_lore.xml", __ParseItems},
-			};
-			foreach (string resource in randoDLL.GetManifestResourceNames()) {
-				foreach (string resourceEnding in resourceProcessors.Keys) {
-					if (resource.EndsWith(resourceEnding)) {
-						MapModS.Instance.Log($"Loading data from {nameof(RandomizerMod)}'s {resource} file.");
-						try {
-							using (Stream stream = randoDLL.GetManifestResourceStream(resource)) {
-								XmlDocument xml = new XmlDocument();
-								xml.Load(stream);
-								resourceProcessors[resourceEnding].Invoke(xml);
-							}
-						} catch (Exception e) {
-							MapModS.Instance.LogError($"{resourceEnding} Load Failed!\n{e}");
-						}
-						break;
+				// First check if this is a shop pin
+				if (pinD.IsShop) {
+					pinD.VanillaPool = "Shop";
+					pinD.SpoilerPool = "Shop";
+					spoilerItem = vanillaItem;
+
+					// Then check if this item is randomized
+				} else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem)) {
+					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
+					spoilerItem = itemLocationPair.Item1;
+
+					// If spoilerItem's in the PinDataDictionary, use that Value
+					if (PinDataDictionary.ContainsKey(spoilerItem)) {
+						pinD.SpoilerPool = PinDataDictionary[spoilerItem].VanillaPool;
+
+						// Items that are not in RandomizerMod's xml files but are created during randomization
+					} else if (Dictionaries.IsClonedItem(spoilerItem)) {
+						pinD.SpoilerPool = Dictionaries.GetPoolFromClonedItem(spoilerItem);
+
+						// For cursed mode
+					} else if (spoilerItem.StartsWith("1_Geo") || spoilerItem.StartsWith("Lumafly_Escape")) {
+						pinD.SpoilerPool = "Rock";
+
+						// Nothing should end up here!
+					} else {
+						pinD.SpoilerPool = pinD.VanillaPool;
+						MapModS.Instance.LogWarn($"Item in RandomizerMod not recognized: {vanillaItem} -> {spoilerItem}, {pinD.VanillaPool}");
 					}
-				}
-			}
-		}
 
-		#endregion Private Methods
+					// Don't create the Pin if it is not recognized by RandomizerMod
+				} else if (pinD.VanillaPool == "") {
+					spoilerItem = vanillaItem;
+					pinD.SpoilerPool = pinD.VanillaPool;
+					pinD.NotPin = true;
+
+					// These items are recognized by RandomizerMod, but not randomized
+				} else {
+					spoilerItem = vanillaItem;
+					pinD.SpoilerPool = pinD.VanillaPool;
+				}
+
+				//MapModS.Instance.Log($"{vanillaItem} -> {spoilerItem}, {pinD.VanillaPool} -> {pinD.SpoilerPool}");
+			}
+
+			return;
+		}
 
 		//// This stuff was used to update pin positions during run time
 		//private static string _pinPath = "";

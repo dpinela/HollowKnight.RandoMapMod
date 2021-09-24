@@ -9,10 +9,10 @@ namespace RandoMapMod {
 
 		private static CanvasPanel _mapDisplayPanel;
 
+		private static string _textOthers = "ERROR";
+		private static string _textRandomized = "ERROR";
 		private static string _textSpoilers = "ERROR";
 		private static string _textStyle = "ERROR";
-		private static string _textRandomized = "ERROR";
-		private static string _textOthers = "ERROR";
 
 		public static void BuildText(GameObject _canvas) {
 			Canvas = _canvas;
@@ -30,6 +30,13 @@ namespace RandoMapMod {
 			BuildText(Canvas);
 			_mapDisplayPanel.SetActive(false, true); // collapse all subpanels
 			_mapDisplayPanel.SetActive(true, false);
+		}
+
+		public static void SetTexts() {
+			_SetSpoilers();
+			_SetStyle();
+			_SetRandomized();
+			_SetOthers();
 		}
 
 		public static void Update() {
@@ -109,13 +116,6 @@ namespace RandoMapMod {
 				_mapDisplayPanel.GetText(buttonName).SetTextColor(Color.white);
 				_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "off");
 			}
-		}
-
-		public static void SetTexts() {
-			_SetSpoilers();
-			_SetStyle();
-			_SetRandomized();
-			_SetOthers();
 		}
 	}
 }
