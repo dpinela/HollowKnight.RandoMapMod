@@ -98,16 +98,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ItemPickup.cs" />
-    <Compile Include="UnityComponents\InputListener.cs" />
-    <Compile Include="DebugLog.cs" />
-    <Compile Include="GameStatus.cs" />
-    <Compile Include="UnityComponents\Pin.cs" />
+    <Compile Include="CanvasUtil\CanvasButton.cs" />
+    <Compile Include="CanvasUtil\CanvasImage.cs" />
+    <Compile Include="CanvasUtil\CanvasPanel.cs" />
+    <Compile Include="CanvasUtil\CanvasText.cs" />
+    <Compile Include="GUIController.cs" />
+    <Compile Include="InputListener.cs" />
+    <Compile Include="PauseGUI.cs" />
+    <Compile Include="Pin.cs" />
+    <Compile Include="PinGroup.cs" />
+    <Compile Include="ResourceLoader.cs" />
+    <Compile Include="Dictionaries.cs" />
     <Compile Include="PinData.cs" />
-    <Compile Include="UnityComponents\PinGroup.cs" />
     <Compile Include="MapModS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SaveSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +158,22 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\GUI\ButtonRect.png" />
+    <EmbeddedResource Include="Resources\GUI\ButtonRectEmpty.png" />
+    <EmbeddedResource Include="Resources\GUI\ButtonsMenuBG.png" />
+    <EmbeddedResource Include="Resources\GUI\DropdownBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Map\pinUnknown_GeoRock.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_GeoRockInv.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_Grub.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_GrubInv.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_Lifeblood.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_LifebloodInv.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_Totem.png" />
+    <EmbeddedResource Include="Resources\Map\pinUnknown_TotemInv.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

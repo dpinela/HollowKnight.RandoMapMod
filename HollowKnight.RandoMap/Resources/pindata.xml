@@ -22,7 +22,7 @@
 		<offsetZ>0.1</offsetZ>
 	</pin>
 	<pin name="Dreamer">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 
 	<!--Skills-->
@@ -56,18 +56,10 @@
 		<offsetY>-0.2</offsetY>
 	</pin>
 	<pin name="Dream_Gate">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>2.1</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.4</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Awoken_Dream_Nail">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>3.3</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.7</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Vengeful_Spirit">
 		<pinScene>Crossroads_06</pinScene>
@@ -112,41 +104,24 @@
 		<offsetY>0</offsetY>
 	</pin>
 	<pin name="Focus">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Swim">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	
 	<!--Charms-->
 	<pin name="Gathering_Swarm">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-0.9</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.4</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Wayward_Compass">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>2</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.5</offsetZ>
-		<!--<isShop>true</isShop>-->
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Grubsong">
-		<hidePin>true</hidePin>
-		<offsetX>-0.6</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Stalwart_Shell">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-0.5</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.5</offsetZ>
-		<!--<isShop>true</isShop>-->
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Baldur_Shell">
 		<offsetX>0.2</offsetX>
@@ -158,19 +133,10 @@
 		<offsetZ>0.1</offsetZ>
 	</pin>
 	<pin name="Quick_Focus">
-		<hidePin>true</hidePin>
-		<pinScene>Crossroads_04</pinScene>
-		<offsetX>0.6</offsetX>
-		<offsetY>-1</offsetY>
-		<offsetZ>0.4</offsetZ>
-		<!--<isShop>true</isShop>-->
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Lifeblood_Heart">
-		<hidePin>true</hidePin>
-		<pinScene>Crossroads_04</pinScene>
-		<offsetX>-1</offsetX>
-		<offsetY>-1</offsetY>
-		<offsetZ>0</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Lifeblood_Core">
 		<offsetX>0.4</offsetX>
@@ -194,18 +160,10 @@
 		<offsetZ>0</offsetZ>
 	</pin>
 	<pin name="Steady_Body">
-		<hidePin>true</hidePin>
-		<pinScene>Crossroads_04</pinScene>
-		<offsetX>-0.2</offsetX>
-		<offsetY>-1</offsetY>
-		<offsetZ>0.2</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Heavy_Blow">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-0.5</offsetX>
-		<offsetY>2.4</offsetY>
-		<offsetZ>0.5</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Sharp_Shadow">
 		<offsetX>0</offsetX>
@@ -216,18 +174,10 @@
 		<offsetY>-0.25</offsetY>
 	</pin>
 	<pin name="Longnail">
-		<hidePin>true</hidePin>
-		<pinScene>Crossroads_04</pinScene>
-		<offsetX>-0.6</offsetX>
-		<offsetY>-1</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Shaman_Stone">
-		<hidePin>true</hidePin>
-		<pinScene>Crossroads_04</pinScene>
-		<offsetX>0.2</offsetX>
-		<offsetY>-1</offsetY>
-		<offsetZ>0.3</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Soul_Catcher">
 		<pinScene>Crossroads_06</pinScene>
@@ -244,19 +194,13 @@
 		<offsetY>0.05</offsetY>
 	</pin>
 	<pin name="Fragile_Heart">
-		<hidePin>true</hidePin>
-		<offsetY>0.2</offsetY>
-		<offsetZ>0.05</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Fragile_Greed">
-		<hidePin>true</hidePin>
-		<offsetY>0.4</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Fragile_Strength">
-		<hidePin>true</hidePin>
-		<offsetX>0.4</offsetX>
-		<!--<isShop>true</isShop>-->
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Nailmaster's_Glory">
 		<pinScene>Town</pinScene>
@@ -277,11 +221,7 @@
 		<offsetY>-0.25</offsetY>
 	</pin>
 	<pin name="Dream_Wielder">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>1.3</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.2</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Dashmaster">
 		<offsetX>-0.4</offsetX>
@@ -300,10 +240,7 @@
 		<offsetY>-0.05</offsetY>
 	</pin>
 	<pin name="Grubberfly's_Elegy">
-		<hidePin>true</hidePin>
-		<offsetX>1.4</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0.6</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Queen_Fragment">
 		<pinScene>Fungus3_48</pinScene>
@@ -322,12 +259,7 @@
 		<offsetY>-4.0</offsetY>
 	</pin>
 	<pin name="Sprintmaster">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-2.5</offsetX>
-		<offsetY>2.4</offsetY>
-		<offsetZ>0</offsetZ>
-		<!--<isShop>true</isShop>-->
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Dreamshield">
 		<offsetX>-0.6</offsetX>
@@ -350,22 +282,14 @@
 		<offsetY>-0.1</offsetY>
 	</pin>
 	<pin name="Lumafly_Lantern">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-0.1</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.6</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Tram_Pass">
 		<offsetX>-0.7</offsetX>
 		<offsetY>-0.25</offsetY>
 	</pin>
 	<pin name="Simple_Key-Sly">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-1.3</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.3</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Simple_Key-Basin">
 		<offsetX>-1</offsetX>
@@ -384,11 +308,7 @@
 		<offsetY>0.35</offsetY>
 	</pin>
 	<pin name="Elegant_Key">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-0.9</offsetX>
-		<offsetY>2.4</offsetY>
-		<offsetZ>0.4</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Love_Key">
 		<offsetX>1.1</offsetX>
@@ -410,45 +330,22 @@
 
 	<!--Mask Shards-->
 	<pin name="Mask_Shard-Sly1">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-2.5</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Sly2">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-2.1</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Sly3">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-2.1</offsetX>
-		<offsetY>2.4</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Sly4">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-1.7</offsetX>
-		<offsetY>2.4</offsetY>
-		<offsetZ>0.2</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Seer">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>2.9</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.6</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-5_Grubs">
-		<hidePin>true</hidePin>
-		<offsetX>-1</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Brooding_Mawlek">
 		<offsetX>0.5</offsetX>
@@ -457,6 +354,7 @@
 	<pin name="Mask_Shard-Crossroads_Goam">
 		<offsetX>-0.6</offsetX>
 		<offsetY>0.2</offsetY>
+		<offsetZ>0.1</offsetZ>
 	</pin>
 	<pin name="Mask_Shard-Stone_Sanctuary">
 		<pinScene>Fungus1_34</pinScene>
@@ -495,75 +393,63 @@
 		<offsetZ>0</offsetZ>
 	</pin>
 	<pin name="Mask_Shard-Start">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_2">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_3">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_4">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_5">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_6">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_7">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_8">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_9">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_10">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_11">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_12">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_13">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_14">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_15">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Mask_Shard-Start_16">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 
 	<!--Vessel Fragments-->
 	<pin name="Vessel_Fragment-Sly1">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-1.7</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.2</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Vessel_Fragment-Sly2">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>-1.3</offsetX>
-		<offsetY>2.4</offsetY>
-		<offsetZ>0.2</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Vessel_Fragment-Seer">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>1.7</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.3</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Vessel_Fragment-Greenpath">
 		<offsetX>-0.4</offsetX>
@@ -611,10 +497,10 @@
 		<offsetZ>0</offsetZ>
 	</pin>
 	<pin name="Charm_Notch-Start">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Charm_Notch-Start_2">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 
 	<!--Pale Ore-->
@@ -631,17 +517,10 @@
 		<offsetY>-0.1</offsetY>
 	</pin>
 	<pin name="Pale_Ore-Seer">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>0.9</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Pale_Ore-Grubs">
-		<hidePin>true</hidePin>
-		<offsetX>0.6</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0.4</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Pale_Ore-Colosseum">
 		<pinScene>Deepnest_East_09</pinScene>
@@ -722,25 +601,18 @@
 
 	<!--Miscellaneous-->
 	<pin name="1_Geo">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Lumafly_Escape">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	
 	<!--Rancid Eggs-->
 	<pin name="Rancid_Egg-Sly">
-		<hidePin>true</hidePin>
-		<pinScene>Town</pinScene>
-		<offsetX>0.3</offsetX>
-		<offsetY>3</offsetY>
-		<offsetZ>0.7</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Rancid_Egg-Grubs">
-		<hidePin>true</hidePin>
-		<offsetX>-0.2</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0.2</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Rancid_Egg-Sheo">
 		<offsetX>-0.65</offsetX>
@@ -880,10 +752,7 @@
 		<offsetY>0.25</offsetY>
 	</pin>
 	<pin name="Hallownest_Seal-Grubs">
-		<hidePin>true</hidePin>
-		<offsetX>0.2</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0.3</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Hallownest_Seal-Greenpath">
 		<offsetX>-1.85</offsetX>
@@ -910,11 +779,7 @@
 		<offsetZ>0.1</offsetZ>
 	</pin>
 	<pin name="Hallownest_Seal-Seer">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>0.5</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.0</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Hallownest_Seal-Resting_Grounds_Catacombs">
 		<offsetX>-0.45</offsetX>
@@ -953,10 +818,7 @@
 
 	<!--King's Idols-->
 	<pin name="King's_Idol-Grubs">
-		<hidePin>true</hidePin>
-		<offsetX>1</offsetX>
-		<offsetY>0.57</offsetY>
-		<offsetZ>0.5</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="King's_Idol-Cliffs">
 		<offsetX>-0.6</offsetX>
@@ -990,11 +852,7 @@
 
 	<!--Arcane Eggs-->
 	<pin name="Arcane_Egg-Seer">
-		<hidePin>true</hidePin>
-		<pinScene>RestingGrounds_05</pinScene>
-		<offsetX>2.5</offsetX>
-		<offsetY>3.5</offsetY>
-		<offsetZ>0.15</offsetZ>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Arcane_Egg-Lifeblood_Core">
 		<offsetX>-1.3</offsetX>
@@ -1068,7 +926,7 @@
 		<pinScene>Crossroads_06</pinScene>
 		<offsetX>-0.4</offsetX>
 		<offsetY>0.6</offsetY>
-		<offsetZ>0.6</offsetZ>
+		<offsetZ>0.5</offsetZ>
 	</pin>
 	<pin name="Whispering_Root-Hive">
 		<offsetX>0.5</offsetX>
@@ -1343,10 +1201,10 @@
 		<offsetY>-0.4</offsetY>
 	</pin>
 	<pin name="Grub">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name ="Mimic_Grub">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	
 		<!--Maps-->
@@ -1560,63 +1418,63 @@
 
 	<!--Elevator Pass-->
 	<pin name="Elevator_Pass">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 
 	<!--Split Cloak-->
 	<pin name="Left_Mothwing_Cloak">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Right_Mothwing_Cloak">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Left_Shade_Cloak">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Right_Shade_Cloak">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Split_Mothwing_Cloak">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	
 	<!--Split Claw-->
 	<pin name="Left_Mantis_Claw">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Right_Mantis_Claw">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	
 	<!--Nail directions-->
 	<pin name="Leftslash">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Rightslash">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Upslash">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 
 	<!--Egg Shop-->
 	<pin name="450_Geo-Egg_Shop_1">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="450_Geo-Egg_Shop_2">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="450_Geo-Egg_Shop_3">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="450_Geo-Egg_Shop_4">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="450_Geo-Egg_Shop_5">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Rancid_Egg">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 
 	<!--Geo Rocks-->
@@ -1756,7 +1614,7 @@
 	<pin name="Geo_Rock-Crossroads_Below_Goam_Mask_Shard">
 		<offsetX>-0.6</offsetX>
 		<offsetY>-0.1</offsetY>
-		<offsetZ>0.1</offsetZ>
+		<offsetZ>0</offsetZ>
 	</pin>
 	<pin name="Geo_Rock-Crossroads_After_Goam_Mask_Shard">
 		<offsetX>0.6</offsetX>
@@ -3037,11 +2895,13 @@
 	<!--Shop Pins-->
 	<pin name="Grubfather">
 		<pinScene>Crossroads_38</pinScene>
+		<mapArea>Forgotten_Crossroads</mapArea>
 		<offsetY>-0.2</offsetY>
 		<isShop>true</isShop>
 	</pin>
 	<pin name="Iselda">
 		<pinScene>Town</pinScene>
+		<mapArea>Dirtmouth</mapArea>
 		<offsetX>0.4</offsetX>
 		<offsetY>-0.2</offsetY>
 		<offsetZ>-0.1</offsetZ>
@@ -3049,24 +2909,35 @@
 	</pin>
 	<pin name="Jiji">
 		<pinScene>Town</pinScene>
+		<mapArea>Dirtmouth</mapArea>
 		<offsetX>2.7</offsetX>
 		<offsetY>-0.6</offsetY>
 		<isShop>true</isShop>
 	</pin>
 	<pin name="Leg_Eater">
 		<pinScene>Fungus2_26</pinScene>
+		<mapArea>Fungal_Wastes</mapArea>
 		<offsetX>0.5</offsetX>
 		<offsetY>0</offsetY>
 		<isShop>true</isShop>
 	</pin>
+	<pin name="Salubra">
+		<pinScene>Crossroads_04</pinScene>
+		<mapArea>Forgotten_Crossroads</mapArea>
+		<offsetX>1.35</offsetX>
+		<offsetY>-0.1</offsetY>
+		<isShop>true</isShop>
+	</pin>
 	<pin name="Seer">
 		<pinScene>RestingGrounds_05</pinScene>
+		<mapArea>Resting_Grounds</mapArea>
 		<offsetX>-0.9</offsetX>
 		<offsetY>0.9</offsetY>
 		<isShop>true</isShop>
 	</pin>
 	<pin name="Sly">
 		<pinScene>Town</pinScene>
+		<mapArea>Dirtmouth</mapArea>
 		<offsetX>-0.45</offsetX>
 		<offsetY>-0.2</offsetY>
 		<offsetZ>-0.1</offsetZ>
@@ -3074,6 +2945,7 @@
 	</pin>
 	<pin name="Sly_(Key)">
 		<pinScene>Town</pinScene>
+		<mapArea>Dirtmouth</mapArea>
 		<offsetX>-0.45</offsetX>
 		<offsetY>0.2</offsetY>
 		<offsetZ>-0.2</offsetZ>
@@ -3082,9 +2954,9 @@
 
 	<!--Other Pins-->
 	<pin name="Equipped">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 	<pin name="Placeholder">
-		<hidePin>true</hidePin>
+		<notPin>true</notPin>
 	</pin>
 </randomap>

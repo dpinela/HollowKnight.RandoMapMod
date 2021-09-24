@@ -1,7 +1,6 @@
 ﻿using HutongGames.PlayMaker;
 using Modding;
 using RandoMapMod.UnityComponents;
-using SereCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +9,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace RandoMapMod {
+
 	public class MapModS : Mod {
+
 		#region Meta
+
 		public override string GetVersion() {
-			string ver = "1.0.6"; //If you update this, please also update the README.
+			string ver = "1.1.0 DEBUG"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
@@ -23,162 +25,89 @@ namespace RandoMapMod {
 
 			return ver;
 		}
-		#endregion
-		#region Static Stuff
-		private const int SAFE = 3;
-		private const float MAP_MIN_X = -24.16f;
-		private const float MAP_MAX_X = 17.3f;
-		private const float MAP_MIN_Y = -12.58548f;
-		private const float MAP_MAX_Y = 15.6913f;
 
-		private static int _convoCheck = 0;
-		private static bool _locked = false;
+		#endregion Meta
 
-		public static MapModS Mm {
+		public static MapModS Instance {
 			get; private set;
 		}
 
-		public static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
+		#region Private Non-Methods
 
-		internal static void ToggleGroup1() {
-			Mm.Settings.Group1On = !Mm.Settings.Group1On;
-			Mm.PinGroupInstance.Group1.SetActive(Mm.Settings.Group1On);
-		}
+		private const float MAP_MAX_X = 17.3f;
+		private const float MAP_MAX_Y = 15.6913f;
+		private const float MAP_MIN_X = -24.16f;
+		private const float MAP_MIN_Y = -12.58548f;
+		private const int MAPS_TRIGGER = 3;
+		private static int _convoCounter = 0;
 
-		internal static void ToggleGroup2() {
-			Mm.Settings.Group2On = !Mm.Settings.Group2On;
-			Mm.PinGroupInstance.Group2.SetActive(Mm.Settings.Group2On);
-		}
+		private List<GameObject> _objectsToDisable = new List<GameObject>();
 
-		internal static void ToggleGroup3() {
-			Mm.Settings.Group3On = !Mm.Settings.Group3On;
-			Mm.PinGroupInstance.Group3.SetActive(Mm.Settings.Group3On);
-		}
+		#endregion Private Non-Methods
 
-		internal static void ToggleGroup4() {
-			Mm.Settings.Group4On = !Mm.Settings.Group4On;
-			Mm.PinGroupInstance.Group4.SetActive(Mm.Settings.Group4On);
-		}
+		#region Non-Private Non-Methods
 
-		internal static void ToggleGroup5() {
-			Mm.Settings.Group5On = !Mm.Settings.Group5On;
-			Mm.PinGroupInstance.Group5.SetActive(Mm.Settings.Group5On);
-		}
+		internal GameObject PinGroupGO = null;
+		public SaveSettings Settings { get; private set; } = new SaveSettings();
+		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
+		internal PinGroup PinGroupInstance => PinGroupGO?.GetComponent<PinGroup>();
 
-		internal static void ToggleGroup6() {
-			Mm.Settings.Group6On = !Mm.Settings.Group6On;
-			Mm.PinGroupInstance.Group6.SetActive(Mm.Settings.Group6On);
-		}
+		#endregion Non-Private Non-Methods
 
-		internal static void SetAllPins() {
-			Mm.PinGroupInstance.Group1.SetActive(Mm.Settings.Group1On);
-			Mm.PinGroupInstance.Group2.SetActive(Mm.Settings.Group2On);
-			Mm.PinGroupInstance.Group3.SetActive(Mm.Settings.Group3On);
-			Mm.PinGroupInstance.Group4.SetActive(Mm.Settings.Group4On);
-			Mm.PinGroupInstance.Group5.SetActive(Mm.Settings.Group5On);
-			Mm.PinGroupInstance.Group6.SetActive(Mm.Settings.Group6On);
-		}
+		#region Public Methods
 
-		internal static void ToggleAllPins() {
-			if (!Mm.Settings.Group1On
-				&& !Mm.Settings.Group2On
-				&& !Mm.Settings.Group3On
-				&& !Mm.Settings.Group4On
-				&& !Mm.Settings.Group5On
-				&& !Mm.Settings.Group6On) {
-				Mm.Settings.Group1On = true;
-				Mm.Settings.Group2On = true;
-				Mm.Settings.Group3On = true;
-				Mm.Settings.Group4On = true;
-				Mm.Settings.Group5On = true;
-				Mm.Settings.Group6On = true;
-				SetAllPins();
-			} else {
-				Mm.Settings.Group1On = false;
-				Mm.Settings.Group2On = false;
-				Mm.Settings.Group3On = false;
-				Mm.Settings.Group4On = false;
-				Mm.Settings.Group5On = false;
-				Mm.Settings.Group6On = false;
-				SetAllPins();
-			}
+		//internal static void ReloadGameMapPins() {
+		//	try {
+		//		GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+		//		// Change PinDataDictionary during run-time! Used for editing pin positions while the game is running
+		//		ResourceLoader.ReloadPinData();
+		//		Instance.PinGroupInstance.RefreshPins(gameMap);
 
-		}
+		//	} catch (Exception e) {
+		//		Instance.LogError(e);
+		//	}
+		//}
 
-		internal static void ToggleRandoPins() {
-			Mm.Settings.SpoilerOn = !Mm.Settings.SpoilerOn;
-			Mm.Settings.UnknownOn = false;
-			Mm.PinGroupInstance.SetSpoilerSprites(Mm.Settings.SpoilerOn);
-		}
+		//internal static void GetAllMapNames() {
+		//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+		//	foreach (GameObject go in allObjects) {
+		//		if (go.name == "Inventory") {
+		//			foreach (Transform invObj in go.transform) {
+		//				Instance.Log($"- {invObj.gameObject.name}");
+		//				foreach (Transform invObj1 in invObj.transform) {
+		//					Instance.Log($"- - {invObj1.gameObject.name}");
+		//					if (invObj1.gameObject.name == "World Map") {
+		//						foreach (Transform invObj2 in invObj1.transform) {
+		//							Instance.Log($"- - - {invObj2.gameObject.name}");
+		//							foreach (Transform invObj3 in invObj2.transform) {
+		//								Instance.Log($"- - - - {invObj3.gameObject.name}");
+		//							}
+		//						}
+		//					}
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 
-		internal static void ToggleUnknownPins() {
-			Mm.Settings.UnknownOn = !Mm.Settings.UnknownOn;
-			if (Mm.Settings.UnknownOn) {
-				Mm.PinGroupInstance.SetUnknownSprites();
-			} else {
-				Mm.PinGroupInstance.SetSpoilerSprites(Mm.Settings.SpoilerOn);
-			}
-		}
+		//GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+		//foreach (Transform areaObj in gameMap.transform) {
+		//	DebugLog.Log($"{areaObj.gameObject.name}");
+		//	foreach (Transform roomObj in areaObj.transform) {
+		//		DebugLog.Log($"- {roomObj.gameObject.name}");
+		//	}
+		//}
+		//}
 
-#if DEBUG
-		internal static void ReloadGameMapPins() {
-			try {
-				GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
-				// Change PinDataDictionary during run-time! Used for editing pin positions while the game is running
-				ResourceHelper.ReloadPinData();
-				Mm.PinGroupInstance.RefreshPins(gameMap);
+		//	internal static void GetAllActiveObjects() {
+		//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+		//	foreach (GameObject go in allObjects) {
+		//		if (go.activeInHierarchy) {
+		//			Instance.Log(go.name + " is an active object");
+		//		}
+		//	}
+		//}
 
-				DebugLog.Log("Updating Pin Positions");
-			} catch (Exception e) {
-				DebugLog.Error($"Error: {e}");
-			}
-		}
-
-		internal static void GetAllMapNames() {
-			GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-			foreach (GameObject go in allObjects) {
-				//DebugLog.Log($"{go.name}");
-				if (go.name == "Inventory") {
-					foreach (Transform invObj in go.transform) {
-						DebugLog.Log($"- {invObj.gameObject.name}");
-					}
-				}
-			}
-
-			GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
-			foreach (Transform areaObj in gameMap.transform) {
-				DebugLog.Log($"{areaObj.gameObject.name}");
-				foreach (Transform roomObj in areaObj.transform) {
-					DebugLog.Log($"- {roomObj.gameObject.name}");
-				}
-			}
-		}
-#endif
-
-		internal static void DisableVanillaMapAssets() {
-			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
-				switch (go.name) {
-					case "Game_Map(Clone)":
-						foreach (Transform mapObj in go.transform) {
-							if (mapObj.gameObject.name == "Dreamer Pins"
-								|| mapObj.gameObject.name == "Flame Pins"
-								|| mapObj.gameObject.name == "Map Markers")
-								mapObj.gameObject.SetActive(false);
-						}
-						break;
-					case "Map Markers":
-						go.SetActive(false);
-						break;
-					case "Inventory":
-						foreach (Transform invObj in go.transform) {
-							if (invObj.gameObject.name == "Map Key")
-								invObj.gameObject.SetActive(false);
-						}
-						break;
-				}
-			}
-		}
-		
 		// This needs to be done once every game load when you don't have Quill, otherwise the map will be broken
 		internal static void ForceMapUpdate() {
 			PlayerData pd = PlayerData.instance;
@@ -188,21 +117,21 @@ namespace RandoMapMod {
 					// Give Quill, because it's required to...
 					pd.SetBool(nameof(pd.hasQuill), true);
 
-					// ... uncover the full map!!
+					// ... uncover the full map
 					GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
 					gameMap.SetupMap();
 
 					// Remove Quill
 					pd.SetBool(nameof(pd.hasQuill), false);
 				} catch (Exception e) {
-					DebugLog.Error($"Map object not found: {e}");
+					Instance.LogError($"Map object not found: {e}");
 				}
 			}
 		}
 
-		public static void GiveAllMaps(string from) {
-			if (!Mm.Settings.MapsGiven) {
-				DebugLog.Log($"Maps granted from {from}");
+		internal static void GiveAllMaps(string from) {
+			if (!Instance.Settings.MapsGiven) {
+				Instance.Log($"Maps granted from {from}");
 
 				PlayerData pd = PlayerData.instance;
 				Type playerData = typeof(PlayerData);
@@ -224,44 +153,37 @@ namespace RandoMapMod {
 				// Set Cornifer as sleeping at home
 				pd.SetBool(nameof(pd.corniferAtHome), true);
 
-				SetAllPins();
+				Instance.Settings.MapsGiven = true;
 
-				Mm.Settings.MapsGiven = true;
+				GUIController.Setup();
+				GUIController.Instance.BuildMenus();
+
 				GameManager.instance.SaveGame();
 			}
 		}
-		#endregion
 
-		#region Private Non-Methods
-		private ItemPickup _itemTracker;
-		#endregion
-
-		#region Non-Private Non-Methods
-		public SaveSettings Settings { get; private set; } = new SaveSettings();
-		public GameObject PinGroupGO = null;
-		public PinGroup PinGroupInstance => PinGroupGO?.GetComponent<PinGroup>();
-		#endregion
+		#endregion Public Methods
 
 		#region <Mod> Overrides
+
 		public override ModSettings SaveSettings {
 			get => Settings ??= new SaveSettings();
 			set => Settings = value is SaveSettings saveSettings ? saveSettings : Settings;
 		}
 
 		public override void Initialize() {
-
-			if (Mm != null) {
-				DebugLog.Warn("Initialized twice... Stop that.");
+			if (Instance != null) {
+				Instance.LogWarn("Initialized twice... Stop that.");
 				return;
 			}
-			Mm = this;
-			DebugLog.Log("RandoMapMod Initializing...");
+			Instance = this;
+			Instance.Log("RandoMapMod Initializing...");
 
-			On.GameMap.Start += this._GameMap_Start;                        //Set up custom pins
-			On.GameMap.WorldMap += this._GameMap_WorldMap;                  //Set big map boundaries
+			On.GameMap.Start += this._GameMap_Start;                //Set up custom pins
 			On.GameMap.SetupMapMarkers += this._GameMap_SetupMapMarkers;    //Enable the custom pins
-			On.GameMap.DisableMarkers += this._GameMap_DisableMarkers;      //Disable the custom pins
+			On.GameMap.DisableMarkers += this._GameMap_DisableMarkers;    //Disable the custom pins
 
+			On.GameMap.WorldMap += this._GameMap_WorldMap;
 			On.GameMap.QuickMapAncientBasin += this._GameMap_QuickMapAncientBasin;
 			On.GameMap.QuickMapCity += this._GameMap_QuickMapCity;
 			On.GameMap.QuickMapCliffs += this._GameMap_QuickMapCliffs;
@@ -277,116 +199,74 @@ namespace RandoMapMod {
 			On.GameMap.QuickMapRestingGrounds += this._GameMap_QuickMapRestingGrounds;
 			On.GameMap.QuickMapWaterways += this._GameMap_QuickMapWaterways;
 
-			On.GrubPin.OnEnable += this._GrubPin_Enable;                    //Disable all grub pins so we can use our own. (Only if we were given maps.)
+			On.GrubPin.OnEnable += this._GrubPin_Enable;
+			On.FlamePin.OnEnable += this._FlamePin_Enable;
+			On.BrummFlamePin.OnEnable += this._BrummFlamePin_Enable;
 
 			UnityEngine.SceneManagement.SceneManager.activeSceneChanged += _HandleSceneChanges;
 			ModHooks.Instance.LanguageGetHook += _HandleLanguageGet;
 
-			_itemTracker = new ItemPickup();
-
-			DebugLog.Log("RandoMapMod Initialize complete!");
+			Instance.Log("RandoMapMod Initialize complete!");
 		}
-		#endregion
+
+		#endregion <Mod> Overrides
 
 		#region Private Methods
-		private void _GameMap_Start(On.GameMap.orig_Start orig, GameMap self) {
-			DebugLog.Log("GameMap_Start");
-			if (!IsRando) {
-				orig(self);
-				return;
+
+		private void _DisableVanillaMapAssets() {
+			foreach (GameObject go in _objectsToDisable) {
+				go.transform.localPosition = new Vector3(0, 0, 10);
+				go.SetActive(false);
 			}
+		}
 
-			try {
-				DebugLog.Log("Emptying out HelperData on game start.");
+		private void _FindObjectsToDisable() {
+			_objectsToDisable.Clear();
 
-				DisableVanillaMapAssets();
-#if DEBUG
-				GetAllMapNames();
-#endif
-				//Create the custom pin group, and add all the new pins
-				if (this.PinGroupGO == null) {
-					DebugLog.Log("First Setup. Adding Pin Group and Populating...");
-					this.PinGroupGO = new GameObject("RandoMap Pins");
-					this.PinGroupGO.AddComponent<PinGroup>();
-					this.PinGroupGO.transform.SetParent(self.transform);
-
-					Mm.PinGroupInstance.MakePinGroups();
-
-					// Find the spoiler pools when On.GameMap.Start is invoked
-					DebugLog.Log("Getting Spoiler Item Info");
-					ResourceHelper.FindSpoilerPools();
-
-					foreach (KeyValuePair<string, PinData> entry in ResourceHelper.PinDataDictionary) {
-						string itemName = entry.Key;
-						PinData pin = entry.Value;
-
-						if (!pin.HidePin) {
-							this.PinGroupInstance.AddPinToRoom(pin, self);
-						}
-					}
-
-					if (Mm.Settings.UnknownOn) {
-						Mm.PinGroupInstance.SetUnknownSprites();
-					} else {
-						Mm.PinGroupInstance.SetSpoilerSprites(Mm.Settings.SpoilerOn);
-					}
-
-					DebugLog.Log($"Settings: SpoilerOn {Mm.Settings.SpoilerOn}");
-					DebugLog.Log($"Settings: UnknownOn {Mm.Settings.UnknownOn}");
-
-					InputListener.InstantiateSingleton();
+			// We want to disable these objects every time we open the map
+			foreach (GameObject go in Resources.FindObjectsOfTypeAll(typeof(GameObject)) as GameObject[]) {
+				switch (go.name) {
+					case "Pin_Teacher":
+					case "Pin_Watcher":
+					case "Pin_Beast":
+					case "Pin_BlackEgg":
+					case "Flame Pins":
+					case "Map Markers":
+					case "Map Key":
+						_objectsToDisable.Add(go);
+						break;
 				}
-			} catch (Exception e) {
-				DebugLog.Error($"Error: {e}");
 			}
 
-			DebugLog.Log("Finished.");
-			orig(self);
-		}
-
-		private void _GameMap_WorldMap(On.GameMap.orig_WorldMap orig, GameMap self) {
-			orig(self);
-			if (!IsRando)
-				return;
-
-			DebugLog.Log("WorldMap");
-
-			// Check reachable, item picked up, etc.
-			Mm.PinGroupInstance.UpdatePins();
-
-			//Set the maximum scroll boundaries, so we can scroll the entire map, even if we don't have the maps unlocked.
-			if (self.panMinX > MAP_MIN_X)
-				self.panMinX = MAP_MIN_X;
-			if (self.panMaxX < MAP_MAX_X)
-				self.panMaxX = MAP_MAX_X;
-			if (self.panMinY > MAP_MIN_Y)
-				self.panMinY = MAP_MIN_Y;
-			if (self.panMaxY < MAP_MAX_Y)
-				self.panMaxY = MAP_MAX_Y;
-		}
-
-		private void _GameMap_SetupMapMarkers(On.GameMap.orig_SetupMapMarkers orig, GameMap self) {
-			orig(self);
-			this._DeleteErrantLifebloodPin(self);
-
-			if (!IsRando) {
-				return;
+			// Find a particular buggy Lifeblood pin
+			GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+			if (gameMap != null) {
+				GameObject lifebloodPin = gameMap.transform.Find("Deepnest")?.Find("Deepnest_26")?.Find("pin_blue_health")?.gameObject;
+				if (lifebloodPin != null) {
+					_objectsToDisable.Add(lifebloodPin);
+				}
 			}
-			this.PinGroupInstance.Show();
-
-			ForceMapUpdate();
-
-			SetAllPins();
 		}
 
-		private void _DeleteErrantLifebloodPin(GameMap gameMap) {
-			GameObject go = gameMap.transform.Find("Deepnest")?.Find("Deepnest_26")?.Find("pin_blue_health")?.gameObject;
-			if (go == null) {
-				DebugLog.Log("Couldn't find the pin!");
-				return;
+		private void _BrummFlamePin_Enable(On.BrummFlamePin.orig_OnEnable orig, BrummFlamePin self) {
+			orig(self);
+			if (Instance.Settings.MapsGiven) {
+				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
+		}
 
-			go.SetActive(false);
+		private void _FlamePin_Enable(On.FlamePin.orig_OnEnable orig, FlamePin self) {
+			orig(self);
+			if (Instance.Settings.MapsGiven) {
+				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
+			}
+		}
+
+		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
+			orig(self);
+			if (Instance.Settings.MapsGiven) {
+				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
+			}
 		}
 
 		private void _GameMap_DisableMarkers(On.GameMap.orig_DisableMarkers orig, GameMap self) {
@@ -397,145 +277,213 @@ namespace RandoMapMod {
 			try {
 				this.PinGroupInstance.Hide();
 			} catch (Exception e) {
-				DebugLog.Error($"Failed to DisableMarkers {e.Message}");
+				Instance.Log($"Failed to DisableMarkers {e.Message}");
 			}
-			orig(self);
-		}
-		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
-			if (Mm.Settings.MapsGiven) {
-				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
-			}
-
 			orig(self);
 		}
 
 		private void _GameMap_QuickMapAncientBasin(On.GameMap.orig_QuickMapAncientBasin orig, GameMap self) {
-			// Ancient_Basin
-			Mm.PinGroupInstance.UpdatePins();
 			orig(self);
-		}
-		private void _GameMap_QuickMapCity(On.GameMap.orig_QuickMapCity orig, GameMap self) {
-			// City_of_Tears
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapCliffs(On.GameMap.orig_QuickMapCliffs orig, GameMap self) {
-			// Howling_Cliffs
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapCrossroads(On.GameMap.orig_QuickMapCrossroads orig, GameMap self) {
-			// Forgotten_Crossroads
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapCrystalPeak(On.GameMap.orig_QuickMapCrystalPeak orig, GameMap self) {
-			// Crystal_Peak
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapDeepnest(On.GameMap.orig_QuickMapDeepnest orig, GameMap self) {
-			// Deepnest
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapDirtmouth(On.GameMap.orig_QuickMapDirtmouth orig, GameMap self) {
-			// Dirtmouth
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapFogCanyon(On.GameMap.orig_QuickMapFogCanyon orig, GameMap self) {
-			// Fog_Canyon
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapFungalWastes(On.GameMap.orig_QuickMapFungalWastes orig, GameMap self) {
-			// Fungal_Wastes
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapGreenpath(On.GameMap.orig_QuickMapGreenpath orig, GameMap self) {
-			// Greenpath
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapKingdomsEdge(On.GameMap.orig_QuickMapKingdomsEdge orig, GameMap self) {
-			// Kingdoms_Edge
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapQueensGardens(On.GameMap.orig_QuickMapQueensGardens orig, GameMap self) {
-			// Queens_Gardens
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapRestingGrounds(On.GameMap.orig_QuickMapRestingGrounds orig, GameMap self) {
-			// Resting_Grounds
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
-		}
-		private void _GameMap_QuickMapWaterways(On.GameMap.orig_QuickMapWaterways orig, GameMap self) {
-			// Royal_Waterways
-			Mm.PinGroupInstance.UpdatePins();
-			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Ancient_Basin");
+			_DisableVanillaMapAssets();
 		}
 
-		private void _HandleSceneChanges(Scene from, Scene to) {
+		private void _GameMap_QuickMapCity(On.GameMap.orig_QuickMapCity orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("City_of_Tears");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapCliffs(On.GameMap.orig_QuickMapCliffs orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Howling_Cliffs");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapCrossroads(On.GameMap.orig_QuickMapCrossroads orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Forgotten_Crossroads");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapCrystalPeak(On.GameMap.orig_QuickMapCrystalPeak orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Crystal_Peak");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapDeepnest(On.GameMap.orig_QuickMapDeepnest orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Deepnest");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapDirtmouth(On.GameMap.orig_QuickMapDirtmouth orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Dirtmouth");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapFogCanyon(On.GameMap.orig_QuickMapFogCanyon orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Fog_Canyon");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapFungalWastes(On.GameMap.orig_QuickMapFungalWastes orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Fungal_Wastes");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapGreenpath(On.GameMap.orig_QuickMapGreenpath orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Greenpath");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapKingdomsEdge(On.GameMap.orig_QuickMapKingdomsEdge orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Kingdoms_Edge");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapQueensGardens(On.GameMap.orig_QuickMapQueensGardens orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Queens_Gardens");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapRestingGrounds(On.GameMap.orig_QuickMapRestingGrounds orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Resting_Grounds");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_QuickMapWaterways(On.GameMap.orig_QuickMapWaterways orig, GameMap self) {
+			orig(self);
+			Instance.PinGroupInstance.SetPinStates("Royal_Waterways");
+			_DisableVanillaMapAssets();
+		}
+
+		private void _GameMap_SetupMapMarkers(On.GameMap.orig_SetupMapMarkers orig, GameMap self) {
+			orig(self);
+
 			if (!IsRando) {
 				return;
 			}
 
-			if (to.name == "Town") {
-				_convoCheck = 0;
-				_locked = false;
-				PlayMakerFSM elder = FSMUtility.LocateFSM(GameObject.Find("Elderbug"), "npc_control");
-				FsmState target = null;
-				foreach (FsmState state in elder.FsmStates) {
-					if (state.Name == "Convo End") {
-						target = state;
-						break;
+			this.PinGroupInstance.Show();
+			ForceMapUpdate();
+			Instance.PinGroupInstance.SetPinGroups();
+		}
+
+		// Everything for initializing stuff *per game load* is here
+		private void _GameMap_Start(On.GameMap.orig_Start orig, GameMap self) {
+			Instance.Log("GameMap_Start");
+			if (!IsRando) {
+				orig(self);
+				return;
+			}
+
+			try {
+				Instance.Log("Emptying out HelperData on game start.");
+
+				_FindObjectsToDisable();
+
+				_DisableVanillaMapAssets();
+
+				//GetAllMapNames();
+
+				// This will refresh the spoiler pools if a different game is loaded
+				ResourceLoader.FindSpoilerPools();
+
+				// Create the custom pin group, and add all the new pins
+				// The pins are preserved between loading different games
+				// ie. one PinGroup every time Hollow Knight is opened
+				if (this.PinGroupGO == null) {
+					Instance.Log("First Setup. Adding Pin Group and Populating...");
+					this.PinGroupGO = new GameObject($"Map Mod Pin Group");
+					this.PinGroupGO.AddComponent<PinGroup>();
+					this.PinGroupGO.transform.SetParent(self.transform);
+
+					foreach (KeyValuePair<string, PinData> entry in ResourceLoader.PinDataDictionary) {
+						string itemName = entry.Key;
+						PinData pin = entry.Value;
+
+						if (!pin.NotPin) {
+							this.PinGroupInstance.AddPinToRoom(pin, self);
+						}
 					}
 				}
 
-				if (target != null) {
-					List<FsmStateAction> actions = target.Actions.ToList();
-					actions.Add(new ElderbugIsACoolDude());
-					target.Actions = actions.ToArray();
+				PinGroupInstance.InitializePinGroups();
+				PinGroupInstance.SetSprites();
+				PinGroupInstance.FindRandomizedGroups();
+
+				// Set up UI and hotkeys
+				InputListener.InstantiateSingleton();
+
+				if (Instance.Settings.MapsGiven) {
+					GUIController.Setup();
+					GUIController.Instance.BuildMenus();
 				}
+			} catch (Exception e) {
+				Instance.LogError($"Error: {e}");
 			}
+
+			Instance.Log("Finished.");
+			orig(self);
+		}
+
+		private void _GameMap_WorldMap(On.GameMap.orig_WorldMap orig, GameMap self) {
+			orig(self);
+
+			if (!IsRando) {
+				return;
+			}
+
+			_DisableVanillaMapAssets();
+
+			// Check reachable, item picked up, etc.
+			Instance.PinGroupInstance.SetPinStates("WorldMap");
+
+			// Set the maximum scroll boundaries, so we can scroll the entire map, even if we don't have the maps unlocked.
+			if (self.panMinX > MAP_MIN_X)
+				self.panMinX = MAP_MIN_X;
+			if (self.panMaxX < MAP_MAX_X)
+				self.panMaxX = MAP_MAX_X;
+			if (self.panMinY > MAP_MIN_Y)
+				self.panMinY = MAP_MIN_Y;
+			if (self.panMaxY < MAP_MAX_Y)
+				self.panMaxY = MAP_MAX_Y;
 		}
 
 		private string _HandleLanguageGet(string key, string sheetTitle) {
-			if (IsRando && _convoCheck < SAFE && !Settings.MapsGiven) {
+			if (IsRando && !Settings.MapsGiven) {
 				if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(sheetTitle)) {
 					return string.Empty;
 				}
 
 				if (sheetTitle == "Elderbug") {
-					DebugLog.Log("Map Check! Safety: " + _convoCheck + ", locked: " + _locked + ", Key: " + key + ", " + Settings.MapsGiven);
-
 					string message = string.Empty;
+
 					if (key == "ELDERBUG_INTRO_VISITEDCROSSROAD") {
-						DebugLog.Log("returning original");
 						return Language.Language.GetInternal(key, sheetTitle);
-					} else if (_convoCheck == 0) {
-						string talk = "Welcome to Randomizer Map S! This is a fork of Randomizer Map v0.5.1 with some different features." +
-							"\nA big Pin means you can reach the item. A little Pin means you are missing a key item. \"$\" indicates a Shop." +
-							"\nTalk to me 2 more times, and I'll give you all the Maps.";
-						talk += "<page>Hotkeys:\n" +
-							"\"Ctrl + M\" - Gives you all the Maps and Pins.\n" +
-							"\"Ctrl + T\" - Toggles between vanilla (non-spoiler) and spoiler item locations\n" +
-							"\"Ctrl + R\" - Replace all Pins with question marks";
-						talk += "<page>The following controls toggle Pins on/off by the spoiler item pools:\n" +
-							"\"Ctrl + P\" - Toggles all the Pins\n" +
-							"\"Ctrl + 1\" - Toggles major progression items/skills\n" +
-							"\"Ctrl + 2\" - Toggles Mask Shards and Vessel Fragments\n" +
-							"\"Ctrl + 3\" - Toggles Charms and Charm Notches\n" +
-							"\"Ctrl + 4\" - Toggles Grubs, Essence Roots and Boss Essence\n" +
-							"\"Ctrl + 5\" - Toggles Relics, Eggs, Geo Deposits and Boss Geo\n" +
-							"\"Ctrl + 6\" - Toggles everything else";
+					} else if (_convoCounter == 0) {
+						string talk = "Welcome to Randomizer Map S!" +
+							" Talk to me two more times, and I'll give you all the Maps. Once enabled, you can use the" +
+							" UI in the Pause Menu to adjust the Map Pins to your liking.\n" +
+							"<page>A big Pin means you can reach the location. A little Pin means you are missing a key item to be able to reach there.";
+						talk += "<page>You can also use the following hotkeys:\n" +
+							"CTRL-M: Give all the Maps\n" +
+							"CTRL-1: Toggle Pins between vanilla (non-spoiler) and spoiler item pools\n" +
+							"CTRL-2: Toggle all Pins to question marks\n" +
+							"CTRL-3: Toggle all randomized items on/off\n" +
+							"CTRL-4: Toggle all other items on/off (excluding Shops)";
 						message = talk;
-					} else if (_convoCheck == 1) {
+						_convoCounter++;
+					} else if (_convoCounter == 1) {
 						//Seriously? Trying to cover up Dirtmouth's scandal, are you? Tell you what, I'll tone it down a little bit but come on man; you can't tell me Elder Bug is 100% innocent.
 						//  And besides,A) Who is Iselda longingly staring and sighing at all day if not Elder Bug
 						//  and B) What else is Elder Bug going to do but "talk to" literally the only resident in town before you arrive
@@ -543,9 +491,9 @@ namespace RandoMapMod {
 						message = "I frequently *ahem* \"visit\" Cornifer's wife... " +
 							"She tells me he lies to travelers to get Geo for an inferior product... " +
 							"The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me." +
-							"<page>I'll let you have the Maps if you talk to me 1 more time, since you're new around here.";
-
-					} else if (_convoCheck == 2) {
+							"<page>I'll let you have the Maps if you talk to me again, since you're new around here.";
+						_convoCounter++;
+					} else if (_convoCounter == 2) {
 						string maps = "Okay, hang on";
 						System.Random random = new System.Random(RandomizerMod.RandomizerMod.Instance.Settings.Seed);
 						for (int i = 0; i < random.Next(3, 10); i++) {
@@ -554,24 +502,30 @@ namespace RandoMapMod {
 						maps += "<page>...Here you go! Now, if you'd keep my personal business to yourself, I won't have to get my hands dirty. Hm, interesting how the Pale King died, don't you think...?";
 
 						message = maps;
-					} else {
-						DebugLog.Error($"Elderbug conversation counter overflow");
+						_convoCounter++;
 					}
 
-					if (_convoCheck < SAFE) {
-						_convoCheck++;
-					} else {
-						if (!_locked) {
-							GiveAllMaps("Conversation Stack");
+					if (_convoCounter >= MAPS_TRIGGER) {
+						PlayMakerFSM elder = FSMUtility.LocateFSM(GameObject.Find("Elderbug"), "npc_control");
+						FsmState target = null;
+						foreach (FsmState state in elder.FsmStates) {
+							if (state.Name == "Convo End") {
+								target = state;
+								break;
+							}
+						}
 
-							_locked = true;
+						if (target != null) {
+							List<FsmStateAction> actions = target.Actions.ToList();
+							actions.Add(new ElderbugIsACoolDude());
+							target.Actions = actions.ToArray();
 						}
 					}
 
 					return message;
-				} else if (!_locked && sheetTitle == "Titles" && key == "DIRTMOUTH_MAIN") {
+				} else if (sheetTitle == "Titles" && key == "DIRTMOUTH_MAIN") {
 					return "FREE MAPS";
-				} else if (!_locked && sheetTitle == "Titles" && key == "DIRTMOUTH_SUB") {
+				} else if (sheetTitle == "Titles" && key == "DIRTMOUTH_SUB") {
 					return "Talk to Elderbug";
 				}
 			}
@@ -579,23 +533,38 @@ namespace RandoMapMod {
 			return Language.Language.GetInternal(key, sheetTitle);
 		}
 
-#endregion
+		private void _HandleSceneChanges(Scene from, Scene to) {
+			if (!IsRando) {
+				return;
+			}
 
-#region Mastercard
+			if (to.name == "Town") {
+				_convoCounter = 0;
+			}
+
+			if (to.name == "Quit_To_Menu") {
+				//UnityEngine.Object.Destroy(this.PinGroupGO);
+
+				InputListener.DestroySingleton();
+				GUIController.Unload();
+			}
+		}
+
+		#endregion Private Methods
+
+		#region Mastercard
+
 		private class ElderbugIsACoolDude : FsmStateAction {
 
 			public override void OnEnter() {
-				//_SAFETY++;
-
-				if (_convoCheck >= SAFE & !_locked) {
+				if (_convoCounter >= MAPS_TRIGGER & !Instance.Settings.MapsGiven) {
 					GiveAllMaps("FSMAction");
-
-					_locked = true;
 				}
 
 				Finish();
 			}
 		}
-#endregion
+
+		#endregion Mastercard
 	}
 }
