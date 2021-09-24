@@ -116,13 +116,15 @@ namespace RandoMapMod {
 			}
 
 			SetButtons();
+			_mapControlPanel.SetActive(false, true); // collapse all subpanels
+			if (GameManager.instance.IsGamePaused()) {
+				_mapControlPanel.SetActive(true, false);
+			}
 		}
 
 		public static void RebuildMenu() {
 			_mapControlPanel.Destroy();
 			BuildMenu(Canvas);
-			_mapControlPanel.SetActive(false, true); // collapse all subpanels
-			_mapControlPanel.SetActive(true, false);
 		}
 
 		public static void SetButtons() {
@@ -340,7 +342,6 @@ namespace RandoMapMod {
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.green);
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\non");
 				MapModS.Instance.Settings.RandomizedOn = true;
-				
 			} else {
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\ncustom");

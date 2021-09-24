@@ -475,12 +475,7 @@ namespace RandoMapMod {
 							" Talk to me two more times, and I'll give you all the Maps. Once enabled, you can use the" +
 							" UI in the Pause Menu to adjust the Map Pins to your liking.\n" +
 							"<page>A big Pin means you can reach the location. A little Pin means you are missing a key item to be able to reach there.";
-						talk += "<page>You can also use the following hotkeys:\n" +
-							"CTRL-M: Give all the Maps\n" +
-							"CTRL-1: Toggle Pins between vanilla (non-spoiler) and spoiler item pools\n" +
-							"CTRL-2: Toggle all Pins to question marks\n" +
-							"CTRL-3: Toggle all randomized items on/off\n" +
-							"CTRL-4: Toggle all other items on/off (excluding Shops)";
+						talk += "<page>You can also use the hotkey CTRL-M to get all the Maps.";
 						message = talk;
 						_convoCounter++;
 					} else if (_convoCounter == 1) {

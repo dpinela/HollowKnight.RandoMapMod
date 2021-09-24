@@ -10,7 +10,6 @@ namespace RandoMapMod {
 
 	// All the following was modified from the GUI implementation of BenchwarpMod by homothetyhk
 	public class GUIController : MonoBehaviour {
-
 		public Dictionary<string, Texture2D> Images = new Dictionary<string, Texture2D>();
 
 		private static GUIController _instance;
@@ -53,6 +52,7 @@ namespace RandoMapMod {
 			Destroy(_instance._mapCanvas);
 			Destroy(_instance.gameObject);
 		}
+
 		public void BuildMenus() {
 			_LoadResources();
 
@@ -74,7 +74,7 @@ namespace RandoMapMod {
 			mapScaler.referenceResolution = new Vector2(1920f, 1080f);
 			_pauseCanvas.AddComponent<GraphicRaycaster>();
 
-			MapText.BuildMenu(_mapCanvas);
+			MapText.BuildText(_mapCanvas);
 
 			DontDestroyOnLoad(_mapCanvas);
 

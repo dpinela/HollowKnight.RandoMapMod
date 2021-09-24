@@ -1,12 +1,9 @@
-﻿using Modding;
-using RandoMapMod;
-using RandoMapMod.CanvasUtil;
-using System;
+﻿using RandoMapMod.CanvasUtil;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace RandoMapMod {
+
 	internal class MapText {
 		public static GameObject Canvas;
 
@@ -17,7 +14,7 @@ namespace RandoMapMod {
 		private static string _textRandomized = "ERROR";
 		private static string _textOthers = "ERROR";
 
-		public static void BuildMenu(GameObject _canvas) {
+		public static void BuildText(GameObject _canvas) {
 			Canvas = _canvas;
 			_mapDisplayPanel = new CanvasPanel
 				(_canvas, GUIController.Instance.Images["ButtonsMenuBG"], new Vector2(10f, 1040f), new Vector2(1346f, 0f), new Rect(0f, 0f, 0f, 0f));
@@ -27,9 +24,10 @@ namespace RandoMapMod {
 			_mapDisplayPanel.AddText("Others (ctrl-4): ", _textOthers, new Vector2(1310f, 0f), Vector2.zero, GUIController.Instance.TrajanNormal, 16);
 			SetTexts();
 		}
-		public static void RebuildMenu() {
+
+		public static void RebuildText() {
 			_mapDisplayPanel.Destroy();
-			BuildMenu(Canvas);
+			BuildText(Canvas);
 			_mapDisplayPanel.SetActive(false, true); // collapse all subpanels
 			_mapDisplayPanel.SetActive(true, false);
 		}
@@ -46,10 +44,11 @@ namespace RandoMapMod {
 				return;
 			} else {
 				if (!_mapDisplayPanel.Active) {
-					RebuildMenu();
+					RebuildText();
 				}
 			}
 		}
+
 		private static void _SetSpoilers() {
 			_mapDisplayPanel.GetText("Spoilers (ctrl-1): ").UpdateText
 				(
@@ -67,12 +66,15 @@ namespace RandoMapMod {
 				case PinGroup.PinStyles.Normal:
 					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "normal");
 					break;
+
 				case PinGroup.PinStyles.Q_Marks:
 					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "q marks");
 					break;
+
 				case PinGroup.PinStyles.Old_1:
 					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "old 1");
 					break;
+
 				case PinGroup.PinStyles.Old_2:
 					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "old 2");
 					break;
