@@ -91,9 +91,9 @@ namespace RandoMapMod {
 
 		public enum PinStyles {
 			Normal,
-			Q_Marks,
-			Old_1,
-			Old_2,
+			Q_Marks_1,
+			Q_Marks_2,
+			Q_Marks_3,
 		}
 
 		private readonly List<Pin> _pins = new List<Pin>();
@@ -325,18 +325,18 @@ namespace RandoMapMod {
 		internal void TogglePinStyle() {
 			switch (MapModS.Instance.Settings.PinStyle) {
 				case PinStyles.Normal:
-					MapModS.Instance.Settings.PinStyle = PinStyles.Q_Marks;
+					MapModS.Instance.Settings.PinStyle = PinStyles.Q_Marks_1;
 					break;
 
-				case PinStyles.Q_Marks:
-					MapModS.Instance.Settings.PinStyle = PinStyles.Old_1;
+				case PinStyles.Q_Marks_1:
+					MapModS.Instance.Settings.PinStyle = PinStyles.Q_Marks_2;
 					break;
 
-				case PinStyles.Old_1:
-					MapModS.Instance.Settings.PinStyle = PinStyles.Old_2;
+				case PinStyles.Q_Marks_2:
+					MapModS.Instance.Settings.PinStyle = PinStyles.Q_Marks_3;
 					break;
 
-				case PinStyles.Old_2:
+				case PinStyles.Q_Marks_3:
 					MapModS.Instance.Settings.PinStyle = PinStyles.Normal;
 					break;
 			}

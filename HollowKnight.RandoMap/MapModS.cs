@@ -37,7 +37,7 @@ namespace RandoMapMod {
 		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
 
 		public override string GetVersion() {
-			string ver = "1.1.0 DEBUG"; //If you update this, please also update the README.
+			string ver = "1.1.0"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;

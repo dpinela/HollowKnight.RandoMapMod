@@ -74,16 +74,16 @@ namespace RandoMapMod {
 					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "normal");
 					break;
 
-				case PinGroup.PinStyles.Q_Marks:
-					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "q marks");
+				case PinGroup.PinStyles.Q_Marks_1:
+					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "q marks 1");
 					break;
 
-				case PinGroup.PinStyles.Old_1:
-					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "old 1");
+				case PinGroup.PinStyles.Q_Marks_2:
+					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "q marks 2");
 					break;
 
-				case PinGroup.PinStyles.Old_2:
-					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "old 2");
+				case PinGroup.PinStyles.Q_Marks_3:
+					_mapDisplayPanel.GetText(buttonName).UpdateText(buttonName + "q marks 3");
 					break;
 			}
 		}

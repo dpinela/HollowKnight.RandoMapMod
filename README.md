@@ -1,69 +1,66 @@
 # Randomizer Map S
+Randomizer Map S is a Hollow Knight mod used with Randomizer Mod. It gives the option to show the player where items are on the World Map, and optionally what they are.
 
-This is a fork of Rando Map Mod v0.5.1, with some bug fixes and new features.
+![Example Screenshot](./readmeAssets/worldmap.jpg)
+![Example Screenshot](./readmeAssets/quickmap.jpg)
+![Example Screenshot](./readmeAssets/GUI.PNG)
 
-This has been tested with both RandomizerMod v3.12(573) and v3.12c(884) (the Discord beta).
+This fork of CaptainDapper's original mod has been expanded on with more features, bug fixes and a Pause Menu UI. It is currently compatible with:
+- Randomizer v3.12c(884) - recommended
+- Randomizer v3.12(573)
+- Randomizer ItemSync 1.3.0
+- Randomizer Multiworld 0.1.1
 
-In addition, the mod seems to be compatible with both Multiworld 0.1.1 and ItemSync 1.2.3, however further testing may be required.
-
-![Example Screenshot](./readmeAssets/screenshot.jpg)
+https://github.com/Shadudev/HollowKnight.RandomizerMod
+https://github.com/Shadudev/HollowKnight.MultiWorld
 
 # Features
 - Use `CTRL-M` to give all Maps to the player. This can also be done by talking to Elderbug a few times.
-- Use `CTRL-T` to toggle Pins between vanilla (non-spoiler) and spoiler item pools
-- Use `CTRL-R` to toggle all Pins to question marks
-- Use `CTRL-P` to toggle all Pins on/off
-- Use `CTRL-1` ... `CTRL-6` to toggle Pin groups on/off (sorted by spoiler item pools):
-    - Ctrl + 1 - Toggles major progression items/skills
-    - Ctrl + 2 - Toggles Mask Shards and Vessel Fragments
-    - Ctrl + 3 - Toggles Charms and Charm Notches
-    - Ctrl + 4 - Toggles Grubs, Essence Roots and Boss Essence
-    - Ctrl + 5 - Toggles Relics, Eggs, Geo Deposits and Boss Geo
-    - Ctrl + 6 - Toggles everything else
 
-These settings are saved between game loads.
+- The World Map will now show Pins for every item in the game.
+    - Big Pins means the items are reachable according to RandomizerMod's logic
+    - Small Pins means the items are not randomized or not reachable
+    - Pins for randomized items will disappear as you check them
+    - Randomizer Map's settings are displayed at the bottom
+    - Quick Map can also be used to only show Pins in the current Map area
+
+- The Pause Menu UI has the following buttons:
+    - "Spoilers": Toggle Pins between vanilla (non-spoiler) and spoiler item pools
+    - "Style": Toggle the style of the Pins
+    - "Randomized": Toggle all randomized items on/off
+    - "Others": Toggle all other items on/off (excluding Shops)
+    - "Show/Hide Pools": Open/close a panel with a toggle for each spoiler item pool
+
+- You can also use these hotkeys at any time during the game:
+    - `CTRL-1`: "Spoilers"
+    - `CTRL-2`: "Style"
+    - `Ctrl-3`: "Randomized"
+    - `Ctrl-4`: "Others"
+
+The Pin settings are saved between game loads.
+
+# How To Install
+1. Make sure you have either RandomizerMod v3.12(573) or v3.12c(884) properly installed.
+2. Download the latest release of `RandoMapMod.zip`.
+3. Unzip and copy RandoMapMod.dll to the folder `.../Steam/steamapps/common/Hollow Knight/hollow_knight_Data/Managed/Mods`.
+4. That's it!
 
 # Acknowledgements
-A BIG thank you to the Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions!
-Also to CaptainDapper for making the original mod!
+- The Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions.
+- CaptainDapper for making the original mod
+- Chaktis for helping with sprite art
 
-# Changelog
-Version 1.0.6:
-- Fully implemented new items in RandomizerMod v3.12c(884) (Junk Pit, Boss Geo, Mimics, etc.)
-- All the Pins look neater
-- The Pins when reachable are now slightly smaller for better visibility
-- Using Quick Map also properly updates the Pins
-- Lots more code cleanup
-
-Version 1.0.5:
-- Quill is no longer given
-- Fixed the broken map bug
-- Elderbug will revert to normal behaviour after all maps are given
-
-Version 1.0.4:
-- Fixed the "FAILED TO LOAD" bug when the log file wasn't present
-- Lots of code cleanup
-
-Version 1.0.3:
-- Added new items in v3.12(884). However the new Pin locations haven't been added yet.
-
-Version 1.0.2:
-- Fixed the hovering map markers bug
-- The state of the Pin groups and Rando/Unknown sprite settings are saved between game loads
-
-Version 1.0.1:
-- Correct Pins show up when a new game is loaded
-
-Version 1.0.0:
-- Reachable logic applies to the shop Pins (kinda)
-- Fixed some question mark Pins appearing by default
-
-- Removed some stuff (based on my own preference/code clashes):
-    - No Wayward Compass given
-    - Disabled other Pin styles
-    - Disabled prereq markers (!)
+# Version 1.1.0 Changes
+- Now with a UI in the Pause Menu! You can now manually toggle each item pool on/off.
+- Also added a text overlay to the World Map and Quick Map
+- Added the option to switch to old pin styles
+- Changed the hotkeys to match the UI
+- Quick Map now only shows Pins in the current Map area
+- Fixed some Pins not showing
+- Updated some Pin art
+- Various bug fixes
+- More code cleanup
 
 # Known Bugs / Missing Features
 - Not compatible when RandomizerMod isn't installed
-- Missing an option to switch to old question mark style pins
-- Non-randomized items don't get checked off on the map
+- Non-randomized items don't get checked off on the Map

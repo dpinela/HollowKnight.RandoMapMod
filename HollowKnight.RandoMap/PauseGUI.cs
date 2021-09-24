@@ -206,16 +206,16 @@ namespace RandoMapMod {
 					_mapControlPanel.GetButton("Style").UpdateText("Style\nnormal");
 					break;
 
-				case PinGroup.PinStyles.Q_Marks:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks");
+				case PinGroup.PinStyles.Q_Marks_1:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks 1");
 					break;
 
-				case PinGroup.PinStyles.Old_1:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nold 1");
+				case PinGroup.PinStyles.Q_Marks_2:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks 2");
 					break;
 
-				case PinGroup.PinStyles.Old_2:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nold 2");
+				case PinGroup.PinStyles.Q_Marks_3:
+					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks 3");
 					break;
 			}
 		}

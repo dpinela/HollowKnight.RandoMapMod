@@ -121,7 +121,7 @@ namespace RandoMapMod {
 					};
 					break;
 
-				case PinGroup.PinStyles.Old_1:
+				case PinGroup.PinStyles.Q_Marks_2:
 					sid = pool switch {
 						"Rock" => Sprites.oldGeoRockInv,
 						"Grub" => Sprites.oldGrubInv,
@@ -132,7 +132,7 @@ namespace RandoMapMod {
 					};
 					break;
 
-				case PinGroup.PinStyles.Old_2:
+				case PinGroup.PinStyles.Q_Marks_3:
 					sid = pool switch {
 						"Rock" => Sprites.oldGeoRock,
 						"Grub" => Sprites.oldGrub,
