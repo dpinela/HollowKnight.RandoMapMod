@@ -15,7 +15,7 @@ https://github.com/Shadudev/HollowKnight.RandomizerMod
 https://github.com/Shadudev/HollowKnight.MultiWorld
 
 # Features
-- Use `CTRL-M` to give all Maps to the player. This can also be done by talking to Elderbug a few times.
+- Use `CTRL-M` during a game to enable the mod and give all Maps to the player. This can also be done by talking to Elderbug a few times.
 
 - The World Map will now show Pins for every item in the game.
     - Big Pins means the items are reachable according to RandomizerMod's logic
