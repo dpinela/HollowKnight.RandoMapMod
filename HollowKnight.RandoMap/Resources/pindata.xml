@@ -109,7 +109,7 @@
 	<pin name="Swim">
 		<notPin>true</notPin>
 	</pin>
-	
+
 	<!--Charms-->
 	<pin name="Gathering_Swarm">
 		<notPin>true</notPin>
@@ -606,7 +606,7 @@
 	<pin name="Lumafly_Escape">
 		<notPin>true</notPin>
 	</pin>
-	
+
 	<!--Rancid Eggs-->
 	<pin name="Rancid_Egg-Sly">
 		<notPin>true</notPin>
@@ -997,7 +997,6 @@
 		<offsetZ>0.05</offsetZ>
 	</pin>
 
-
 	<!--Grubs-->
 	<pin name="Grub-Crossroads_Acid">
 		<offsetX>-0.7</offsetX>
@@ -1182,7 +1181,7 @@
 	<pin name="Grub-Collector_3">
 		<offsetY>1.25</offsetY>
 	</pin>
-	
+
 	<!--Mimics-->
 	<pin name="Mimic_Grub-Deepnest_1">
 		<offsetX>-0.3</offsetX>
@@ -1206,8 +1205,8 @@
 	<pin name ="Mimic_Grub">
 		<notPin>true</notPin>
 	</pin>
-	
-		<!--Maps-->
+
+	<!--Maps-->
 	<pin name="Crossroads_Map">
 		<offsetX>0.1</offsetX>
 		<offsetY>0.2</offsetY>
@@ -1418,7 +1417,8 @@
 
 	<!--Elevator Pass-->
 	<pin name="Elevator_Pass">
-		<notPin>true</notPin>
+		<offsetX>0</offsetX>
+		<offsetY>-1.26</offsetY>
 	</pin>
 
 	<!--Split Cloak-->
@@ -1437,7 +1437,7 @@
 	<pin name="Split_Mothwing_Cloak">
 		<notPin>true</notPin>
 	</pin>
-	
+
 	<!--Split Claw-->
 	<pin name="Left_Mantis_Claw">
 		<notPin>true</notPin>
@@ -1445,7 +1445,7 @@
 	<pin name="Right_Mantis_Claw">
 		<notPin>true</notPin>
 	</pin>
-	
+
 	<!--Nail directions-->
 	<pin name="Leftslash">
 		<notPin>true</notPin>
@@ -2871,7 +2871,7 @@
 		<offsetX>1.2</offsetX>
 		<offsetY>-0.5</offsetY>
 	</pin>
-	
+
 	<!--Palace Lore-->
 	<pin name="Lore_Tablet-Palace_Workshop">
 		<pinScene>Abyss_05</pinScene>
@@ -2908,11 +2908,12 @@
 		<isShop>true</isShop>
 	</pin>
 	<pin name="Jiji">
-		<pinScene>Town</pinScene>
+		<notPin>true</notPin>
+		<!--<pinScene>Town</pinScene>
 		<mapArea>Dirtmouth</mapArea>
 		<offsetX>2.7</offsetX>
 		<offsetY>-0.6</offsetY>
-		<isShop>true</isShop>
+		<isShop>true</isShop>-->
 	</pin>
 	<pin name="Leg_Eater">
 		<pinScene>Fungus2_26</pinScene>

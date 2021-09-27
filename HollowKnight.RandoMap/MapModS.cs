@@ -37,7 +37,7 @@ namespace RandoMapMod {
 		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
 
 		public override string GetVersion() {
-			string ver = "1.1.0"; //If you update this, please also update the README.
+			string ver = "1.1.1 DEBUG"; //If you update this, please also update the README.
 			int minAPI = 45;
 
 			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
@@ -83,8 +83,15 @@ namespace RandoMapMod {
 			UnityEngine.SceneManagement.SceneManager.activeSceneChanged += _HandleSceneChanges;
 			ModHooks.Instance.LanguageGetHook += _HandleLanguageGet;
 
+			//On.GeoRock.UpdateHitsLeftFromFSM += this._UpdateRock;
+
 			Instance.Log("RandoMapMod Initialize complete!");
 		}
+
+		//private void _UpdateRock(On.GeoRock.orig_UpdateHitsLeftFromFSM orig, GeoRock self) {
+		//	Instance.Log(self.geoRockData.id);
+		//	Instance.Log(self.geoRockData.hitsLeft);
+		//}
 
 		private List<GameObject> _objectsToDisable = new List<GameObject>();
 
@@ -125,21 +132,21 @@ namespace RandoMapMod {
 
 		private void _BrummFlamePin_Enable(On.BrummFlamePin.orig_OnEnable orig, BrummFlamePin self) {
 			orig(self);
-			if (Instance.Settings.MapsGiven) {
+			if (Instance.Settings.MapModEnabled) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 		}
 
 		private void _FlamePin_Enable(On.FlamePin.orig_OnEnable orig, FlamePin self) {
 			orig(self);
-			if (Instance.Settings.MapsGiven) {
+			if (Instance.Settings.MapModEnabled) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 		}
 
 		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
 			orig(self);
-			if (Instance.Settings.MapsGiven) {
+			if (Instance.Settings.MapModEnabled) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 		}
@@ -218,7 +225,7 @@ namespace RandoMapMod {
 				// Set up UI and hotkeys
 				InputListener.InstantiateSingleton();
 
-				if (Instance.Settings.MapsGiven) {
+				if (Instance.Settings.MapModEnabled) {
 					GUIController.Setup();
 					GUIController.Instance.BuildMenus();
 				}
@@ -353,36 +360,36 @@ namespace RandoMapMod {
 					// Remove Quill
 					pd.SetBool(nameof(pd.hasQuill), false);
 				} catch (Exception e) {
-					Instance.LogError($"Map object not found: {e}");
+					Instance.LogError(e);
 				}
 			}
 		}
 
-		internal static void GiveAllMaps(string from) {
-			if (!Instance.Settings.MapsGiven) {
-				Instance.Log($"Maps granted from {from}");
+		internal static void EnableMapMod(string from) {
+			if (!Instance.Settings.MapModEnabled) {
+				Instance.Log($"MapMod enabled by {from}");
 
 				PlayerData pd = PlayerData.instance;
-				Type playerData = typeof(PlayerData);
+				//Type playerData = typeof(PlayerData);
 
 				// Give the maps to the player
 				pd.SetBool(nameof(pd.hasMap), true);
 
-				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
-					pd.SetBool(field.Name, true);
-				}
+				//foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
+				//	pd.SetBool(field.Name, true);
+				//}
 
 				ForceMapUpdate();
 
-				// Set cornifer as having left all the areas. This could be condensed into the previous foreach for one less GetFields(), but I value the clarity more.
-				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
-					pd.SetBool(field.Name, true);
-				}
+				// Set cornifer as having left all the areas
+				//foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
+				//	pd.SetBool(field.Name, true);
+				//}
 
 				// Set Cornifer as sleeping at home
-				pd.SetBool(nameof(pd.corniferAtHome), true);
+				//pd.SetBool(nameof(pd.corniferAtHome), true);
 
-				Instance.Settings.MapsGiven = true;
+				Instance.Settings.MapModEnabled = true;
 
 				GUIController.Setup();
 				GUIController.Instance.BuildMenus();
@@ -391,8 +398,31 @@ namespace RandoMapMod {
 			}
 		}
 
+		internal static void RevealFullMap() {
+			if (Instance.Settings.MapModEnabled && !Instance.Settings.RevealedMap) {
+				PlayerData pd = PlayerData.instance;
+				Type playerData = typeof(PlayerData);
+
+				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("map") && field.FieldType == typeof(bool))) {
+					pd.SetBool(field.Name, true);
+				}
+
+				ForceMapUpdate();
+
+				//Set cornifer as having left all the areas
+				foreach (FieldInfo field in playerData.GetFields().Where(field => field.Name.StartsWith("corn") && field.Name.EndsWith("Left"))) {
+					pd.SetBool(field.Name, true);
+				}
+
+				//Set Cornifer as sleeping at home
+				pd.SetBool(nameof(pd.corniferAtHome), true);
+
+				Instance.Settings.RevealedMap = true;
+			}
+		}
+
 		private string _HandleLanguageGet(string key, string sheetTitle) {
-			if (IsRando && !Settings.MapsGiven) {
+			if (IsRando && !Settings.MapModEnabled) {
 				if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(sheetTitle)) {
 					return string.Empty;
 				}
@@ -405,7 +435,7 @@ namespace RandoMapMod {
 					} else if (_convoCounter == 0) {
 						string talk = "Welcome to Randomizer Map S!" +
 							" Talk to me two more times, and I'll give you all the Maps. Once enabled, you can use the" +
-							" UI in the Pause Menu to adjust the Map Pins to your liking.\n" +
+							" UI in the Pause Menu to adjust the Map/Pins to your liking.\n" +
 							"<page>A big Pin means you can reach the location. A little Pin means you are missing a key item to be able to reach there.";
 						talk += "<page>You can also use the hotkey CTRL-M to get all the Maps.";
 						message = talk;
@@ -478,26 +508,25 @@ namespace RandoMapMod {
 		private class ElderbugIsACoolDude : FsmStateAction {
 
 			public override void OnEnter() {
-				if (_convoCounter >= MAPS_TRIGGER & !Instance.Settings.MapsGiven) {
-					GiveAllMaps("FSMAction");
+				if (_convoCounter >= MAPS_TRIGGER & !Instance.Settings.MapModEnabled) {
+					EnableMapMod("FSMAction");
 				}
 
 				Finish();
 			}
 		}
+
+		internal static void ReloadGameMapPins() {
+			try {
+				GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
+				// Change PinDataDictionary during run-time! Used for editing pin positions while the game is running
+				ResourceLoader.ReloadPinData();
+				Instance.PinGroupInstance.RefreshPins(gameMap);
+			} catch (Exception e) {
+				Instance.LogError(e);
+			}
+		}
 	}
-
-	//internal static void ReloadGameMapPins() {
-	//	try {
-	//		GameMap gameMap = GameObject.Find("Game_Map(Clone)").GetComponent<GameMap>();
-	//		// Change PinDataDictionary during run-time! Used for editing pin positions while the game is running
-	//		ResourceLoader.ReloadPinData();
-	//		Instance.PinGroupInstance.RefreshPins(gameMap);
-
-	//	} catch (Exception e) {
-	//		Instance.LogError(e);
-	//	}
-	//}
 
 	//internal static void GetAllMapNames() {
 	//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();

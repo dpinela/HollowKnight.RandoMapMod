@@ -121,6 +121,13 @@ namespace RandoMapMod {
 					};
 					break;
 
+				case PinGroup.PinStyles.Q_Marks_1:
+					sid = pool switch {
+						"Shop" => Sprites.Shop,
+						_ => Sprites.Unknown
+					};
+					break;
+
 				case PinGroup.PinStyles.Q_Marks_2:
 					sid = pool switch {
 						"Rock" => Sprites.oldGeoRockInv,
@@ -142,7 +149,7 @@ namespace RandoMapMod {
 						_ => Sprites.Unknown
 					};
 					break;
-
+				
 				default:
 					sid = pool switch {
 						"Shop" => Sprites.Shop,
@@ -369,7 +376,8 @@ namespace RandoMapMod {
 					}
 
 					// Don't create the Pin if it is not recognized by RandomizerMod
-				} else if (pinD.VanillaPool == "") {
+					// ElevatorPass Pin should not be created if ElevatorPass is false
+				} else if (pinD.VanillaPool == "" || pinD.VanillaPool == "ElevatorPass") {
 					spoilerItem = vanillaItem;
 					pinD.SpoilerPool = pinD.VanillaPool;
 					pinD.NotPin = true;
@@ -386,66 +394,73 @@ namespace RandoMapMod {
 			return;
 		}
 
-		//// This stuff was used to update pin positions during run time
-		//private static string _pinPath = "";
-		//private static string _PinPath {
-		//	get {
-		//		if (_pinPath == "") {
-		//			string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-		//			UriBuilder uri = new UriBuilder(codeBase);
-		//			_pinPath = Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
-		//		}
-		//		return _pinPath;
-		//	}
-		//}
+		// This stuff was used to update pin positions during run time
+		private static string _pinPath = "";
 
-		//private static string _PinData => _PinPath + @"/pindebug.xml";
+		private static string _PinPath {
+			get {
+				if (_pinPath == "") {
+					string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+					UriBuilder uri = new UriBuilder(codeBase);
+					_pinPath = Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
+				}
+				return _pinPath;
+			}
+		}
 
-		//public static void ReloadPinData() {
-		//	try {
-		//		using (Stream stream = File.Open(_PinData, FileMode.Open)) {
-		//			XmlDocument xml = new XmlDocument();
-		//			xml.Load(stream);
-		//			foreach (XmlNode node in xml.SelectNodes("randomap/pin")) {
-		//				string ID = node.Attributes["name"].Value;
-		//				foreach (XmlNode chld in node.ChildNodes) {
-		//					if (chld.NodeType == XmlNodeType.Comment) {
-		//						continue;
-		//					}
-		//					if (PinDataDictionary.ContainsKey(ID)) {
-		//						switch (chld.Name) {
-		//							case "notPin":
-		//								PinDataDictionary[ID].NotPin = XmlConvert.ToBoolean(chld.InnerText);
-		//								break;
-		//							case "pinScene":
-		//								PinDataDictionary[ID].PinScene = chld.InnerText;
-		//								break;
-		//							// Only used for getting Shop Pins in the right place
-		//							case "mapArea":
-		//								PinDataDictionary[ID].MapArea = chld.InnerText;
-		//								break;
-		//							case "vanillaPool":
-		//								PinDataDictionary[ID].VanillaPool = chld.InnerText;
-		//								break;
-		//							case "offsetX":
-		//								PinDataDictionary[ID].OffsetX = XmlConvert.ToSingle(chld.InnerText);
-		//								break;
-		//							case "offsetY":
-		//								PinDataDictionary[ID].OffsetY = XmlConvert.ToSingle(chld.InnerText);
-		//								break;
-		//							case "offsetZ":
-		//								PinDataDictionary[ID].OffsetZ = XmlConvert.ToSingle(chld.InnerText);
-		//								break;
-		//							default:
-		//								break;
-		//						}
-		//					}
-		//				}
-		//			}
-		//		}
-		//	} catch (Exception e) {
-		//		MapModS.Instance.LogWarn($"pindebug.xml Load Failed!\n{e}");
-		//	}
-		//}
+		private static string _PinData => _PinPath + @"/pindebug.xml";
+
+		public static void ReloadPinData() {
+			try {
+				using (Stream stream = File.Open(_PinData, FileMode.Open)) {
+					XmlDocument xml = new XmlDocument();
+					xml.Load(stream);
+					foreach (XmlNode node in xml.SelectNodes("randomap/pin")) {
+						string ID = node.Attributes["name"].Value;
+						foreach (XmlNode chld in node.ChildNodes) {
+							if (chld.NodeType == XmlNodeType.Comment) {
+								continue;
+							}
+							if (PinDataDictionary.ContainsKey(ID)) {
+								switch (chld.Name) {
+									case "notPin":
+										PinDataDictionary[ID].NotPin = XmlConvert.ToBoolean(chld.InnerText);
+										break;
+
+									case "pinScene":
+										PinDataDictionary[ID].PinScene = chld.InnerText;
+										break;
+									// Only used for getting Shop Pins in the right place
+									case "mapArea":
+										PinDataDictionary[ID].MapArea = chld.InnerText;
+										break;
+
+									case "vanillaPool":
+										PinDataDictionary[ID].VanillaPool = chld.InnerText;
+										break;
+
+									case "offsetX":
+										PinDataDictionary[ID].OffsetX = XmlConvert.ToSingle(chld.InnerText);
+										break;
+
+									case "offsetY":
+										PinDataDictionary[ID].OffsetY = XmlConvert.ToSingle(chld.InnerText);
+										break;
+
+									case "offsetZ":
+										PinDataDictionary[ID].OffsetZ = XmlConvert.ToSingle(chld.InnerText);
+										break;
+
+									default:
+										break;
+								}
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				MapModS.Instance.LogWarn($"pindebug.xml Load Failed!\n{e}");
+			}
+		}
 	}
 }

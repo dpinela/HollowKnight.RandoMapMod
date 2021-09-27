@@ -48,9 +48,11 @@ namespace RandoMapMod {
 		}
 
 		public static void Unload() {
-			Destroy(_instance._pauseCanvas);
-			Destroy(_instance._mapCanvas);
-			Destroy(_instance.gameObject);
+			if (_instance != null) {
+				Destroy(_instance._pauseCanvas);
+				Destroy(_instance._mapCanvas);
+				Destroy(_instance.gameObject);
+			}
 		}
 
 		public void BuildMenus() {

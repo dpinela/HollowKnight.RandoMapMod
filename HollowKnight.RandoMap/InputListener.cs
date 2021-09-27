@@ -27,10 +27,10 @@ namespace RandoMapMod.UnityComponents {
 		protected void Update() {
 			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
 				if (Input.GetKeyDown(KeyCode.M)) {
-					MapModS.GiveAllMaps("Hotkey");
+					MapModS.EnableMapMod("Hotkey");
 				}
 
-				if (MapModS.Instance.Settings.MapsGiven) {
+				if (MapModS.Instance.Settings.MapModEnabled) {
 					if (Input.GetKeyDown(KeyCode.Alpha1)) {
 						MapModS.Instance.PinGroupInstance.ToggleSpoilers();
 					}
@@ -46,13 +46,18 @@ namespace RandoMapMod.UnityComponents {
 					if (Input.GetKeyDown(KeyCode.Alpha4)) {
 						MapModS.Instance.PinGroupInstance.ToggleOthers();
 					}
+
+					//if (Input.GetKeyDown(KeyCode.Alpha5)) {
+					//	MapModS.RevealFullMap();
+					//}
+
 				}
 
-				// Used for various debugging tasks
-				//if (Input.GetKeyDown(KeyCode.O)) {
-				//MapModS.ReloadGameMapPins();
-				//MapModS.GetAllActiveObjects();
-				//}
+				//Used for various debugging tasks
+				if (Input.GetKeyDown(KeyCode.O)) {
+						MapModS.ReloadGameMapPins();
+						//MapModS.GetAllActiveObjects();
+					}
 			}
 		}
 	}

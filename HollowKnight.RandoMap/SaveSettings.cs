@@ -167,7 +167,16 @@ namespace RandoMapMod {
 			}
 		}
 
-		public bool MapsGiven {
+		public bool MapModEnabled {
+			get => GetBool(false);
+			set => SetBool(value);
+		}
+
+		public bool RevealedMap {
+			get => GetBool(false);
+			set => SetBool(value);
+		}
+		public bool ShowAllPins {
 			get => GetBool(false);
 			set => SetBool(value);
 		}

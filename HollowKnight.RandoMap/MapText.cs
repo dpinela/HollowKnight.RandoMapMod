@@ -42,7 +42,7 @@ namespace RandoMapMod {
 		public static void Update() {
 			if (_mapDisplayPanel == null || GameManager.instance == null
 				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
-				|| !MapModS.Instance.Settings.MapsGiven) {
+				|| !MapModS.Instance.Settings.MapModEnabled) {
 				return;
 			}
 

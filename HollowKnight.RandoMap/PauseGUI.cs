@@ -50,6 +50,7 @@ namespace RandoMapMod {
 		};
 
 		private static CanvasPanel _mapControlPanel;
+		private static int _mapRevealCounter = 0;
 
 		public static void BuildMenu(GameObject _canvas) {
 			Canvas = _canvas;
@@ -74,6 +75,38 @@ namespace RandoMapMod {
 					pair.Key,
 					fontSize: 10
 				);
+			}
+
+			// These buttons only appear if the full map hasn't been revealed yet
+			if (!MapModS.Instance.Settings.RevealedMap) {
+				_mapControlPanel.AddButton
+				(
+					"Reveal\nFull Map",
+					GUIController.Instance.Images["ButtonRect"],
+					new Vector2(400, -30f),
+					Vector2.zero,
+					_RevealFullMapClicked,
+					buttonRect,
+					GUIController.Instance.TrajanBold,
+					"Reveal\nFull Map",
+					fontSize: 10
+				);
+				_SetRevealFullMap();
+
+
+				_mapControlPanel.AddButton
+				(
+					"Show Pins",
+					GUIController.Instance.Images["ButtonRect"],
+					new Vector2(300, -30f),
+					Vector2.zero,
+					_ShowPinsClicked,
+					buttonRect,
+					GUIController.Instance.TrajanBold,
+					"Show Pins",
+					fontSize: 10
+				);
+				_SetShowPins();
 			}
 
 			// New panel for pool buttons
@@ -130,12 +163,13 @@ namespace RandoMapMod {
 		public static void Update() {
 			if (_mapControlPanel == null || GameManager.instance == null
 				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
-				|| !MapModS.Instance.Settings.MapsGiven) {
+				|| !MapModS.Instance.Settings.MapModEnabled) {
 				return;
 			}
 
 			if (HeroController.instance == null || !GameManager.instance.IsGameplayScene() || !GameManager.instance.IsGamePaused()) {
 				if (_mapControlPanel.Active) _mapControlPanel.SetActive(false, true);
+				_mapRevealCounter = 0;
 				return;
 			} else {
 				if (!_mapControlPanel.Active) {
@@ -257,6 +291,41 @@ namespace RandoMapMod {
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\ncustom");
 				MapModS.Instance.Settings.OthersOn = true;
+			}
+		}
+
+		private static void _RevealFullMapClicked(string buttonName) {
+			_mapRevealCounter++;
+
+			if (_mapRevealCounter > 1) {
+				MapModS.RevealFullMap();
+				MapModS.Instance.Settings.ShowAllPins = true;
+				_mapControlPanel.GetButton("Reveal\nFull Map").SetActive(false);
+				_mapControlPanel.GetButton("Show Pins").SetActive(false);
+			}
+
+			_SetRevealFullMap();
+		}
+
+		// This one is independent of the ShowButtons function as the button may or may not exist
+		private static void _SetRevealFullMap() {
+			if (_mapRevealCounter == 1) {
+				_mapControlPanel.GetButton("Reveal\nFull Map").SetTextColor(Color.yellow);
+				_mapControlPanel.GetButton("Reveal\nFull Map").UpdateText("Are you sure?");
+			}
+		}
+
+		private static void _ShowPinsClicked(string buttonName) {
+			MapModS.Instance.Settings.ShowAllPins = !MapModS.Instance.Settings.ShowAllPins;
+			_SetShowPins();
+		}
+
+		// This one is independent of the ShowButtons function as the button may or may not exist
+		private static void _SetShowPins() {
+			if (MapModS.Instance.Settings.ShowAllPins) {
+				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins\nall areas");
+			} else {
+				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins\nmap only");
 			}
 		}
 

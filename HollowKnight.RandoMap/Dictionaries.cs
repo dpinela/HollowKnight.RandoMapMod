@@ -19,6 +19,7 @@ namespace RandoMapMod {
 			{"Tower_of_Love"        , "City_of_Tears"       },
 			{"Crystallized_Mound"   , "Crystal_Peak"        },
 			{"Crystal_Peak"         , "Crystal_Peak"        },
+			{"Hallownests_Crown"    , "Crystal_Peak"        },
 			{"Beasts_Den"           , "Deepnest"            },
 			{"Deepnest"             , "Deepnest"            },
 			{"Distant_Village"      , "Deepnest"            },
@@ -43,7 +44,6 @@ namespace RandoMapMod {
 			{"Stag_Nest"            , "Howling_Cliffs"      },
 			{"Cast_Off_Shell"       , "Kingdoms_Edge"       },
 			{"Colosseum"            , "Kingdoms_Edge"       },
-			{"Hallownests_Crown"    , "Kingdoms_Edge"       },
 			{"Hive"                 , "Kingdoms_Edge"       },
 			{"Kingdoms_Edge"        , "Kingdoms_Edge"       },
 			{"Queens_Gardens"       , "Queens_Gardens"      },
@@ -149,6 +149,26 @@ namespace RandoMapMod {
 			{ "Mimic_Grub_(2)"          , "MimicItem"   },
 			{ "Mimic_Grub_(3)"          , "MimicItem"   },
 		};
+
+		public static bool GetPlayerDataMapSetting(string mapArea) {
+			return mapArea switch {
+				"Ancient_Basin" => PlayerData.instance.mapAbyss,
+				"City_of_Tears" => PlayerData.instance.mapCity,
+				"Howling_Cliffs" => PlayerData.instance.mapCliffs,
+				"Forgotten_Crossroads" => PlayerData.instance.mapCrossroads,
+				"Crystal_Peak" => PlayerData.instance.mapMines,
+				"Deepnest" => PlayerData.instance.mapDeepnest,
+				"Dirtmouth" => PlayerData.instance.mapDirtmouth,
+				"Fog_Canyon" => PlayerData.instance.mapFogCanyon,
+				"Fungal_Wastes" => PlayerData.instance.mapFungalWastes,
+				"Greenpath" => PlayerData.instance.mapGreenpath,
+				"Kingdom's_Edge" => PlayerData.instance.mapOutskirts,
+				"Queens_Gardens" => PlayerData.instance.mapRoyalGardens,
+				"Resting_Grounds" => PlayerData.instance.mapRestingGrounds,
+				"Royal_Waterways" => PlayerData.instance.mapWaterways,
+				_ => false,
+			};
+		}
 
 		public static bool GetRandomizerSetting(PinGroup.GroupName group) {
 			object randoSettings = RandomizerMod.RandomizerMod.Instance.Settings;
