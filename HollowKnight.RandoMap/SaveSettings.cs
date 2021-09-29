@@ -1,4 +1,8 @@
-﻿using SereCore;
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using Modding;
+using SereCore;
 
 namespace RandoMapMod {
 
@@ -11,6 +15,25 @@ namespace RandoMapMod {
 			};
 			Instance = this;
 		}
+
+		//public SerializableBoolDictionary FoundUnrandomizedLocations = new SerializableBoolDictionary();
+
+		//public void AddObtainedLocation(string key) {
+		//	FoundUnrandomizedLocations[key] = true;
+		//}
+
+		//public bool CheckObtainedLocation(string key) {
+		//	try {
+		//		if (FoundUnrandomizedLocations != null) {
+		//			if (FoundUnrandomizedLocations.ContainsKey(key)) {
+		//				return true;
+		//			}
+		//		}
+		//	} catch (Exception e) {
+		//		MapModS.Instance.LogError(e);
+		//	}
+		//	return false;
+		//}
 
 		public bool GetBoolFromGroup(PinGroup.GroupName group) {
 			return group switch {
@@ -167,7 +190,7 @@ namespace RandoMapMod {
 			}
 		}
 
-		public bool MapModEnabled {
+		public bool MapsGiven {
 			get => GetBool(false);
 			set => SetBool(value);
 		}

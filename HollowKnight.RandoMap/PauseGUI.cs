@@ -163,7 +163,7 @@ namespace RandoMapMod {
 		public static void Update() {
 			if (_mapControlPanel == null || GameManager.instance == null
 				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
-				|| !MapModS.Instance.Settings.MapModEnabled) {
+				|| !MapModS.Instance.Settings.MapsGiven) {
 				return;
 			}
 

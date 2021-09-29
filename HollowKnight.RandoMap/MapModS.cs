@@ -83,15 +83,10 @@ namespace RandoMapMod {
 			UnityEngine.SceneManagement.SceneManager.activeSceneChanged += _HandleSceneChanges;
 			ModHooks.Instance.LanguageGetHook += _HandleLanguageGet;
 
-			//On.GeoRock.UpdateHitsLeftFromFSM += this._UpdateRock;
+			//Unrandomized.Hook();
 
 			Instance.Log("RandoMapMod Initialize complete!");
 		}
-
-		//private void _UpdateRock(On.GeoRock.orig_UpdateHitsLeftFromFSM orig, GeoRock self) {
-		//	Instance.Log(self.geoRockData.id);
-		//	Instance.Log(self.geoRockData.hitsLeft);
-		//}
 
 		private List<GameObject> _objectsToDisable = new List<GameObject>();
 
@@ -104,8 +99,9 @@ namespace RandoMapMod {
 					case "Pin_Teacher":
 					case "Pin_Watcher":
 					case "Pin_Beast":
+					case "Pin_Black_Egg":
 					case "Pin_BlackEgg":
-					case "Flame Pins":
+					//case "Flame Pins":
 					case "Map Markers":
 					case "Map Key":
 						_objectsToDisable.Add(go);
@@ -125,28 +121,31 @@ namespace RandoMapMod {
 
 		private void _DisableVanillaMapAssets() {
 			foreach (GameObject go in _objectsToDisable) {
-				go.transform.localPosition = new Vector3(0, 0, 10);
-				go.SetActive(false);
+				if (go != null) {
+					go.transform.parent = null;
+					//go.transform.position = new Vector3(0, 0, 100);
+					go.SetActive(false);
+				}
 			}
 		}
 
 		private void _BrummFlamePin_Enable(On.BrummFlamePin.orig_OnEnable orig, BrummFlamePin self) {
 			orig(self);
-			if (Instance.Settings.MapModEnabled) {
+			if (Instance.Settings.MapsGiven) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 		}
 
 		private void _FlamePin_Enable(On.FlamePin.orig_OnEnable orig, FlamePin self) {
 			orig(self);
-			if (Instance.Settings.MapModEnabled) {
+			if (Instance.Settings.MapsGiven) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 		}
 
 		private void _GrubPin_Enable(On.GrubPin.orig_OnEnable orig, GrubPin self) {
 			orig(self);
-			if (Instance.Settings.MapModEnabled) {
+			if (Instance.Settings.MapsGiven) {
 				if (self.gameObject.activeSelf) self.gameObject.SetActive(false);
 			}
 		}
@@ -225,7 +224,7 @@ namespace RandoMapMod {
 				// Set up UI and hotkeys
 				InputListener.InstantiateSingleton();
 
-				if (Instance.Settings.MapModEnabled) {
+				if (Instance.Settings.MapsGiven) {
 					GUIController.Setup();
 					GUIController.Instance.BuildMenus();
 				}
@@ -366,7 +365,7 @@ namespace RandoMapMod {
 		}
 
 		internal static void EnableMapMod(string from) {
-			if (!Instance.Settings.MapModEnabled) {
+			if (!Instance.Settings.MapsGiven) {
 				Instance.Log($"MapMod enabled by {from}");
 
 				PlayerData pd = PlayerData.instance;
@@ -389,7 +388,14 @@ namespace RandoMapMod {
 				// Set Cornifer as sleeping at home
 				//pd.SetBool(nameof(pd.corniferAtHome), true);
 
-				Instance.Settings.MapModEnabled = true;
+				Instance.Settings.MapsGiven = true;
+
+				// check if all rooms are revealed
+				if (pd.mapAllRooms)
+				{
+					Instance.Settings.RevealedMap = true;
+				}
+
 
 				GUIController.Setup();
 				GUIController.Instance.BuildMenus();
@@ -399,7 +405,7 @@ namespace RandoMapMod {
 		}
 
 		internal static void RevealFullMap() {
-			if (Instance.Settings.MapModEnabled && !Instance.Settings.RevealedMap) {
+			if (Instance.Settings.MapsGiven && !Instance.Settings.RevealedMap) {
 				PlayerData pd = PlayerData.instance;
 				Type playerData = typeof(PlayerData);
 
@@ -422,7 +428,7 @@ namespace RandoMapMod {
 		}
 
 		private string _HandleLanguageGet(string key, string sheetTitle) {
-			if (IsRando && !Settings.MapModEnabled) {
+			if (IsRando && !Settings.MapsGiven) {
 				if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(sheetTitle)) {
 					return string.Empty;
 				}
@@ -508,7 +514,7 @@ namespace RandoMapMod {
 		private class ElderbugIsACoolDude : FsmStateAction {
 
 			public override void OnEnter() {
-				if (_convoCounter >= MAPS_TRIGGER & !Instance.Settings.MapModEnabled) {
+				if (_convoCounter >= MAPS_TRIGGER & !Instance.Settings.MapsGiven) {
 					EnableMapMod("FSMAction");
 				}
 
@@ -524,6 +530,18 @@ namespace RandoMapMod {
 				Instance.PinGroupInstance.RefreshPins(gameMap);
 			} catch (Exception e) {
 				Instance.LogError(e);
+			}
+		}
+
+		internal static void GetAllActiveObjects() {
+			GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+			foreach (GameObject go in allObjects) {
+				if (go.activeInHierarchy) {
+					Instance.Log(go.name);
+					//if (go.name.Contains("Health Cocoon")) {
+					//	Instance.Log(go.LocateMyFSM());
+					//}
+				}
 			}
 		}
 	}
@@ -557,14 +575,5 @@ namespace RandoMapMod {
 	//		DebugLog.Log($"- {roomObj.gameObject.name}");
 	//	}
 	//}
-	//}
-
-	//	internal static void GetAllActiveObjects() {
-	//	GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
-	//	foreach (GameObject go in allObjects) {
-	//		if (go.activeInHierarchy) {
-	//			Instance.Log(go.name + " is an active object");
-	//		}
-	//	}
 	//}
 }

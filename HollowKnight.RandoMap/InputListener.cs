@@ -6,12 +6,6 @@ namespace RandoMapMod.UnityComponents {
 	internal class InputListener : MonoBehaviour {
 		private static GameObject _instance_GO = null;
 
-		public static void DestroySingleton() {
-			if (_instance_GO != null) {
-				Destroy(_instance_GO);
-			}
-		}
-
 		public static void InstantiateSingleton() {
 			if (_instance_GO == null) {
 				_instance_GO = GameObject.Find("RandoMapInputListener");
@@ -24,13 +18,19 @@ namespace RandoMapMod.UnityComponents {
 			}
 		}
 
+		public static void DestroySingleton() {
+			if (_instance_GO != null) {
+				Destroy(_instance_GO);
+			}
+		}
+
 		protected void Update() {
 			if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
 				if (Input.GetKeyDown(KeyCode.M)) {
 					MapModS.EnableMapMod("Hotkey");
 				}
 
-				if (MapModS.Instance.Settings.MapModEnabled) {
+				if (MapModS.Instance.Settings.MapsGiven) {
 					if (Input.GetKeyDown(KeyCode.Alpha1)) {
 						MapModS.Instance.PinGroupInstance.ToggleSpoilers();
 					}
@@ -55,9 +55,9 @@ namespace RandoMapMod.UnityComponents {
 
 				//Used for various debugging tasks
 				if (Input.GetKeyDown(KeyCode.O)) {
-						MapModS.ReloadGameMapPins();
-						//MapModS.GetAllActiveObjects();
-					}
+					//MapModS.ReloadGameMapPins();
+					MapModS.GetAllActiveObjects();
+				}
 			}
 		}
 	}

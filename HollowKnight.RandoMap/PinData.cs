@@ -9,6 +9,7 @@ namespace RandoMapMod {
 			this.OffsetX = 0.0f;
 			this.OffsetY = 0.0f;
 			this.OffsetZ = 0.0f;
+			this.ObjectName = "";
 			this.SceneName = "";
 			this.MapArea = "";
 			this.VanillaPool = "";
@@ -67,6 +68,12 @@ namespace RandoMapMod {
 		}
 
 		public string SpoilerPool {
+			get;
+			internal set;
+		}
+
+		// These are used to track unrandomized items. pindata.xml will overwrite when needed
+		public string ObjectName {
 			get;
 			internal set;
 		}

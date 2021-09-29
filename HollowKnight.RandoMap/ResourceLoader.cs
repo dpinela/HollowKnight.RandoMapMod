@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using UnityEngine;
+using ModCommon;
+using Modding;
 
 namespace RandoMapMod {
 
@@ -200,6 +202,13 @@ namespace RandoMapMod {
 						pinD.SceneName = chld.InnerText;
 						continue;
 					}
+					if (chld.Name == "objectName") {
+						// Let pindata.xml keep its overwrite
+						if (pinD.ObjectName == "") {
+							pinD.ObjectName = chld.InnerText;
+						}
+						continue;
+					}
 					if (chld.Name == "areaName") {
 						if (Dictionaries.IsArea(chld.InnerText)) {
 							pinD.MapArea = Dictionaries.GetMapAreaFromArea(chld.InnerText);
@@ -325,6 +334,11 @@ namespace RandoMapMod {
 
 						case "isShop":
 							newPin.IsShop = XmlConvert.ToBoolean(chld.InnerText);
+							break;
+
+						// Only used for fixing duplicate object names in the same scene
+						case "objectName":
+							newPin.ObjectName = chld.InnerText;
 							break;
 
 						default:

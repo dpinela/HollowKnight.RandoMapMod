@@ -1320,7 +1320,7 @@
 		<offsetZ>0.3</offsetZ>
 	</pin>
 	<pin name="Lifeblood_Cocoon-Greenpath">
-		<offsetX>-0.2</offsetX>
+		<offsetX>-0.1</offsetX>
 		<offsetY>0.1</offsetY>
 	</pin>
 	<pin name="Lifeblood_Cocoon-Fog_Canyon_West">
@@ -1691,12 +1691,15 @@
 		<offsetX>0.4</offsetX>
 		<offsetY>0.2</offsetY>
 		<offsetZ>0.3</offsetZ>
+		<objectName>Geo Rock 2 (Dupe)</objectName>
 	</pin>
+	<!--this has the same object name as the above!! need to check by player position-->
 	<pin name="Geo_Rock-Ancestral_Mound_Tree">
 		<pinScene>Crossroads_06</pinScene>
 		<offsetX>0.4</offsetX>
 		<offsetY>0.6</offsetY>
 		<offsetZ>0.5</offsetZ>
+		<objectName>Geo Rock 2 (Tree)</objectName>
 	</pin>
 	<pin name="Geo_Rock-Ancestral_Mound_Tree_Dupe">
 		<pinScene>Crossroads_06</pinScene>
@@ -1991,12 +1994,12 @@
 	</pin>
 	<!--Howling Cliffs-->
 	<pin name="Geo_Rock-Baldur_Shell_Top_Left">
-		<offsetX>-0.7</offsetX>
-		<offsetY>-0.3</offsetY>
-	</pin>
-	<pin name="Geo_Rock-Baldur_Shell_Alcove">
 		<offsetX>-1.4</offsetX>
 		<offsetY>0</offsetY>
+	</pin>
+	<pin name="Geo_Rock-Baldur_Shell_Alcove">
+		<offsetX>-0.7</offsetX>
+		<offsetY>-0.3</offsetY>
 	</pin>
 	<!--Greenpath-->
 	<pin name="Geo_Rock-Greenpath_MMC">
@@ -2734,7 +2737,8 @@
 		<offsetX>-1.1</offsetX>
 		<offsetY>-0.1</offsetY>
 	</pin>
-
+	
+	<!--To do: Add all objectNames here-->
 	<!--Lore Tablet-->
 	<pin name="Lore_Tablet-City_Entrance">
 		<offsetX>0</offsetX>
@@ -2800,7 +2804,7 @@
 		<offsetY>-0.2</offsetY>
 	</pin>
 	<pin name="Lore_Tablet-Greenpath_Lifeblood">
-		<offsetX>0.2</offsetX>
+		<offsetX>-0.5</offsetX>
 		<offsetY>0.1</offsetY>
 		<offsetZ>0.1</offsetZ>
 	</pin>
@@ -2845,16 +2849,19 @@
 		<offsetX>0.2</offsetX>
 		<offsetY>-0.4</offsetY>
 		<offsetZ>0</offsetZ>
+		<objectName>Tut_tablet_top</objectName>
 	</pin>
 	<pin name="Lore_Tablet-King's_Pass_Fury">
 		<offsetX>1.7</offsetX>
 		<offsetY>-0.8</offsetY>
 		<offsetZ>0.2</offsetZ>
+		<objectName>Tut_tablet_top (2)</objectName>
 	</pin>
 	<pin name="Lore_Tablet-King's_Pass_Exit">
 		<offsetX>1.5</offsetX>
 		<offsetY>0.4</offsetY>
 		<offsetZ>0.2</offsetZ>
+		<objectName>Tut_tablet_top (1)</objectName>
 	</pin>
 	<pin name="Lore_Tablet-World_Sense">
 		<pinScene>Crossroads_02</pinScene>

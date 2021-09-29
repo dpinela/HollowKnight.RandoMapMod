@@ -1,5 +1,8 @@
 ﻿using RandoMapMod;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Modding;
 using UnityEngine;
 
 internal class Pin : MonoBehaviour {
@@ -53,9 +56,28 @@ internal class Pin : MonoBehaviour {
 	}
 
 	private void _HideIfFound() {
-		if (RandomizerMod.RandomizerMod.Instance.Settings.CheckLocationFound(this.PinData.ID)) {
+		if (RandomizerMod.RandomizerMod.Instance.Settings.CheckLocationFound(this.PinData.ID))
+		{
 			this.gameObject.SetActive(false);
-		};
+		}
+		//} else {
+		//	object mapSettings = MapModS.Instance.Settings;
+		//	Type mapSettingsType = mapSettings.GetType();
+		//	MethodInfo CheckObtainedLocation = mapSettingsType.GetMethod("CheckObtainedLocation");
+		//	FieldInfo FoundUnrandomizedLocations = mapSettingsType.GetField("FoundUnrandomizedLocations");
+
+		//	if (CheckObtainedLocation != null && FoundUnrandomizedLocations != null) {
+		//		if ((bool) CheckObtainedLocation.Invoke(mapSettings, new object[] { PinData.SceneName + PinData.ObjectName })) {
+		//			this.gameObject.SetActive(false);
+		//		}
+		//	}
+
+		//	//if (CheckObtainedLocation != null) {
+		//	//	if ((bool) CheckObtainedLocation.Invoke(mapSettings, new object[] { PinData.SceneName + PinData.ObjectName })) {
+		//	//		this.gameObject.SetActive(false);
+		//	//	}
+		//	//}
+		//}
 	}
 
 	private void _SetBigIfReachable() {
