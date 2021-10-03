@@ -498,10 +498,10 @@ namespace RandoMapMod
 					else if (_convoCounter == 0)
 					{
 						string talk = "Welcome to Randomizer Map S!" +
-							" Talk to me two more times, and I'll give you all the Maps. Once enabled, you can use the" +
+							" Talk to me two more times, and I'll give you a Map with custom Pins. Once enabled, you can use the" +
 							" UI in the Pause Menu to adjust the Map/Pins to your liking.\n" +
 							"<page>A big Pin means you can reach the location. A little Pin means you are missing a key item to be able to reach there.";
-						talk += "<page>You can also use the hotkey CTRL-M to get all the Maps.";
+						talk += "<page>You can also use the hotkey CTRL-M to enable the mod.";
 						message = talk;
 						_convoCounter++;
 					}

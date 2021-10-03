@@ -15,28 +15,29 @@ This fork of CaptainDapper's original mod has been expanded on with more feature
 https://github.com/Shadudev/HollowKnight.RandomizerMod
 https://github.com/Shadudev/HollowKnight.MultiWorld
 
-# Features
-- Use `CTRL-M` during a game to enable the mod and give all Maps to the player. This can also be done by talking to Elderbug a few times.
+# Quick Start Guide
+- Use `CTRL-M` during a game to enable the mod and give an empty Map.
+- If you want the complete Map with all the Pins, then click "Reveal Full Map" in the Pause Menu.
 
-- The World Map will now show Pins for every item in the game.
+# Full Features
+- Along with `CTRL-M` you can also talk to Elderbug a few times to enable the mod.
+
+- The World Map will now show Pins for every item check.
     - Big Pins means the items are reachable according to RandomizerMod's logic
     - Small Pins means the items are not randomized or not reachable
     - Pins for randomized items will disappear as you check them
     - Randomizer Map's settings are displayed at the bottom
-    - Quick Map can also be used to only show Pins in the current Map area
 
-- The Pause Menu UI has the following buttons:
-    - "Spoilers": Toggle Pins between vanilla (non-spoiler) and spoiler item pools
-    - "Style": Toggle the style of the Pins
-    - "Randomized": Toggle all randomized items on/off
-    - "Others": Toggle all other items on/off (excluding Shops)
+- The Pause Menu UI has the following buttons, with the following hotkeys:
+    - "Reveal Full Map": Gives you every Map item and fills in every room on the Map. Cannot be undone
+    - "Show Pins": Toggle Pins to show everywhere on the Map, or only for Map items you have picked up
+
+    - "Spoilers" `CTRL-1`: Toggle Pins between vanilla (non-spoiler) and spoiler item pools
+    - "Style" `CTRL-2`: Toggle the style of the Pins
+    - "Randomized" `Ctrl-3`: Toggle all Pins for randomized items on/off
+    - "Others" `Ctrl-4`: Toggle all Pins for other items on/off (excluding Shops)
+
     - "Show/Hide Pools": Open/close a panel with a toggle for each spoiler item pool
-
-- You can also use these hotkeys at any time during the game:
-    - `CTRL-1`: "Spoilers"
-    - `CTRL-2`: "Style"
-    - `Ctrl-3`: "Randomized"
-    - `Ctrl-4`: "Others"
 
 The Pin settings are saved between game loads.
 
@@ -47,21 +48,19 @@ The Pin settings are saved between game loads.
 4. That's it!
 
 # Acknowledgements
-- The Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions.
+- The Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions
 - CaptainDapper for making the original mod
 - Chaktis for helping with sprite art
 
-# Version 1.1.0 Changes
-- Now with a UI in the Pause Menu! You can now manually toggle each item pool on/off.
-- Also added a text overlay to the World Map and Quick Map
-- Added the option to switch to old pin styles
-- Changed the hotkeys to match the UI
-- Quick Map now only shows Pins in the current Map area
-- Fixed some Pins not showing
-- Updated some Pin art
-- Various bug fixes
+# Version 1.1.1 Changes
+- Added the option to reveal the full Map or leave as is (if you want Map items to be useful) in the Pause Menu
+- Also added an option to show Pins in all areas or only Pins for unlocked maps
+- Fixed Hallownest Crown items not showing up in Quick Map
+- Fixed Elevator Pass Pin not showing up
+- Removed Jiji Pin
 - More code cleanup
 
 # Known Bugs / Missing Features
 - Not compatible when RandomizerMod isn't installed
 - Non-randomized items don't get checked off on the Map
+- Reachable items don't show properly with room rando

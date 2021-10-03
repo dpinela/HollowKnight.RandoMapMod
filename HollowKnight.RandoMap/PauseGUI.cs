@@ -89,7 +89,7 @@ namespace RandoMapMod
 				(
 					"Reveal\nFull Map",
 					GUIController.Instance.Images["ButtonRect"],
-					new Vector2(400, -30f),
+					new Vector2(300, -30f),
 					Vector2.zero,
 					_RevealFullMapClicked,
 					buttonRect,
@@ -103,7 +103,7 @@ namespace RandoMapMod
 				(
 					"Show Pins",
 					GUIController.Instance.Images["ButtonRect"],
-					new Vector2(300, -30f),
+					new Vector2(400, -30f),
 					Vector2.zero,
 					_ShowPinsClicked,
 					buttonRect,
