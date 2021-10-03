@@ -142,6 +142,7 @@ namespace RandoMapMod
 					{
 						"Rock" => Sprites.oldGeoRockInv,
 						"Grub" => Sprites.oldGrubInv,
+						"Mimic" => Sprites.oldGrubInv,
 						"Cocoon" => Sprites.oldLifebloodInv,
 						"Soul" => Sprites.oldTotemInv,
 						"Shop" => Sprites.Shop,
@@ -154,6 +155,7 @@ namespace RandoMapMod
 					{
 						"Rock" => Sprites.oldGeoRock,
 						"Grub" => Sprites.oldGrub,
+						"Mimic" => Sprites.oldGrub,
 						"Cocoon" => Sprites.oldLifeblood,
 						"Soul" => Sprites.oldTotem,
 						"Shop" => Sprites.Shop,

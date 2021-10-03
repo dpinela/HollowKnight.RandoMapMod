@@ -132,7 +132,7 @@ namespace RandoMapMod
 				s => _TogglePoolPanel(),
 				buttonRect,
 				GUIController.Instance.TrajanBold,
-				"Pools",
+				"Show Pools",
 				fontSize: 10
 			);
 			pools.SetActive(false, true);
@@ -243,7 +243,7 @@ namespace RandoMapMod
 				);
 			_mapControlPanel.GetButton("Spoilers").UpdateText
 				(
-					MapModS.Instance.Settings.SpoilerOn ? ("Spoilers\non") : ("Spoilers\noff")
+					MapModS.Instance.Settings.SpoilerOn ? ("Spoilers:\non") : ("Spoilers:\noff")
 				);
 		}
 
@@ -257,19 +257,19 @@ namespace RandoMapMod
 			switch (MapModS.Instance.Settings.PinStyle)
 			{
 				case PinGroup.PinStyles.Normal:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nnormal");
+					_mapControlPanel.GetButton("Style").UpdateText("Style:\nnormal");
 					break;
 
 				case PinGroup.PinStyles.Q_Marks_1:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks 1");
+					_mapControlPanel.GetButton("Style").UpdateText("Style:\nq marks 1");
 					break;
 
 				case PinGroup.PinStyles.Q_Marks_2:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks 2");
+					_mapControlPanel.GetButton("Style").UpdateText("Style:\nq marks 2");
 					break;
 
 				case PinGroup.PinStyles.Q_Marks_3:
-					_mapControlPanel.GetButton("Style").UpdateText("Style\nq marks 3");
+					_mapControlPanel.GetButton("Style").UpdateText("Style:\nq marks 3");
 					break;
 			}
 		}
@@ -284,19 +284,19 @@ namespace RandoMapMod
 			if (!MapModS.Instance.PinGroupInstance.RandomizedGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup))
 			{
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.white);
-				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\noff");
+				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized:\noff");
 				MapModS.Instance.Settings.RandomizedOn = false;
 			}
 			else if (MapModS.Instance.PinGroupInstance.RandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup))
 			{
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.green);
-				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\non");
+				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized:\non");
 				MapModS.Instance.Settings.RandomizedOn = true;
 			}
 			else
 			{
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.yellow);
-				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\ncustom");
+				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized:\ncustom");
 				MapModS.Instance.Settings.RandomizedOn = true;
 			}
 		}
@@ -311,19 +311,19 @@ namespace RandoMapMod
 			if (!MapModS.Instance.PinGroupInstance.OthersGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup))
 			{
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.white);
-				_mapControlPanel.GetButton("Others").UpdateText("Others\noff");
+				_mapControlPanel.GetButton("Others").UpdateText("Others:\noff");
 				MapModS.Instance.Settings.OthersOn = false;
 			}
 			else if (MapModS.Instance.PinGroupInstance.OthersGroups.All(MapModS.Instance.Settings.GetBoolFromGroup))
 			{
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.green);
-				_mapControlPanel.GetButton("Others").UpdateText("Others\non");
+				_mapControlPanel.GetButton("Others").UpdateText("Others:\non");
 				MapModS.Instance.Settings.OthersOn = true;
 			}
 			else
 			{
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.yellow);
-				_mapControlPanel.GetButton("Others").UpdateText("Others\ncustom");
+				_mapControlPanel.GetButton("Others").UpdateText("Others:\ncustom");
 				MapModS.Instance.Settings.OthersOn = true;
 			}
 		}
@@ -368,11 +368,11 @@ namespace RandoMapMod
 		{
 			if (MapModS.Instance.Settings.ShowAllPins)
 			{
-				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins\nall areas");
+				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins:\neverywhere");
 			}
 			else
 			{
-				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins\nmap only");
+				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins:\nover map");
 			}
 		}
 
