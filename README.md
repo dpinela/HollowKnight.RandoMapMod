@@ -54,7 +54,7 @@ The Pin settings are saved between game loads.
 
 # Version 1.1.1 Changes
 - Added the option to reveal the full Map or leave as is (if you want Map items to be useful) in the Pause Menu
-- Also added an option to show Pins in all areas or only Pins for unlocked maps
+- Also added an option to show Pins in all areas or only Pins for unlocked Maps
 - Fixed Hallownest Crown items not showing up in Quick Map
 - Fixed Elevator Pass Pin not showing up
 - Removed Jiji Pin
