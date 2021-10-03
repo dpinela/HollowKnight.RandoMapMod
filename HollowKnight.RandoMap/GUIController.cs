@@ -46,7 +46,7 @@ namespace MapModS
 
 		public static void Setup()
 		{
-			GameObject GUIObj = new GameObject("RandoMapMod GUI");
+			GameObject GUIObj = new GameObject("MapModS GUI");
 			_instance = GUIObj.AddComponent<GUIController>();
 			DontDestroyOnLoad(GUIObj);
 		}
@@ -131,7 +131,7 @@ namespace MapModS
 
 			foreach (string res in asm.GetManifestResourceNames())
 			{
-				if (!res.StartsWith("RandoMapMod.Resources.GUI.")) continue;
+				if (!res.StartsWith("MapModS.Resources.GUI.")) continue;
 
 				try
 				{

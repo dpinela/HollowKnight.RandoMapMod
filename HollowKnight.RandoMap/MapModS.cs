@@ -63,7 +63,7 @@ namespace MapModS
 
 			Instance = this;
 
-			Instance.Log("RandoMapMod Initializing...");
+			Instance.Log("MapModS Initializing...");
 
 			On.GameMap.Start += this._GameMap_Start;                //Set up custom pins
 			On.GameMap.SetupMapMarkers += this._GameMap_SetupMapMarkers;    //Enable the custom pins
@@ -94,7 +94,7 @@ namespace MapModS
 
 			//Unrandomized.Hook();
 
-			Instance.Log("RandoMapMod Initialize complete!");
+			Instance.Log("MapModS Initialize complete!");
 		}
 
 		private List<GameObject> _objectsToDisable = new List<GameObject>();

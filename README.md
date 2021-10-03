@@ -43,8 +43,8 @@ The Pin settings are saved between game loads.
 
 # How To Install
 1. Make sure you have RandomizerMod v3.13(888) (or the older working builds) properly installed.
-2. Download the latest release of `RandoMapMod.zip`.
-3. Unzip and copy RandoMapMod.dll to the folder `...\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods`.
+2. Download the latest release of `MapModS.zip`.
+3. Unzip and copy MapModS.dll to the folder `...\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods`.
 4. That's it!
 
 # Acknowledgements
