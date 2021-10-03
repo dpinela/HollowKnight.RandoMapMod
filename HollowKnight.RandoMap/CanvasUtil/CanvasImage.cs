@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace RandoMapMod.CanvasUtil {
-
-	public class CanvasImage {
+namespace RandoMapMod.CanvasUtil
+{
+	// Code borrowed from homothety
+	public class CanvasImage
+	{
 		public bool Active;
 		private GameObject _imageObj;
 		private Rect _sub;
 		private Vector2 _sz;
-		public CanvasImage(GameObject parent, Texture2D tex, Vector2 pos, Vector2 size, Rect subSprite) {
-			if (size.x == 0 || size.y == 0) {
+
+		public CanvasImage(GameObject parent, Texture2D tex, Vector2 pos, Vector2 size, Rect subSprite)
+		{
+			if (size.x == 0 || size.y == 0)
+			{
 				size = new Vector2(subSprite.width, subSprite.height);
 			}
 
@@ -39,45 +44,57 @@ namespace RandoMapMod.CanvasUtil {
 			Active = true;
 		}
 
-		public void Destroy() {
+		public void Destroy()
+		{
 			GameObject.Destroy(_imageObj); ;
 		}
 
-		public void SetActive(bool b) {
-			if (_imageObj != null) {
+		public void SetActive(bool b)
+		{
+			if (_imageObj != null)
+			{
 				_imageObj.SetActive(b);
 				Active = b;
 			}
 		}
 
-		public void SetHeight(float height) {
-			if (_imageObj != null) {
+		public void SetHeight(float height)
+		{
+			if (_imageObj != null)
+			{
 				_sz = new Vector2(_sz.x, height);
 				_imageObj.GetComponent<RectTransform>().SetScaleY(height / _imageObj.GetComponent<RectTransform>().sizeDelta.y);
 			}
 		}
 
-		public void SetPosition(Vector2 pos) {
-			if (_imageObj != null) {
+		public void SetPosition(Vector2 pos)
+		{
+			if (_imageObj != null)
+			{
 				Vector2 position = new Vector2((pos.x + ((_sz.x / _sub.width) * _sub.width) / 2f) / 1920f, (1080f - (pos.y + ((_sz.y / _sub.height) * _sub.height) / 2f)) / 1080f);
 				_imageObj.GetComponent<RectTransform>().anchorMin = position;
 				_imageObj.GetComponent<RectTransform>().anchorMax = position;
 			}
 		}
 
-		public void SetRenderIndex(int idx) {
+		public void SetRenderIndex(int idx)
+		{
 			_imageObj.transform.SetSiblingIndex(idx);
 		}
 
-		public void SetWidth(float width) {
-			if (_imageObj != null) {
+		public void SetWidth(float width)
+		{
+			if (_imageObj != null)
+			{
 				_sz = new Vector2(width, _sz.y);
 				_imageObj.GetComponent<RectTransform>().SetScaleX(width / _imageObj.GetComponent<RectTransform>().sizeDelta.x);
 			}
 		}
 
-		public void UpdateImage(Texture2D tex, Rect subSection) {
-			if (_imageObj != null) {
+		public void UpdateImage(Texture2D tex, Rect subSection)
+		{
+			if (_imageObj != null)
+			{
 				_imageObj.GetComponent<Image>().sprite = Sprite.Create(tex, new Rect(subSection.x, tex.height - subSection.height, subSection.width, subSection.height), Vector2.zero);
 			}
 		}

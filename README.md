@@ -12,7 +12,7 @@ This fork of CaptainDapper's original mod has been expanded on with more feature
 - Randomizer ItemSync 1.3.0
 - Randomizer Multiworld 0.1.1
 
-https://github.com/Shadudev/HollowKnight.RandomizerMod
+https://github.com/homothetyhk/HollowKnight.RandomizerMod
 https://github.com/Shadudev/HollowKnight.MultiWorld
 
 # Quick Start Guide
