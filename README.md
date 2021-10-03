@@ -6,7 +6,8 @@ Randomizer Map S is a Hollow Knight mod used with Randomizer Mod. It gives the o
 ![Example Screenshot](./readmeAssets/GUI.PNG)
 
 This fork of CaptainDapper's original mod has been expanded on with more features, bug fixes and a Pause Menu UI. It is currently compatible with:
-- Randomizer v3.12c(884) - recommended
+- Randomizer v3.13(888) - recommended
+- Randomizer v3.12c(884)
 - Randomizer v3.12(573)
 - Randomizer ItemSync 1.3.0
 - Randomizer Multiworld 0.1.1
