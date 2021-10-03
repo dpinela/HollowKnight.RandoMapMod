@@ -1,42 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Modding;
-using SereCore;
+﻿using SereCore;
 
-namespace RandoMapMod {
-
-	public class SaveSettings : BaseSettings {
+namespace RandoMapMod
+{
+	public class SaveSettings : BaseSettings
+	{
 		public static SaveSettings Instance;
 
-		public SaveSettings() {
-			AfterDeserialize += () => {
-				//This space probably unintentially left blank
+		public SaveSettings()
+		{
+			AfterDeserialize += () =>
+			{
+
 			};
 			Instance = this;
 		}
 
-		//public SerializableBoolDictionary FoundUnrandomizedLocations = new SerializableBoolDictionary();
-
-		//public void AddObtainedLocation(string key) {
-		//	FoundUnrandomizedLocations[key] = true;
-		//}
-
-		//public bool CheckObtainedLocation(string key) {
-		//	try {
-		//		if (FoundUnrandomizedLocations != null) {
-		//			if (FoundUnrandomizedLocations.ContainsKey(key)) {
-		//				return true;
-		//			}
-		//		}
-		//	} catch (Exception e) {
-		//		MapModS.Instance.LogError(e);
-		//	}
-		//	return false;
-		//}
-
-		public bool GetBoolFromGroup(PinGroup.GroupName group) {
-			return group switch {
+		public bool GetBoolFromGroup(PinGroup.GroupName group)
+		{
+			return group switch
+			{
 				PinGroup.GroupName.Dreamer => DreamerOn,
 				PinGroup.GroupName.Skill => SkillOn,
 				PinGroup.GroupName.Charm => CharmOn,
@@ -70,8 +52,10 @@ namespace RandoMapMod {
 			};
 		}
 
-		public void SetBoolFromGroup(PinGroup.GroupName group, bool value) {
-			switch (group) {
+		public void SetBoolFromGroup(PinGroup.GroupName group, bool value)
+		{
+			switch (group)
+			{
 				case PinGroup.GroupName.Dreamer:
 					DreamerOn = value;
 					break;
@@ -190,178 +174,214 @@ namespace RandoMapMod {
 			}
 		}
 
-		public bool MapsGiven {
-			get => GetBool(false);
-			set => SetBool(value);
-		}
-
-		public bool RevealedMap {
-			get => GetBool(false);
-			set => SetBool(value);
-		}
-		public bool ShowAllPins {
-			get => GetBool(false);
-			set => SetBool(value);
-		}
-
-		public bool SpoilerOn {
-			get => GetBool(false);
-			set => SetBool(value);
-		}
-
 		public PinGroup.PinStyles PinStyle = PinGroup.PinStyles.Normal;
 
-		public bool RandomizedOn {
+		public bool MapsGiven
+		{
+			get => GetBool(false);
+			set => SetBool(value);
+		}
+
+		public bool RevealedMap
+		{
+			get => GetBool(false);
+			set => SetBool(value);
+		}
+
+		public bool ShowAllPins
+		{
+			get => GetBool(false);
+			set => SetBool(value);
+		}
+
+		public bool SpoilerOn
+		{
+			get => GetBool(false);
+			set => SetBool(value);
+		}
+
+		public bool RandomizedOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool OthersOn {
+		public bool OthersOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool DreamerOn {
+		public bool DreamerOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool SkillOn {
+		public bool SkillOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool CharmOn {
+		public bool CharmOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool KeyOn {
+		public bool KeyOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool GeoOn {
+		public bool GeoOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool JunkOn {
+		public bool JunkOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool MaskOn {
+		public bool MaskOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool VesselOn {
+		public bool VesselOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool NotchOn {
+		public bool NotchOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool OreOn {
+		public bool OreOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool EggOn {
+		public bool EggOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool RelicOn {
+		public bool RelicOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool MapOn {
+		public bool MapOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool StagOn {
+		public bool StagOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool GrubOn {
+		public bool GrubOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool MimicOn {
+		public bool MimicOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool RootOn {
+		public bool RootOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool RockOn {
+		public bool RockOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool BossGeoOn {
+		public bool BossGeoOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool SoulOn {
+		public bool SoulOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool LoreOn {
+		public bool LoreOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool PalaceSoulOn {
+		public bool PalaceSoulOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool PalaceLoreOn {
+		public bool PalaceLoreOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool PalaceJournalOn {
+		public bool PalaceJournalOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool CocoonOn {
+		public bool CocoonOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool FlameOn {
+		public bool FlameOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool EssenceBossOn {
+		public bool EssenceBossOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool JournalOn {
+		public bool JournalOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}
 
-		public bool ShopOn {
+		public bool ShopOn
+		{
 			get => GetBool(true);
 			set => SetBool(value);
 		}

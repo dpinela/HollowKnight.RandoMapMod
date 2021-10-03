@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace RandoMapMod {
-
+namespace RandoMapMod
+{
 	// This class has some useful Get methods / value lookups
-	public static class Dictionaries {
-
+	public static class Dictionaries
+	{
 		// Used for figuring out which MapArea a Pin belongs to (for Quick Map)
 		private static readonly Dictionary<string, string> _areatoMapArea = new Dictionary<string, string>
 		{
@@ -58,7 +58,8 @@ namespace RandoMapMod {
 		};
 
 		// These items are not in RandomizerMod's items.xml but are created during randomization. Cursed Geo is handled by string check instead
-		private static readonly Dictionary<string, string> _clonedItemToPool = new Dictionary<string, string>() {
+		private static readonly Dictionary<string, string> _clonedItemToPool = new Dictionary<string, string>()
+		{
 			{"Dreamer_(1)"              , "Dreamer"     },
 			{"Mothwing_Cloak_(1)"       , "Skill"       },
 			{"Mantis_Claw_(1)"          , "Skill"       },
@@ -150,8 +151,10 @@ namespace RandoMapMod {
 			{ "Mimic_Grub_(3)"          , "MimicItem"   },
 		};
 
-		public static bool GetPlayerDataMapSetting(string mapArea) {
-			return mapArea switch {
+		public static bool GetPlayerDataMapSetting(string mapArea)
+		{
+			return mapArea switch
+			{
 				"Ancient_Basin" => PlayerData.instance.mapAbyss,
 				"City_of_Tears" => PlayerData.instance.mapCity,
 				"Howling_Cliffs" => PlayerData.instance.mapCliffs,
@@ -170,10 +173,12 @@ namespace RandoMapMod {
 			};
 		}
 
-		public static bool GetRandomizerSetting(PinGroup.GroupName group) {
+		public static bool GetRandomizerSetting(PinGroup.GroupName group)
+		{
 			object randoSettings = RandomizerMod.RandomizerMod.Instance.Settings;
 			System.Type randoSettingsType = randoSettings.GetType();
-			switch (group) {
+			switch (group)
+			{
 				case PinGroup.GroupName.Dreamer:
 					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeDreamers;
 
@@ -192,9 +197,12 @@ namespace RandoMapMod {
 				case PinGroup.GroupName.Junk:
 					// For compatibility with RandomizerMod v3.12(573)
 					PropertyInfo junkSetting = randoSettingsType.GetProperty("RandomizeJunkPitChests");
-					if (junkSetting != null) {
+					if (junkSetting != null)
+					{
 						return (bool) junkSetting.GetValue(randoSettings, null);
-					} else {
+					}
+					else
+					{
 						return false;
 					}
 				case PinGroup.GroupName.Mask:
@@ -227,9 +235,12 @@ namespace RandoMapMod {
 				case PinGroup.GroupName.Mimic:
 					// For compatibility with RandomizerMod v3.12(573)
 					PropertyInfo mimicSetting = randoSettingsType.GetProperty("RandomizeMimics");
-					if (mimicSetting != null) {
+					if (mimicSetting != null)
+					{
 						return (bool) mimicSetting.GetValue(randoSettings, null);
-					} else {
+					}
+					else
+					{
 						return false;
 					}
 				case PinGroup.GroupName.Root:
@@ -256,9 +267,12 @@ namespace RandoMapMod {
 				case PinGroup.GroupName.PalaceJournal:
 					// For compatibility with RandomizerMod v3.12(573)
 					PropertyInfo pJournalSetting = randoSettingsType.GetProperty("RandomizePalaceEntries");
-					if (pJournalSetting != null) {
+					if (pJournalSetting != null)
+					{
 						return (bool) pJournalSetting.GetValue(randoSettings, null);
-					} else {
+					}
+					else
+					{
 						return false;
 					}
 				case PinGroup.GroupName.Cocoon:
@@ -273,9 +287,12 @@ namespace RandoMapMod {
 				case PinGroup.GroupName.Journal:
 					// For compatibility with RandomizerMod v3.12(573)
 					PropertyInfo journalSetting = randoSettingsType.GetProperty("RandomizeJournalEntries");
-					if (journalSetting != null) {
+					if (journalSetting != null)
+					{
 						return (bool) journalSetting.GetValue(randoSettings, null);
-					} else {
+					}
+					else
+					{
 						return false;
 					}
 				case PinGroup.GroupName.Shop:
@@ -285,27 +302,34 @@ namespace RandoMapMod {
 			return false;
 		}
 
-		internal static string GetMapAreaFromArea(string areaName) {
+		internal static string GetMapAreaFromArea(string areaName)
+		{
 			return _areatoMapArea[areaName];
 		}
 
-		internal static string GetPoolFromClonedItem(string itemName) {
+		internal static string GetPoolFromClonedItem(string itemName)
+		{
 			return _clonedItemToPool[itemName];
 		}
 
-		internal static bool IsArea(string areaName) {
-			if (_areatoMapArea.ContainsKey(areaName)) {
+		internal static bool IsArea(string areaName)
+		{
+			if (_areatoMapArea.ContainsKey(areaName))
+			{
 				return true;
 			}
 			return false;
 		}
 
-		internal static bool IsClonedItem(string itemName) {
+		internal static bool IsClonedItem(string itemName)
+		{
 			return _clonedItemToPool.ContainsKey(itemName);
 		}
 
-		internal static bool IsMapArea(string mapAreaName) {
-			if (_areatoMapArea.ContainsValue(mapAreaName)) {
+		internal static bool IsMapArea(string mapAreaName)
+		{
+			if (_areatoMapArea.ContainsValue(mapAreaName))
+			{
 				return true;
 			}
 			return false;

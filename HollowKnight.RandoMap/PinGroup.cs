@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace RandoMapMod {
-
-	public class PinGroup : MonoBehaviour {
-
-		public enum GroupName {
+namespace RandoMapMod
+{
+	public class PinGroup : MonoBehaviour
+	{
+		public enum GroupName
+		{
 			Dreamer,
 			Skill,
 			Charm,
@@ -77,19 +78,27 @@ namespace RandoMapMod {
 
 		public List<GroupName> OthersGroups = new List<GroupName>();
 
-		internal void FindRandomizedGroups() {
-			foreach (GroupName group in Enum.GetValues(typeof(GroupName))) {
-				if (group == GroupName.Shop) {
+		internal void FindRandomizedGroups()
+		{
+			foreach (GroupName group in Enum.GetValues(typeof(GroupName)))
+			{
+				if (group == GroupName.Shop)
+				{
 					continue;
-				} else if (Dictionaries.GetRandomizerSetting(group)) {
+				}
+				else if (Dictionaries.GetRandomizerSetting(group))
+				{
 					RandomizedGroups.Add(group);
-				} else {
+				}
+				else
+				{
 					OthersGroups.Add(group);
 				}
 			}
 		}
 
-		public enum PinStyles {
+		public enum PinStyles
+		{
 			Normal,
 			Q_Marks_1,
 			Q_Marks_2,
@@ -100,8 +109,10 @@ namespace RandoMapMod {
 
 		public bool Hidden { get; private set; } = false;
 
-		public void AddPinToRoom(PinData pinData, GameMap gameMap) {
-			if (_pins.Any(pin => pin.PinData.ID == pinData.ID)) {
+		public void AddPinToRoom(PinData pinData, GameMap gameMap)
+		{
+			if (_pins.Any(pin => pin.PinData.ID == pinData.ID))
+			{
 				MapModS.Instance.LogWarn($"Duplicate pin found for group: {pinData.ID} - Skipped.");
 				return;
 			}
@@ -113,7 +124,8 @@ namespace RandoMapMod {
 
 			pinSprite = ResourceLoader.GetSpriteFromPool(pinData.VanillaPool);
 
-			GameObject pinObject = new GameObject($"pin_rando_{pinData.ID}") {
+			GameObject pinObject = new GameObject($"pin_rando_{pinData.ID}")
+			{
 				layer = 30
 			};
 
@@ -126,7 +138,8 @@ namespace RandoMapMod {
 
 			Vector3 vec = _GetRoomPos(roomName, gameMap);
 
-			if (vec == new Vector3(0, 0, 0)) {
+			if (vec == new Vector3(0, 0, 0))
+			{
 				MapModS.Instance.LogWarn($"{pinData.ID} doesn't have a valid room name!");
 			}
 
@@ -144,10 +157,14 @@ namespace RandoMapMod {
 			_AssignPinGroup(pinObject, pinData);
 		}
 
-		private Vector3 _GetRoomPos(string roomName, GameMap gameMap) {
-			foreach (Transform areaObj in gameMap.transform) {
-				foreach (Transform roomObj in areaObj.transform) {
-					if (roomObj.gameObject.name == roomName) {
+		private Vector3 _GetRoomPos(string roomName, GameMap gameMap)
+		{
+			foreach (Transform areaObj in gameMap.transform)
+			{
+				foreach (Transform roomObj in areaObj.transform)
+				{
+					if (roomObj.gameObject.name == roomName)
+					{
 						Vector3 roomVec = roomObj.transform.localPosition;
 						roomVec.Scale(areaObj.transform.localScale);
 						return areaObj.transform.localPosition + roomVec;
@@ -158,8 +175,10 @@ namespace RandoMapMod {
 		}
 
 		// Set each Pin to the correct Parent Group
-		private void _AssignPinGroup(GameObject newPin, PinData pinData) {
-			switch (pinData.SpoilerPool) {
+		private void _AssignPinGroup(GameObject newPin, PinData pinData)
+		{
+			switch (pinData.SpoilerPool)
+			{
 				case "Dreamer":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Dreamer].transform);
 					break;
@@ -295,35 +314,43 @@ namespace RandoMapMod {
 			}
 		}
 
-		internal void InitializePinGroups() {
-			foreach (KeyValuePair<GroupName, GameObject> entry in GroupDictionary) {
+		internal void InitializePinGroups()
+		{
+			foreach (KeyValuePair<GroupName, GameObject> entry in GroupDictionary)
+			{
 				entry.Value.transform.SetParent(this.transform);
 				entry.Value.SetActive(false);
 			}
 		}
 
-		internal void SetPinGroups() {
-			foreach (KeyValuePair<GroupName, GameObject> entry in GroupDictionary) {
+		internal void SetPinGroups()
+		{
+			foreach (KeyValuePair<GroupName, GameObject> entry in GroupDictionary)
+			{
 				entry.Value.SetActive(MapModS.Instance.Settings.GetBoolFromGroup(entry.Key));
 			}
 		}
 
-		internal void ToggleGroup(GroupName group) {
+		internal void ToggleGroup(GroupName group)
+		{
 			MapModS.Instance.Settings.SetBoolFromGroup(group, !MapModS.Instance.Settings.GetBoolFromGroup(group));
 			GroupDictionary[group].SetActive(MapModS.Instance.Settings.GetBoolFromGroup(group));
-			PauseGUI.SetButtons();
+			PauseGUI._SetGUI();
 			MapText.SetTexts();
 		}
 
-		internal void ToggleSpoilers() {
+		internal void ToggleSpoilers()
+		{
 			MapModS.Instance.Settings.SpoilerOn = !MapModS.Instance.Settings.SpoilerOn;
 			SetSprites();
-			PauseGUI.SetButtons();
+			PauseGUI._SetGUI();
 			MapText.SetTexts();
 		}
 
-		internal void TogglePinStyle() {
-			switch (MapModS.Instance.Settings.PinStyle) {
+		internal void TogglePinStyle()
+		{
+			switch (MapModS.Instance.Settings.PinStyle)
+			{
 				case PinStyles.Normal:
 					MapModS.Instance.Settings.PinStyle = PinStyles.Q_Marks_1;
 					break;
@@ -342,83 +369,106 @@ namespace RandoMapMod {
 			}
 
 			SetSprites();
-			PauseGUI.SetButtons();
+			PauseGUI._SetGUI();
 			MapText.SetTexts();
 		}
 
-		internal void ToggleRandomized() {
+		internal void ToggleRandomized()
+		{
 			MapModS.Instance.Settings.RandomizedOn = !MapModS.Instance.Settings.RandomizedOn;
-			foreach (GroupName group in RandomizedGroups) {
+			foreach (GroupName group in RandomizedGroups)
+			{
 				MapModS.Instance.Settings.SetBoolFromGroup(group, MapModS.Instance.Settings.RandomizedOn);
 				GroupDictionary[group].SetActive(MapModS.Instance.Settings.RandomizedOn);
 			}
-			PauseGUI.SetButtons();
+			PauseGUI._SetGUI();
 			MapText.SetTexts();
 		}
 
-		internal void ToggleOthers() {
+		internal void ToggleOthers()
+		{
 			MapModS.Instance.Settings.OthersOn = !MapModS.Instance.Settings.OthersOn;
-			foreach (GroupName group in OthersGroups) {
+			foreach (GroupName group in OthersGroups)
+			{
 				MapModS.Instance.Settings.SetBoolFromGroup(group, MapModS.Instance.Settings.OthersOn);
 				GroupDictionary[group].SetActive(MapModS.Instance.Settings.OthersOn);
 			}
-			PauseGUI.SetButtons();
+			PauseGUI._SetGUI();
 			MapText.SetTexts();
 		}
 
-		public void SetSprites() {
-			foreach (Pin pin in _pins) {
-				if (MapModS.Instance.Settings.SpoilerOn) {
+		public void SetSprites()
+		{
+			foreach (Pin pin in _pins)
+			{
+				if (MapModS.Instance.Settings.SpoilerOn)
+				{
 					pin.SetSprite(ResourceLoader.GetSpriteFromPool(pin.PinData.SpoilerPool));
-				} else {
+				}
+				else
+				{
 					pin.SetSprite(ResourceLoader.GetSpriteFromPool(pin.PinData.VanillaPool));
 				}
 			}
 		}
 
-		public void SetPinStates(string mapName) {
-			foreach (Pin pin in _pins) {
+		public void SetPinStates(string mapName)
+		{
+			foreach (Pin pin in _pins)
+			{
 				pin.SetPinState(mapName);
 			}
 		}
 
-		protected void Start() {
+		protected void Start()
+		{
 			this.Hide();
 		}
 
-		public void Show(bool force = false) {
+		public void Show(bool force = false)
+		{
 			if (force) Hidden = false;
 
-			if (!Hidden) {
+			if (!Hidden)
+			{
 				this.gameObject.SetActive(true);
 			}
 		}
 
-		public void Hide(bool force = false) {
+		public void Hide(bool force = false)
+		{
 			if (force) Hidden = true;
 			this.gameObject.SetActive(false);
 		}
 
-		public void RefreshPins(GameMap gameMap) {
-			foreach (KeyValuePair<string, PinData> entry in ResourceLoader.PinDataDictionary) {
-				if (GameObject.Find($"pin_rando_{entry.Key}")) {
+		public void RefreshPins(GameMap gameMap)
+		{
+			foreach (KeyValuePair<string, PinData> entry in ResourceLoader.PinDataDictionary)
+			{
+				if (GameObject.Find($"pin_rando_{entry.Key}"))
+				{
 					Pin pin = GameObject.Find($"pin_rando_{entry.Key}").GetComponent<Pin>();
-					try {
+					try
+					{
 						string roomName = pin.PinData.PinScene ?? pin.PinData.SceneName;
 						Vector3 vec = _GetRoomPos(roomName, gameMap);
 						vec.Scale(new Vector3(1.46f, 1.46f, 1));
 						vec += entry.Value.Offset;
 
 						pin.transform.localPosition = new Vector3(vec.x, vec.y, vec.z - 5f);
-					} catch (Exception e) {
+					}
+					catch (Exception e)
+					{
 						MapModS.Instance.LogError($"Error: RefeshPins {e}");
 					}
 				}
 			}
 		}
 
-		public void DestroyPins() {
-			foreach (Pin pin in _pins) {
+		public void DestroyPins()
+		{
+			foreach (Pin pin in _pins)
+			{
 				Destroy(pin.gameObject);
 			}
 			_pins.Clear();

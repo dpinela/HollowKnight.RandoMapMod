@@ -4,20 +4,23 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RandoMapMod {
-
+namespace RandoMapMod
+{
 	// All the following was modified from the GUI implementation of BenchwarpMod by homothetyhk
-	internal class PauseGUI {
+	internal class PauseGUI
+	{
 		public static GameObject Canvas;
 
-		private static readonly Dictionary<string, (UnityAction<string>, Vector2)> _buttons = new Dictionary<string, (UnityAction<string>, Vector2)> {
+		private static readonly Dictionary<string, (UnityAction<string>, Vector2)> _buttons = new Dictionary<string, (UnityAction<string>, Vector2)>
+		{
 			["Spoilers"] = (_SpoilersClicked, new Vector2(0f, 0f)),
 			["Style"] = (_StyleClicked, new Vector2(100f, 0f)),
 			["Randomized"] = (_RandomizedClicked, new Vector2(200f, 0f)),
 			["Others"] = (_OthersClicked, new Vector2(300f, 0f)),
 		};
 
-		private static readonly Dictionary<string, (UnityAction<string>, Vector2)> _groupButtons = new Dictionary<string, (UnityAction<string>, Vector2)> {
+		private static readonly Dictionary<string, (UnityAction<string>, Vector2)> _groupButtons = new Dictionary<string, (UnityAction<string>, Vector2)>
+		{
 			["Dreamers"] = (_DreamerClicked, new Vector2(100f, 0f)),
 			["Skills"] = (_SkillClicked, new Vector2(200f, 0f)),
 			["Charms"] = (_CharmClicked, new Vector2(300f, 0f)),
@@ -52,7 +55,8 @@ namespace RandoMapMod {
 		private static CanvasPanel _mapControlPanel;
 		private static int _mapRevealCounter = 0;
 
-		public static void BuildMenu(GameObject _canvas) {
+		public static void BuildMenu(GameObject _canvas)
+		{
 			Canvas = _canvas;
 
 			_mapControlPanel = new CanvasPanel
@@ -62,7 +66,8 @@ namespace RandoMapMod {
 			Rect buttonRect = new Rect(0, 0, GUIController.Instance.Images["ButtonRect"].width, GUIController.Instance.Images["ButtonRect"].height);
 
 			// Main settings
-			foreach (KeyValuePair<string, (UnityAction<string>, Vector2)> pair in _buttons) {
+			foreach (KeyValuePair<string, (UnityAction<string>, Vector2)> pair in _buttons)
+			{
 				_mapControlPanel.AddButton
 				(
 					pair.Key,
@@ -78,7 +83,8 @@ namespace RandoMapMod {
 			}
 
 			// These buttons only appear if the full map hasn't been revealed yet
-			if (!MapModS.Instance.Settings.RevealedMap) {
+			if (!MapModS.Instance.Settings.RevealedMap)
+			{
 				_mapControlPanel.AddButton
 				(
 					"Reveal\nFull Map",
@@ -92,7 +98,6 @@ namespace RandoMapMod {
 					fontSize: 10
 				);
 				_SetRevealFullMap();
-
 
 				_mapControlPanel.AddButton
 				(
@@ -133,7 +138,8 @@ namespace RandoMapMod {
 			pools.SetActive(false, true);
 
 			// Pool buttons
-			foreach (KeyValuePair<string, (UnityAction<string>, Vector2)> pair in _groupButtons) {
+			foreach (KeyValuePair<string, (UnityAction<string>, Vector2)> pair in _groupButtons)
+			{
 				pools.AddButton
 				(
 					pair.Key,
@@ -148,37 +154,46 @@ namespace RandoMapMod {
 				);
 			}
 
-			SetButtons();
+			_SetGUI();
 			_mapControlPanel.SetActive(false, true); // collapse all subpanels
-			if (GameManager.instance.IsGamePaused()) {
+			if (GameManager.instance.IsGamePaused())
+			{
 				_mapControlPanel.SetActive(true, false);
 			}
 		}
 
-		public static void RebuildMenu() {
+		public static void RebuildMenu()
+		{
 			_mapControlPanel.Destroy();
 			BuildMenu(Canvas);
 		}
 
-		public static void Update() {
+		public static void Update()
+		{
 			if (_mapControlPanel == null || GameManager.instance == null
 				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
-				|| !MapModS.Instance.Settings.MapsGiven) {
+				|| !MapModS.Instance.Settings.MapsGiven)
+			{
 				return;
 			}
 
-			if (HeroController.instance == null || !GameManager.instance.IsGameplayScene() || !GameManager.instance.IsGamePaused()) {
+			if (HeroController.instance == null || !GameManager.instance.IsGameplayScene() || !GameManager.instance.IsGamePaused())
+			{
 				if (_mapControlPanel.Active) _mapControlPanel.SetActive(false, true);
 				_mapRevealCounter = 0;
 				return;
-			} else {
-				if (!_mapControlPanel.Active) {
+			}
+			else
+			{
+				if (!_mapControlPanel.Active)
+				{
 					RebuildMenu();
 				}
 			}
 		}
 
-		public static void SetButtons() {
+		public static void _SetGUI()
+		{
 			_SetPoolButton("Dreamers", MapModS.Instance.Settings.DreamerOn);
 			_SetPoolButton("Skills", MapModS.Instance.Settings.SkillOn);
 			_SetPoolButton("Charms", MapModS.Instance.Settings.CharmOn);
@@ -215,11 +230,13 @@ namespace RandoMapMod {
 			_SetStyle();
 		}
 
-		private static void _SpoilersClicked(string buttonName) {
+		private static void _SpoilersClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleSpoilers();
 		}
 
-		private static void _SetSpoilers() {
+		private static void _SetSpoilers()
+		{
 			_mapControlPanel.GetButton("Spoilers").SetTextColor
 				(
 					MapModS.Instance.Settings.SpoilerOn ? Color.green : Color.white
@@ -230,12 +247,15 @@ namespace RandoMapMod {
 				);
 		}
 
-		private static void _StyleClicked(string buttonName) {
+		private static void _StyleClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.TogglePinStyle();
 		}
 
-		private static void _SetStyle() {
-			switch (MapModS.Instance.Settings.PinStyle) {
+		private static void _SetStyle()
+		{
+			switch (MapModS.Instance.Settings.PinStyle)
+			{
 				case PinGroup.PinStyles.Normal:
 					_mapControlPanel.GetButton("Style").UpdateText("Style\nnormal");
 					break;
@@ -254,50 +274,66 @@ namespace RandoMapMod {
 			}
 		}
 
-		private static void _RandomizedClicked(string buttonName) {
+		private static void _RandomizedClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleRandomized();
 		}
 
-		private static void _SetRandomized() {
-			if (!MapModS.Instance.PinGroupInstance.RandomizedGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
+		private static void _SetRandomized()
+		{
+			if (!MapModS.Instance.PinGroupInstance.RandomizedGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup))
+			{
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.white);
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\noff");
 				MapModS.Instance.Settings.RandomizedOn = false;
-			} else if (MapModS.Instance.PinGroupInstance.RandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
+			}
+			else if (MapModS.Instance.PinGroupInstance.RandomizedGroups.All(MapModS.Instance.Settings.GetBoolFromGroup))
+			{
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.green);
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\non");
 				MapModS.Instance.Settings.RandomizedOn = true;
-			} else {
+			}
+			else
+			{
 				_mapControlPanel.GetButton("Randomized").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Randomized").UpdateText("Randomized\ncustom");
 				MapModS.Instance.Settings.RandomizedOn = true;
 			}
 		}
 
-		private static void _OthersClicked(string buttonName) {
+		private static void _OthersClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleOthers();
 		}
 
-		private static void _SetOthers() {
-			if (!MapModS.Instance.PinGroupInstance.OthersGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup)) {
+		private static void _SetOthers()
+		{
+			if (!MapModS.Instance.PinGroupInstance.OthersGroups.Any(MapModS.Instance.Settings.GetBoolFromGroup))
+			{
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.white);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\noff");
 				MapModS.Instance.Settings.OthersOn = false;
-			} else if (MapModS.Instance.PinGroupInstance.OthersGroups.All(MapModS.Instance.Settings.GetBoolFromGroup)) {
+			}
+			else if (MapModS.Instance.PinGroupInstance.OthersGroups.All(MapModS.Instance.Settings.GetBoolFromGroup))
+			{
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.green);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\non");
 				MapModS.Instance.Settings.OthersOn = true;
-			} else {
+			}
+			else
+			{
 				_mapControlPanel.GetButton("Others").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Others").UpdateText("Others\ncustom");
 				MapModS.Instance.Settings.OthersOn = true;
 			}
 		}
 
-		private static void _RevealFullMapClicked(string buttonName) {
+		private static void _RevealFullMapClicked(string buttonName)
+		{
 			_mapRevealCounter++;
 
-			if (_mapRevealCounter > 1) {
+			if (_mapRevealCounter > 1)
+			{
 				MapModS.RevealFullMap();
 				MapModS.Instance.Settings.ShowAllPins = true;
 				_mapControlPanel.GetButton("Reveal\nFull Map").SetActive(false);
@@ -308,28 +344,40 @@ namespace RandoMapMod {
 		}
 
 		// This one is independent of the ShowButtons function as the button may or may not exist
-		private static void _SetRevealFullMap() {
-			if (_mapRevealCounter == 1) {
+		private static void _SetRevealFullMap()
+		{
+			if (_mapRevealCounter == 1)
+			{
 				_mapControlPanel.GetButton("Reveal\nFull Map").SetTextColor(Color.yellow);
 				_mapControlPanel.GetButton("Reveal\nFull Map").UpdateText("Are you sure?");
 			}
+			else
+			{
+				_mapControlPanel.GetButton("Reveal\nFull Map").SetTextColor(Color.green);
+			}
 		}
 
-		private static void _ShowPinsClicked(string buttonName) {
+		private static void _ShowPinsClicked(string buttonName)
+		{
 			MapModS.Instance.Settings.ShowAllPins = !MapModS.Instance.Settings.ShowAllPins;
 			_SetShowPins();
 		}
 
 		// This one is independent of the ShowButtons function as the button may or may not exist
-		private static void _SetShowPins() {
-			if (MapModS.Instance.Settings.ShowAllPins) {
+		private static void _SetShowPins()
+		{
+			if (MapModS.Instance.Settings.ShowAllPins)
+			{
 				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins\nall areas");
-			} else {
+			}
+			else
+			{
 				_mapControlPanel.GetButton("Show Pins").UpdateText("Show Pins\nmap only");
 			}
 		}
 
-		private static void _TogglePoolPanel() {
+		private static void _TogglePoolPanel()
+		{
 			_mapControlPanel.TogglePanel("Pools");
 			_mapControlPanel.GetButton("Pools").UpdateText
 				(
@@ -337,123 +385,153 @@ namespace RandoMapMod {
 				);
 		}
 
-		private static void _BossGeoClicked(string buttonName) {
+		private static void _BossGeoClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.BossGeo);
 		}
 
-		private static void _CharmClicked(string buttonName) {
+		private static void _CharmClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Charm);
 		}
 
-		private static void _CocoonClicked(string buttonName) {
+		private static void _CocoonClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Cocoon);
 		}
 
-		private static void _DreamerClicked(string buttonName) {
+		private static void _DreamerClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Dreamer);
 		}
 
-		private static void _EggClicked(string buttonName) {
+		private static void _EggClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Egg);
 		}
 
-		private static void _EssenceBossClicked(string buttonName) {
+		private static void _EssenceBossClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.EssenceBoss);
 		}
 
-		private static void _FlameClicked(string buttonName) {
+		private static void _FlameClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Flame);
 		}
 
-		private static void _GeoClicked(string buttonName) {
+		private static void _GeoClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Geo);
 		}
 
-		private static void _GrubClicked(string buttonName) {
+		private static void _GrubClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Grub);
 		}
 
-		private static void _JournalClicked(string buttonName) {
+		private static void _JournalClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Journal);
 		}
 
-		private static void _JunkClicked(string buttonName) {
+		private static void _JunkClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Junk);
 		}
 
-		private static void _KeyClicked(string buttonName) {
+		private static void _KeyClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Key);
 		}
 
-		private static void _LoreClicked(string buttonName) {
+		private static void _LoreClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Lore);
 		}
 
-		private static void _MapClicked(string buttonName) {
+		private static void _MapClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Map);
 		}
 
-		private static void _MaskClicked(string buttonName) {
+		private static void _MaskClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Mask);
 		}
 
-		private static void _MimicClicked(string buttonName) {
+		private static void _MimicClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Mimic);
 		}
 
-		private static void _NotchClicked(string buttonName) {
+		private static void _NotchClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Notch);
 		}
 
-		private static void _OreClicked(string buttonName) {
+		private static void _OreClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Ore);
 		}
 
-		private static void _PalaceJournalClicked(string buttonName) {
+		private static void _PalaceJournalClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PalaceJournal);
 		}
 
-		private static void _PalaceLoreClicked(string buttonName) {
+		private static void _PalaceLoreClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PalaceLore);
 		}
 
-		private static void _PalaceSoulClicked(string buttonName) {
+		private static void _PalaceSoulClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PalaceSoul);
 		}
 
-		private static void _RelicClicked(string buttonName) {
+		private static void _RelicClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Relic);
 		}
 
-		private static void _RockClicked(string buttonName) {
+		private static void _RockClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Rock);
 		}
 
-		private static void _RootClicked(string buttonName) {
+		private static void _RootClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Root);
 		}
 
-		private static void _ShopClicked(string buttonName) {
+		private static void _ShopClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Shop);
 		}
 
-		private static void _SkillClicked(string buttonName) {
+		private static void _SkillClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Skill);
 		}
 
-		private static void _SoulClicked(string buttonName) {
+		private static void _SoulClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Soul);
 		}
 
-		private static void _StagClicked(string buttonName) {
+		private static void _StagClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Stag);
 		}
 
-		private static void _VesselClicked(string buttonName) {
+		private static void _VesselClicked(string buttonName)
+		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Vessel);
 		}
 
-		private static void _SetPoolButton(string buttonName, bool setting) {
+		private static void _SetPoolButton(string buttonName, bool setting)
+		{
 			_mapControlPanel.GetPanel("Pools").GetButton(buttonName).SetTextColor
 				(
 					setting ? Color.green : Color.white

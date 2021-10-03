@@ -6,10 +6,11 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RandoMapMod {
-
+namespace RandoMapMod
+{
 	// All the following was modified from the GUI implementation of BenchwarpMod by homothetyhk
-	public class GUIController : MonoBehaviour {
+	public class GUIController : MonoBehaviour
+	{
 		public Dictionary<string, Texture2D> Images = new Dictionary<string, Texture2D>();
 
 		private static GUIController _instance;
@@ -17,8 +18,10 @@ namespace RandoMapMod {
 		private GameObject _mapCanvas;
 		private GameObject _pauseCanvas;
 
-		public static GUIController Instance {
-			get {
+		public static GUIController Instance
+		{
+			get
+			{
 				if (_instance != null) return _instance;
 
 				_instance = FindObjectOfType<GUIController>();
@@ -41,21 +44,25 @@ namespace RandoMapMod {
 
 		private Font _Arial { get; set; }
 
-		public static void Setup() {
+		public static void Setup()
+		{
 			GameObject GUIObj = new GameObject("RandoMapMod GUI");
 			_instance = GUIObj.AddComponent<GUIController>();
 			DontDestroyOnLoad(GUIObj);
 		}
 
-		public static void Unload() {
-			if (_instance != null) {
+		public static void Unload()
+		{
+			if (_instance != null)
+			{
 				Destroy(_instance._pauseCanvas);
 				Destroy(_instance._mapCanvas);
 				Destroy(_instance.gameObject);
 			}
 		}
 
-		public void BuildMenus() {
+		public void BuildMenus()
+		{
 			_LoadResources();
 
 			_pauseCanvas = new GameObject();
@@ -83,41 +90,53 @@ namespace RandoMapMod {
 			_mapCanvas.transform.SetParent(MapModS.Instance.PinGroupInstance.transform);
 		}
 
-		public void Update() {
-			try {
+		public void Update()
+		{
+			try
+			{
 				PauseGUI.Update();
 				MapText.Update();
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				MapModS.Instance.LogError(e);
 			}
 		}
 
-		private void _LoadResources() {
+		private void _LoadResources()
+		{
 			TrajanBold = Modding.CanvasUtil.TrajanBold;
 			TrajanNormal = Modding.CanvasUtil.TrajanNormal;
 
-			try {
+			try
+			{
 				_Arial = Font.CreateDynamicFontFromOSFont
 				(
 					Font.GetOSInstalledFontNames().First(x => x.ToLower().Contains("arial")),
 					13
 				);
-			} catch {
+			}
+			catch
+			{
 				MapModS.Instance.LogWarn("Unable to find Arial! Using Perpetua.");
 				_Arial = Modding.CanvasUtil.GetFont("Perpetua");
 			}
 
-			if (TrajanBold == null || TrajanNormal == null || _Arial == null) {
+			if (TrajanBold == null || TrajanNormal == null || _Arial == null)
+			{
 				MapModS.Instance.LogError("Could not find game fonts");
 			}
 
 			Assembly asm = Assembly.GetExecutingAssembly();
 
-			foreach (string res in asm.GetManifestResourceNames()) {
+			foreach (string res in asm.GetManifestResourceNames())
+			{
 				if (!res.StartsWith("RandoMapMod.Resources.GUI.")) continue;
 
-				try {
-					using (Stream imageStream = asm.GetManifestResourceStream(res)) {
+				try
+				{
+					using (Stream imageStream = asm.GetManifestResourceStream(res))
+					{
 						byte[] buffer = new byte[imageStream.Length];
 						imageStream.Read(buffer, 0, buffer.Length);
 
@@ -129,7 +148,9 @@ namespace RandoMapMod {
 
 						Images.Add(internalName, tex);
 					}
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					MapModS.Instance.LogError("Failed to load image: " + res + "\n" + e);
 				}
 			}
