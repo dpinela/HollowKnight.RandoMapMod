@@ -1,10 +1,10 @@
-﻿using RandoMapMod.CanvasUtil;
+﻿using MapModS.CanvasUtil;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	// All the following was modified from the GUI implementation of BenchwarpMod by homothetyhk
 	internal class PauseGUI

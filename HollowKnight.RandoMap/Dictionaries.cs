@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	// This class has some useful Get methods / value lookups
 	public static class Dictionaries

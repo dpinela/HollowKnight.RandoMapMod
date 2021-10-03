@@ -7,8 +7,8 @@
     <ProjectGuid>{19F788C1-6FA8-4F13-AB76-2CCC75B5F159}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RandoMapMod</RootNamespace>
-    <AssemblyName>RandoMapMod</AssemblyName>
+    <RootNamespace>MapModS</RootNamespace>
+    <AssemblyName>MapModS</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace RandoMapMod.CanvasUtil
+namespace MapModS.CanvasUtil
 {
 	// Code borrowed from homothety
 	public class CanvasText

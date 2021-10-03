@@ -1,8 +1,8 @@
-﻿using RandoMapMod.CanvasUtil;
+﻿using MapModS.CanvasUtil;
 using System.Linq;
 using UnityEngine;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	internal class MapText
 	{

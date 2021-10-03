@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RandoMapMod.UnityComponents
+namespace MapModS.UnityComponents
 {
 	// This class handles hotkey behaviour
 	internal class InputListener : MonoBehaviour

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RandoMapMod.CanvasUtil
+namespace MapModS.CanvasUtil
 {
 	// Code borrowed from homothety
 	public class CanvasPanel

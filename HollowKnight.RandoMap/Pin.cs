@@ -1,4 +1,4 @@
-﻿using RandoMapMod;
+﻿using MapModS;
 using System;
 using UnityEngine;
 
@@ -38,7 +38,7 @@ internal class Pin : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			MapModS.Instance.LogError($"Failed to update pin! ID: {this.PinData.ID}\n{e}");
+			MapModS.MapModS.Instance.LogError($"Failed to update pin! ID: {this.PinData.ID}\n{e}");
 		}
 	}
 
@@ -47,7 +47,7 @@ internal class Pin : MonoBehaviour
 	{
 		if (mapAreaName == this.PinData.MapArea || mapAreaName == "WorldMap")
 		{
-			if (MapModS.Instance.Settings.ShowAllPins)
+			if (MapModS.MapModS.Instance.Settings.ShowAllPins)
 			{
 				this.gameObject.SetActive(true);
 			}

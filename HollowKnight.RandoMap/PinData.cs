@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	public class PinData
 	{

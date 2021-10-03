@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace RandoMapMod.CanvasUtil
+namespace MapModS.CanvasUtil
 {
 	// Code borrowed from homothety
 	public class CanvasImage

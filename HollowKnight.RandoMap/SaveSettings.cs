@@ -1,6 +1,6 @@
 ﻿using SereCore;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	public class SaveSettings : BaseSettings
 	{

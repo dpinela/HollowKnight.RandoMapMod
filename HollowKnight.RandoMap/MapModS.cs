@@ -1,6 +1,6 @@
 ﻿using HutongGames.PlayMaker;
 using Modding;
-using RandoMapMod.UnityComponents;
+using MapModS.UnityComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	public class MapModS : Mod
 	{

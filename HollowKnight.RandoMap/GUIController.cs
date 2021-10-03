@@ -6,7 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	// All the following was modified from the GUI implementation of BenchwarpMod by homothetyhk
 	public class GUIController : MonoBehaviour

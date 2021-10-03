@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	public class PinGroup : MonoBehaviour
 	{

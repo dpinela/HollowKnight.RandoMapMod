@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Xml;
 using UnityEngine;
 
-namespace RandoMapMod
+namespace MapModS
 {
 	// This class handles loading:
 	// - This Mod's xml file
