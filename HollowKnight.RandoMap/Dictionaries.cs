@@ -165,7 +165,7 @@ namespace MapModS
 				"Fog_Canyon" => PlayerData.instance.mapFogCanyon,
 				"Fungal_Wastes" => PlayerData.instance.mapFungalWastes,
 				"Greenpath" => PlayerData.instance.mapGreenpath,
-				"Kingdom's_Edge" => PlayerData.instance.mapOutskirts,
+				"Kingdoms_Edge" => PlayerData.instance.mapOutskirts,
 				"Queens_Gardens" => PlayerData.instance.mapRoyalGardens,
 				"Resting_Grounds" => PlayerData.instance.mapRestingGrounds,
 				"Royal_Waterways" => PlayerData.instance.mapWaterways,
