@@ -38,6 +38,7 @@ namespace MapModS
 			EssenceBoss,
 			Journal,
 			Shop,
+			CursedGeo,
 		}
 
 		public Dictionary<GroupName, GameObject> GroupDictionary = new Dictionary<GroupName, GameObject> {
@@ -70,6 +71,7 @@ namespace MapModS
 			{GroupName.EssenceBoss, new GameObject("Group EssenceBoss") },
 			{GroupName.Journal, new GameObject("Group Journal") },
 			{GroupName.Shop, new GameObject("Group Shop") },
+			{GroupName.CursedGeo, new GameObject("Group CursedGeo") },
 		};
 
 		// Used for updating button states
@@ -305,6 +307,10 @@ namespace MapModS
 
 				case "Shop":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Shop].transform);
+					break;
+
+				case "CursedGeo":
+					newPin.transform.SetParent(GroupDictionary[GroupName.CursedGeo].transform);
 					break;
 
 				default:

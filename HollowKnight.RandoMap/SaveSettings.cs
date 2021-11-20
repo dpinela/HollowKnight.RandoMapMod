@@ -48,6 +48,7 @@ namespace MapModS
 				PinGroup.GroupName.EssenceBoss => EssenceBossOn,
 				PinGroup.GroupName.Journal => JournalOn,
 				PinGroup.GroupName.Shop => ShopOn,
+				PinGroup.GroupName.CursedGeo => CursedGeoOn,
 				_ => false,
 			};
 		}
@@ -170,6 +171,10 @@ namespace MapModS
 
 				case PinGroup.GroupName.Shop:
 					ShopOn = value;
+					break;
+
+				case PinGroup.GroupName.CursedGeo:
+					CursedGeoOn = value;
 					break;
 			}
 		}
@@ -381,6 +386,12 @@ namespace MapModS
 		}
 
 		public bool ShopOn
+		{
+			get => GetBool(true);
+			set => SetBool(value);
+		}
+
+		public bool CursedGeoOn
 		{
 			get => GetBool(true);
 			set => SetBool(value);

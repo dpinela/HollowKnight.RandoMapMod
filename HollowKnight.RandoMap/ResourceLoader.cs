@@ -125,6 +125,7 @@ namespace MapModS
 						"Lore" => Sprites.Lore,
 						"PalaceLore" => Sprites.Lore,
 						"Shop" => Sprites.Shop,
+						"CursedGeo" => Sprites.Geo,
 						_ => Sprites.Unknown
 					};
 					break;
@@ -438,11 +439,11 @@ namespace MapModS
 					{
 						pinD.SpoilerPool = Dictionaries.GetPoolFromClonedItem(spoilerItem);
 
-						// For cursed mode
 					}
+					// For cursed mode
 					else if (spoilerItem.StartsWith("1_Geo") || spoilerItem.StartsWith("Lumafly_Escape"))
 					{
-						pinD.SpoilerPool = "Rock";
+						pinD.SpoilerPool = "CursedGeo";
 
 						// Nothing should end up here!
 					}

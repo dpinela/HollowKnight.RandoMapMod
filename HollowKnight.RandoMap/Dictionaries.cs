@@ -295,6 +295,10 @@ namespace MapModS
 					{
 						return false;
 					}
+
+				case PinGroup.GroupName.CursedGeo:
+					return RandomizerMod.RandomizerMod.Instance.Settings.Cursed;
+
 				case PinGroup.GroupName.Shop:
 					return false;
 			}

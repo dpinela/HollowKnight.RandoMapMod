@@ -52,8 +52,9 @@ The Pin settings are saved between game loads.
 - CaptainDapper for making the original mod
 - Chaktis for helping with sprite art
 
-# Version 1.1.2 Changes
-- Fixed Kingdom's Edge Pins not showing
+# Version 1.1.3 Changes
+- Added Cursed Geo toggle to fix spoiling in Cursed Mode when "Others" is toggled
+- Fixed two Pin placements
 
 # Known Bugs / Missing Features
 - Not compatible when RandomizerMod isn't installed

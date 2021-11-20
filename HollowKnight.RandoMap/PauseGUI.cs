@@ -50,6 +50,7 @@ namespace MapModS
 			["Lifeblood\nCocoons"] = (_CocoonClicked, new Vector2(300f, 60f)),
 			["Grimmkin\nFlames"] = (_FlameClicked, new Vector2(400f, 60f)),
 			["Shops"] = (_ShopClicked, new Vector2(500f, 60f)),
+			["Cursed Geo"] = (_CursedGeoClicked, new Vector2(600f, 60f)),
 		};
 
 		private static CanvasPanel _mapControlPanel;
@@ -223,6 +224,7 @@ namespace MapModS
 			_SetPoolButton("Lifeblood\nCocoons", MapModS.Instance.Settings.CocoonOn);
 			_SetPoolButton("Grimmkin\nFlames", MapModS.Instance.Settings.FlameOn);
 			_SetPoolButton("Shops", MapModS.Instance.Settings.ShopOn);
+			_SetPoolButton("Cursed Geo", MapModS.Instance.Settings.CursedGeoOn);
 
 			_SetSpoilers();
 			_SetRandomized();
@@ -528,6 +530,11 @@ namespace MapModS
 		private static void _VesselClicked(string buttonName)
 		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.Vessel);
+		}
+
+		private static void _CursedGeoClicked(string buttonName)
+		{
+			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.CursedGeo);
 		}
 
 		private static void _SetPoolButton(string buttonName, bool setting)
