@@ -6,14 +6,9 @@ Randomizer Map S is a Hollow Knight mod used with Randomizer Mod. It gives the o
 ![Example Screenshot](./readmeAssets/GUI.PNG)
 
 This fork of CaptainDapper's original mod has been expanded on with more features, bug fixes and a Pause Menu UI. It is currently compatible with:
-- Randomizer v3.13(888) - recommended
-- Randomizer v3.12c(884)
-- Randomizer v3.12(573)
-- Randomizer ItemSync 1.3.0
-- Randomizer Multiworld 0.1.1
+- Randomizer 4.0
 
-https://github.com/homothetyhk/HollowKnight.RandomizerMod
-https://github.com/Shadudev/HollowKnight.MultiWorld
+https://github.com/homothetyhk/RandomizerMod
 
 # Quick Start Guide
 - Use `CTRL-M` during a game to enable the mod and give an empty Map.
@@ -42,15 +37,21 @@ https://github.com/Shadudev/HollowKnight.MultiWorld
 The Pin settings are saved between game loads.
 
 # How To Install
-1. Make sure you have RandomizerMod v3.13(888) (or the older working builds) properly installed.
+1. Make sure you have RandomizerMod 4.0 properly installed.
 2. Download the latest release of `MapModS.zip`.
-3. Unzip and copy MapModS.dll to the folder `...\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods`.
+3. Unzip and copy MapModS.dll to the folder `...\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\MapModS\`.
 4. That's it!
+
+# How To Build
+Before compiling, you need to set the HK15PATH variable to the location of your Hollow Knight installation (the directory containing the Assembly-CSharp.dll file).
 
 # Acknowledgements
 - The Hollow Knight/Hollow Knight Speedrun Discord Channels for always giving very sound advice and suggestions
 - CaptainDapper for making the original mod
 - Chaktis for helping with sprite art
+
+# Version 1.5 Changes
+- Requires HK 1.5 and Randomizer 4.0
 
 # Version 1.1.3 Changes
 - Added Cursed Geo toggle to fix spoiling in Cursed Mode when "Others" is toggled
