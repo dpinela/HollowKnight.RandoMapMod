@@ -172,7 +172,7 @@ namespace MapModS
 		public static void Update()
 		{
 			if (_mapControlPanel == null || GameManager.instance == null
-				|| !RandomizerMod.RandomizerMod.Instance.Settings.Randomizer
+				|| RandomizerMod.RandomizerMod.RS.GenerationSettings == null
 				|| !MapModS.Instance.Settings.MapsGiven)
 			{
 				return;

@@ -1,17 +1,11 @@
-﻿using SereCore;
-
-namespace MapModS
+﻿namespace MapModS
 {
-	public class SaveSettings : BaseSettings
+	public class SaveSettings
 	{
 		public static SaveSettings Instance;
 
 		public SaveSettings()
 		{
-			AfterDeserialize += () =>
-			{
-
-			};
 			Instance = this;
 		}
 
@@ -181,220 +175,77 @@ namespace MapModS
 
 		public PinGroup.PinStyles PinStyle = PinGroup.PinStyles.Normal;
 
-		public bool MapsGiven
-		{
-			get => GetBool(false);
-			set => SetBool(value);
-		}
+		public bool MapsGiven;
 
-		public bool RevealedMap
-		{
-			get => GetBool(false);
-			set => SetBool(value);
-		}
+		public bool RevealedMap;
 
-		public bool ShowAllPins
-		{
-			get => GetBool(false);
-			set => SetBool(value);
-		}
+		public bool ShowAllPins;
 
-		public bool SpoilerOn
-		{
-			get => GetBool(false);
-			set => SetBool(value);
-		}
+		public bool SpoilerOn;
 
-		public bool RandomizedOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool RandomizedOn = true;
 
-		public bool OthersOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool OthersOn = true;
 
-		public bool DreamerOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool DreamerOn = true;
 
-		public bool SkillOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool SkillOn = true;
 
-		public bool CharmOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool CharmOn = true;
 
-		public bool KeyOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool KeyOn = true;
 
-		public bool GeoOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool GeoOn = true;
 
-		public bool JunkOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool JunkOn = true;
 
-		public bool MaskOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool MaskOn = true;
 
-		public bool VesselOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool VesselOn = true;
 
-		public bool NotchOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool NotchOn = true;
 
-		public bool OreOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool OreOn = true;
 
-		public bool EggOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool EggOn = true;
 
-		public bool RelicOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool RelicOn = true;
 
-		public bool MapOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool MapOn = true;
 
-		public bool StagOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool StagOn = true;
 
-		public bool GrubOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool GrubOn = true;
 
-		public bool MimicOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool MimicOn = true;
 
-		public bool RootOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool RootOn = true;
 
-		public bool RockOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool RockOn = true;
 
-		public bool BossGeoOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool BossGeoOn = true;
 
-		public bool SoulOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool SoulOn = true;
 
-		public bool LoreOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool LoreOn = true;
 
-		public bool PalaceSoulOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool PalaceSoulOn = true;
 
-		public bool PalaceLoreOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool PalaceLoreOn = true;
 
-		public bool PalaceJournalOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool PalaceJournalOn = true;
 
-		public bool CocoonOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool CocoonOn = true;
 
-		public bool FlameOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool FlameOn = true;
 
-		public bool EssenceBossOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool EssenceBossOn = true;
 
-		public bool JournalOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool JournalOn = true;
 
-		public bool ShopOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool ShopOn = true;
 
-		public bool CursedGeoOn
-		{
-			get => GetBool(true);
-			set => SetBool(value);
-		}
+		public bool CursedGeoOn = true;
+
 	}
 }

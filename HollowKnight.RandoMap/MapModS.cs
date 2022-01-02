@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace MapModS
 {
-	public class MapModS : Mod
+	public class MapModS : Mod, ILocalSettings<SaveSettings>
 	{
 		private const float MAP_MAX_X = 17.3f;
 
@@ -29,22 +29,26 @@ namespace MapModS
 			get; private set;
 		}
 
-		public override ModSettings SaveSettings
+		public void OnLoadLocal(SaveSettings s)
 		{
-			get => Settings ??= new SaveSettings();
-			set => Settings = value is SaveSettings saveSettings ? saveSettings : Settings;
+			Settings = s;
+		}
+
+		public SaveSettings OnSaveLocal()
+		{
+			return Settings;
 		}
 
 		public SaveSettings Settings { get; private set; } = new SaveSettings();
 
-		internal static bool IsRando => RandomizerMod.RandomizerMod.Instance.Settings.Randomizer;
+		internal static bool IsRando => RandomizerMod.RandomizerMod.RS.GenerationSettings != null;
 
 		public override string GetVersion()
 		{
-			string ver = "1.1.3"; //If you update this, please also update the README.
+			string ver = "1.5"; //If you update this, please also update the README.
 			int minAPI = 45;
 
-			bool apiTooLow = Convert.ToInt32(ModHooks.Instance.ModVersion.Split('-')[1]) < minAPI;
+			bool apiTooLow = Convert.ToInt32(ModHooks.ModVersion.Split('-')[1]) < minAPI;
 			if (apiTooLow)
 			{
 				return ver + " (Update your API)";
@@ -90,7 +94,7 @@ namespace MapModS
 			On.BrummFlamePin.OnEnable += this._BrummFlamePin_Enable;
 
 			UnityEngine.SceneManagement.SceneManager.activeSceneChanged += _HandleSceneChanges;
-			ModHooks.Instance.LanguageGetHook += _HandleLanguageGet;
+			ModHooks.LanguageGetHook += HandleLanguageGet;
 
 			//Unrandomized.Hook();
 
@@ -478,93 +482,95 @@ namespace MapModS
 			}
 		}
 
-		private string _HandleLanguageGet(string key, string sheetTitle)
+		private string HandleLanguageGet(string key, string sheetTitle, string orig)
 		{
-			if (IsRando && !Settings.MapsGiven)
+			if (!IsRando || Settings.MapsGiven)
 			{
-				if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(sheetTitle))
-				{
-					return string.Empty;
-				}
-
-				if (sheetTitle == "Elderbug")
-				{
-					string message = string.Empty;
-
-					if (key == "ELDERBUG_INTRO_VISITEDCROSSROAD")
-					{
-						return Language.Language.GetInternal(key, sheetTitle);
-					}
-					else if (_convoCounter == 0)
-					{
-						string talk = "Welcome to Randomizer Map S!" +
-							" Talk to me two more times, and I'll give you a Map with custom Pins. Once enabled, you can use the" +
-							" UI in the Pause Menu to adjust the Map/Pins to your liking.\n" +
-							"<page>A big Pin means you can reach the location. A little Pin means you are missing a key item to be able to reach there.";
-						talk += "<page>You can also use the hotkey CTRL-M to enable the mod.";
-						message = talk;
-						_convoCounter++;
-					}
-					else if (_convoCounter == 1)
-					{
-						//Seriously? Trying to cover up Dirtmouth's scandal, are you? Tell you what, I'll tone it down a little bit but come on man; you can't tell me Elder Bug is 100% innocent.
-						//  And besides,A) Who is Iselda longingly staring and sighing at all day if not Elder Bug
-						//  and B) What else is Elder Bug going to do but "talk to" literally the only resident in town before you arrive
-						//  and C) He's called "Elder Bug" because he's obviously the alpha male. ;)
-						message = "I frequently *ahem* \"visit\" Cornifer's wife... " +
-							"She tells me he lies to travelers to get Geo for an inferior product... " +
-							"The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me." +
-							"<page>I'll let you have the Maps if you talk to me again, since you're new around here.";
-						_convoCounter++;
-					}
-					else if (_convoCounter == 2)
-					{
-						string maps = "Okay, hang on";
-						System.Random random = new System.Random(RandomizerMod.RandomizerMod.Instance.Settings.Seed);
-						for (int i = 0; i < random.Next(3, 10); i++)
-						{
-							maps += "...\n...\n...\n...\n";
-						}
-						maps += "<page>...Here you go! Now, if you'd keep my personal business to yourself, I won't have to get my hands dirty. Hm, interesting how the Pale King died, don't you think...?";
-
-						message = maps;
-						_convoCounter++;
-					}
-
-					if (_convoCounter >= MAPS_TRIGGER)
-					{
-						PlayMakerFSM elder = FSMUtility.LocateFSM(GameObject.Find("Elderbug"), "npc_control");
-						FsmState target = null;
-						foreach (FsmState state in elder.FsmStates)
-						{
-							if (state.Name == "Convo End")
-							{
-								target = state;
-								break;
-							}
-						}
-
-						if (target != null)
-						{
-							List<FsmStateAction> actions = target.Actions.ToList();
-							actions.Add(new ElderbugIsACoolDude());
-							target.Actions = actions.ToArray();
-						}
-					}
-
-					return message;
-				}
-				else if (sheetTitle == "Titles" && key == "DIRTMOUTH_MAIN")
-				{
-					return "FREE MAPS";
-				}
-				else if (sheetTitle == "Titles" && key == "DIRTMOUTH_SUB")
-				{
-					return "Talk to Elderbug";
-				}
+				return orig;
 			}
+			if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(sheetTitle))
+			{
+				return "";
+			}
+			if (sheetTitle == "Elderbug")
+			{
+				string message = string.Empty;
 
-			return Language.Language.GetInternal(key, sheetTitle);
+				if (key == "ELDERBUG_INTRO_VISITEDCROSSROAD")
+				{
+					return Language.Language.GetInternal(key, sheetTitle);
+				}
+				else if (_convoCounter == 0)
+				{
+					string talk = "Welcome to Randomizer Map S!" +
+						" Talk to me two more times, and I'll give you a Map with custom Pins. Once enabled, you can use the" +
+						" UI in the Pause Menu to adjust the Map/Pins to your liking.\n" +
+						"<page>A big Pin means you can reach the location. A little Pin means you are missing a key item to be able to reach there.";
+					talk += "<page>You can also use the hotkey CTRL-M to enable the mod.";
+					message = talk;
+					_convoCounter++;
+				}
+				else if (_convoCounter == 1)
+				{
+					//Seriously? Trying to cover up Dirtmouth's scandal, are you? Tell you what, I'll tone it down a little bit but come on man; you can't tell me Elder Bug is 100% innocent.
+					//  And besides,A) Who is Iselda longingly staring and sighing at all day if not Elder Bug
+					//  and B) What else is Elder Bug going to do but "talk to" literally the only resident in town before you arrive
+					//  and C) He's called "Elder Bug" because he's obviously the alpha male. ;)
+					message = "I frequently *ahem* \"visit\" Cornifer's wife... " +
+						"She tells me he lies to travelers to get Geo for an inferior product... " +
+						"The jerk. I've taken his completed originals. Maybe once they're bankrupt she'll run off with me." +
+						"<page>I'll let you have the Maps if you talk to me again, since you're new around here.";
+					_convoCounter++;
+				}
+				else if (_convoCounter == 2)
+				{
+					string maps = "Okay, hang on";
+					System.Random random = new System.Random(RandomizerMod.RandomizerMod.RS.GenerationSettings.Seed);
+					for (int i = 0; i < random.Next(3, 10); i++)
+					{
+						maps += "...\n...\n...\n...\n";
+					}
+					maps += "<page>...Here you go! Now, if you'd keep my personal business to yourself, I won't have to get my hands dirty. Hm, interesting how the Pale King died, don't you think...?";
+
+					message = maps;
+					_convoCounter++;
+				}
+
+				if (_convoCounter >= MAPS_TRIGGER)
+				{
+					PlayMakerFSM elder = FSMUtility.LocateFSM(GameObject.Find("Elderbug"), "npc_control");
+					FsmState target = null;
+					foreach (FsmState state in elder.FsmStates)
+					{
+						if (state.Name == "Convo End")
+						{
+							target = state;
+							break;
+						}
+					}
+
+					if (target != null)
+					{
+						List<FsmStateAction> actions = target.Actions.ToList();
+						actions.Add(new ElderbugIsACoolDude());
+						target.Actions = actions.ToArray();
+					}
+				}
+
+				return message;
+			}
+			else if (sheetTitle == "Titles" && key == "DIRTMOUTH_MAIN")
+			{
+				return "FREE MAPS";
+			}
+			else if (sheetTitle == "Titles" && key == "DIRTMOUTH_SUB")
+			{
+				return "Talk to Elderbug";
+			}
+			else
+			{
+				return orig;
+			}
 		}
 
 		private void _HandleSceneChanges(Scene from, Scene to)

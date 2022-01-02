@@ -72,7 +72,7 @@ internal class Pin : MonoBehaviour
 
 	private void _HideIfFound()
 	{
-		if (RandomizerMod.RandomizerMod.Instance.Settings.CheckLocationFound(this.PinData.ID))
+		if (RandomizerMod.RandomizerMod.RS.TrackerData.clearedLocations.Contains(this.PinData.ID))
 		{
 			this.gameObject.SetActive(false);
 		}
@@ -84,7 +84,7 @@ internal class Pin : MonoBehaviour
 		//this.transform.localScale = this.OrigScale * 0.7f;
 		//return;
 
-		if (RandomizerMod.RandoLogger.uncheckedLocations.Contains(this.PinData.ID))
+		if (RandomizerMod.RandomizerMod.RS.TrackerData.uncheckedReachableLocations.Contains(this.PinData.ID))
 		{
 			// We can reach this item now!
 			this.transform.localScale = this._origScale * 0.7f;

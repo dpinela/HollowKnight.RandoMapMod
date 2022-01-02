@@ -175,129 +175,95 @@ namespace MapModS
 
 		public static bool GetRandomizerSetting(PinGroup.GroupName group)
 		{
-			object randoSettings = RandomizerMod.RandomizerMod.Instance.Settings;
+			var randoSettings = RandomizerMod.RandomizerMod.RS.GenerationSettings;
+			var palaceAllowed = randoSettings.LongLocationSettings.RandomizationInWhitePalace ==
+				RandomizerMod.Settings.LongLocationSettings.WPSetting.Allowed;
 			System.Type randoSettingsType = randoSettings.GetType();
 			switch (group)
 			{
 				case PinGroup.GroupName.Dreamer:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeDreamers;
+					return randoSettings.PoolSettings.Dreamers;
 
 				case PinGroup.GroupName.Skill:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeSkills;
+					return randoSettings.PoolSettings.Skills;
 
 				case PinGroup.GroupName.Charm:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeCharms;
+					return randoSettings.PoolSettings.Charms;
 
 				case PinGroup.GroupName.Key:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeKeys;
+					return randoSettings.PoolSettings.Keys;
 
 				case PinGroup.GroupName.Geo:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeGeoChests;
+					return randoSettings.PoolSettings.GeoChests;
 
 				case PinGroup.GroupName.Junk:
-					// For compatibility with RandomizerMod v3.12(573)
-					PropertyInfo junkSetting = randoSettingsType.GetProperty("RandomizeJunkPitChests");
-					if (junkSetting != null)
-					{
-						return (bool) junkSetting.GetValue(randoSettings, null);
-					}
-					else
-					{
-						return false;
-					}
+					return randoSettings.PoolSettings.JunkPitChests;
 				case PinGroup.GroupName.Mask:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeMaskShards;
+					return randoSettings.PoolSettings.MaskShards;
 
 				case PinGroup.GroupName.Vessel:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeVesselFragments;
+					return randoSettings.PoolSettings.VesselFragments;
 
 				case PinGroup.GroupName.Notch:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeCharmNotches;
+					return randoSettings.PoolSettings.CharmNotches;
 
 				case PinGroup.GroupName.Ore:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizePaleOre;
+					return randoSettings.PoolSettings.PaleOre;
 
 				case PinGroup.GroupName.Egg:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeRancidEggs;
+					return randoSettings.PoolSettings.RancidEggs;
 
 				case PinGroup.GroupName.Relic:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeRelics;
+					return randoSettings.PoolSettings.Relics;
 
 				case PinGroup.GroupName.Map:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeMaps;
+					return randoSettings.PoolSettings.Maps;
 
 				case PinGroup.GroupName.Stag:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeStags;
+					return randoSettings.PoolSettings.Stags;
 
 				case PinGroup.GroupName.Grub:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeGrubs;
+					return randoSettings.PoolSettings.Grubs;
 
 				case PinGroup.GroupName.Mimic:
-					// For compatibility with RandomizerMod v3.12(573)
-					PropertyInfo mimicSetting = randoSettingsType.GetProperty("RandomizeMimics");
-					if (mimicSetting != null)
-					{
-						return (bool) mimicSetting.GetValue(randoSettings, null);
-					}
-					else
-					{
-						return false;
-					}
+					return randoSettings.CursedSettings.RandomizeMimics;
 				case PinGroup.GroupName.Root:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeWhisperingRoots;
+					return randoSettings.PoolSettings.WhisperingRoots;
 
 				case PinGroup.GroupName.Rock:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeRocks;
+					return randoSettings.PoolSettings.GeoRocks;
 
 				case PinGroup.GroupName.BossGeo:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeBossGeo;
+					return randoSettings.PoolSettings.BossGeo;
 
 				case PinGroup.GroupName.Soul:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeSoulTotems;
+					return randoSettings.PoolSettings.SoulTotems;
 
 				case PinGroup.GroupName.Lore:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeLoreTablets;
+					return randoSettings.PoolSettings.LoreTablets;
 
 				case PinGroup.GroupName.PalaceSoul:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizePalaceTotems;
+					return randoSettings.PoolSettings.SoulTotems && palaceAllowed;
 
 				case PinGroup.GroupName.PalaceLore:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizePalaceTablets;
+					return randoSettings.PoolSettings.LoreTablets && palaceAllowed;
 
 				case PinGroup.GroupName.PalaceJournal:
-					// For compatibility with RandomizerMod v3.12(573)
-					PropertyInfo pJournalSetting = randoSettingsType.GetProperty("RandomizePalaceEntries");
-					if (pJournalSetting != null)
-					{
-						return (bool) pJournalSetting.GetValue(randoSettings, null);
-					}
-					else
-					{
-						return false;
-					}
+					return randoSettings.PoolSettings.JournalEntries && palaceAllowed;
 				case PinGroup.GroupName.Cocoon:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeLifebloodCocoons;
+					return randoSettings.PoolSettings.LifebloodCocoons;
 
 				case PinGroup.GroupName.Flame:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeGrimmkinFlames;
+					return randoSettings.PoolSettings.GrimmkinFlames;
 
 				case PinGroup.GroupName.EssenceBoss:
-					return RandomizerMod.RandomizerMod.Instance.Settings.RandomizeBossEssence;
+					return randoSettings.PoolSettings.BossEssence;
 
 				case PinGroup.GroupName.Journal:
-					// For compatibility with RandomizerMod v3.12(573)
-					PropertyInfo journalSetting = randoSettingsType.GetProperty("RandomizeJournalEntries");
-					if (journalSetting != null)
-					{
-						return (bool) journalSetting.GetValue(randoSettings, null);
-					}
-					else
-					{
-						return false;
-					}
+					return randoSettings.PoolSettings.JournalEntries;
 
 				case PinGroup.GroupName.CursedGeo:
-					return RandomizerMod.RandomizerMod.Instance.Settings.Cursed;
+					return randoSettings.CursedSettings.ReplaceJunkWithOneGeo;
 
 				case PinGroup.GroupName.Shop:
 					return false;

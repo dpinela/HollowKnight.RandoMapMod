@@ -423,10 +423,10 @@ namespace MapModS
 
 					// Then check if this item is randomized
 				}
-				else if (RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Any(pair => pair.Item2 == vanillaItem))
+				else if (RandomizerMod.RandomizerMod.RS.Context.itemPlacements.Any(pair => pair.item.Name == vanillaItem))
 				{
-					(string, string) itemLocationPair = RandomizerMod.RandomizerMod.Instance.Settings.ItemPlacements.Single(pair => pair.Item2 == vanillaItem);
-					spoilerItem = itemLocationPair.Item1;
+					var ilp = RandomizerMod.RandomizerMod.RS.Context.itemPlacements.Single(pair => pair.location.Name == vanillaItem);
+					spoilerItem = ilp.item.Name;
 
 					// If spoilerItem's in the PinDataDictionary, use that Value
 					if (PinDataDictionary.ContainsKey(spoilerItem))
