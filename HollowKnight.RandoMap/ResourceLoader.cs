@@ -296,6 +296,70 @@ namespace MapModS
 				{
 					ID = node.Attributes["name"].Value
 				};
+
+				// Unlike rando 3, rando 4 has a single grub/ore/etc. item that it reuses everywhere.
+				// As a consequence, there is no item named like Grub-X_Location or similar, and thus
+				// we can't determine its pool directly from rando data.
+				if (newPin.ID.StartsWith("Grub-"))
+				{
+					newPin.VanillaPool = "Grub";
+				}
+				else if (newPin.ID.StartsWith("Mask_Shard-"))
+				{
+					newPin.VanillaPool = "Mask_Shard";
+				}
+				else if (newPin.ID.StartsWith("Vessel_Fragment-"))
+				{
+					newPin.VanillaPool = "Vessel_Fragment";
+				}
+				else if (newPin.ID.StartsWith("Pale_Ore-"))
+				{
+					newPin.VanillaPool = "Ore";
+				}
+				else if (newPin.ID.StartsWith("Charm_Notch-"))
+				{
+					newPin.VanillaPool = "Charm_Notch";
+				}
+				else if (newPin.ID.StartsWith("Rancid_Egg-"))
+				{
+					newPin.VanillaPool = "Egg";
+				}
+				else if (newPin.ID.StartsWith("Simple_Key-"))
+				{
+					newPin.VanillaPool = "Key";
+				}
+				else if (newPin.ID.StartsWith("Geo_Rock-"))
+				{
+					newPin.VanillaPool = "Rock";
+				}
+				else if (newPin.ID.StartsWith("Soul_Totem-"))
+				{
+					newPin.VanillaPool = "Soul";
+				}
+				else if (newPin.ID.StartsWith("Lifeblood_Cocoon-"))
+				{
+					newPin.VanillaPool = "Cocoon";
+				}
+				else if (newPin.ID.StartsWith("Grimmkin_Flame-"))
+				{
+					newPin.VanillaPool = "Flame";
+				}
+				else if (newPin.ID.StartsWith("Wanderer's_Journal-") || newPin.ID.StartsWith("Hallownest_Seal-") || newPin.ID.StartsWith("King's_Idol-") || newPin.ID.StartsWith("Arcane_Egg"))
+				{
+					newPin.VanillaPool = "Relic";
+				}
+				// There is only a single Deepnest_Map item.
+				else if (newPin.ID.StartsWith("Deepnest_Map-"))
+				{
+					newPin.VanillaPool = "Map";
+				}
+				// There is not a single item named "Grimmchild"; instead there's Grimmchild1
+				// and Grimmchild2.
+				else if (newPin.ID == "Grimmchild")
+				{
+					newPin.VanillaPool = "Charm";
+				}
+
 				foreach (XmlNode chld in node.ChildNodes)
 				{
 					if (chld.NodeType == XmlNodeType.Comment)
