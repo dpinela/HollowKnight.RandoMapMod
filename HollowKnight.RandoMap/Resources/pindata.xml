@@ -530,37 +530,37 @@
 	</pin>
 
 	<!--Geo Chests-->
-	<pin name="200_Geo-False_Knight_Chest">
+	<pin name="Geo_Chest-False_Knight">
 		<offsetX>-0.4</offsetX>
 		<offsetY>-0.1</offsetY>
 	</pin>
-	<pin name="380_Geo-Soul_Master_Chest">
+	<pin name="Geo_Chest-Soul_Master">
 		<offsetX>-0.4</offsetX>
 		<offsetY>1.3</offsetY>
 	</pin>
-	<pin name="655_Geo-Watcher_Knights_Chest">
+	<pin name="Geo_Chest-Watcher_Knights">
 		<offsetX>-0.8</offsetX>
 		<offsetY>1.4</offsetY>
 	</pin>
-	<pin name="85_Geo-Greenpath_Chest">
+	<pin name="Geo_Chest-Greenpath">
 		<offsetX>1.45</offsetX>
 		<offsetY>0.2</offsetY>
 	</pin>
-	<pin name="620_Geo-Mantis_Lords_Chest">
+	<pin name="Geo_Chest-Mantis_Lords">
 		<offsetX>0.45</offsetX>
 		<offsetY>0</offsetY>
 		<offsetZ>0.2</offsetZ>
 	</pin>
-	<pin name="150_Geo-Resting_Grounds_Chest">
+	<pin name="Geo_Chest-Resting_Grounds">
 		<offsetX>1.6</offsetX>
 		<offsetY>-0.2</offsetY>
 	</pin>
-	<pin name="80_Geo-Crystal_Peak_Chest">
+	<pin name="Geo_Chest-Crystal_Peak">
 		<offsetX>0</offsetX>
 		<offsetY>-0.3</offsetY>
 		<offsetZ>0.1</offsetZ>
 	</pin>
-	<pin name="160_Geo-Weavers_Den_Chest">
+	<pin name="Geo_Chest-Weavers_Den">
 		<pinScene>Deepnest_39</pinScene>
 		<offsetX>2.9</offsetX>
 		<offsetY>0.4</offsetY>
@@ -568,19 +568,19 @@
 	</pin>
 
 	<!--Junk Pit Chests-->
-	<pin name="8_Geo-Junk_Pit_Chest_1">
+	<pin name="Geo_Chest-Junk_Pit_1">
 		<pinScene>GG_Waterways</pinScene>
 		<offsetX>-2.1</offsetX>
 		<offsetY>-0.6</offsetY>
 		<offsetZ>0.5</offsetZ>
 	</pin>
-	<pin name="8_Geo-Junk_Pit_Chest_2">
+	<pin name="Geo_Chest-Junk_Pit_2">
 		<pinScene>GG_Waterways</pinScene>
 		<offsetX>-1.8</offsetX>
 		<offsetY>-0.6</offsetY>
 		<offsetZ>0.4</offsetZ>
 	</pin>
-	<pin name="25_Geo-Junk_Pit_Chest_3">
+	<pin name="Geo_Chest-Junk_Pit_3">
 		<pinScene>GG_Waterways</pinScene>
 		<offsetX>-1.5</offsetX>
 		<offsetY>-0.6</offsetY>
@@ -592,7 +592,7 @@
 		<offsetY>-0.6</offsetY>
 		<offsetZ>0.2</offsetZ>
 	</pin>
-	<pin name="10_Geo-Junk_Pit_Chest_5">
+	<pin name="Geo_Chest-Junk_Pit_5">
 		<pinScene>GG_Waterways</pinScene>
 		<offsetX>-0.9</offsetX>
 		<offsetY>-0.6</offsetY>

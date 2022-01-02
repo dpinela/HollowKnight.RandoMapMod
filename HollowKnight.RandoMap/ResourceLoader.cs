@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using UnityEngine;
+using RandomizerMod.RandomizerData;
 
 namespace MapModS
 {
@@ -20,7 +21,7 @@ namespace MapModS
 		{
 			_pSprites = new Dictionary<Sprites, Sprite>();
 			_LoadMapModAssets();
-			_LoadRandoModAssets();
+			LoadRandoModAssets();
 		}
 
 		public enum Sprites
@@ -94,10 +95,10 @@ namespace MapModS
 						"Charm" => Sprites.Charm,
 						"Key" => Sprites.Key,
 						"ElevatorPass" => Sprites.Key,
-						"Mask" => Sprites.Mask,
+						"Mask_Shard" => Sprites.Mask,
 						"CursedMask" => Sprites.Mask,
-						"Vessel" => Sprites.Vessel,
-						"Notch" => Sprites.Notch,
+						"Vessel_Fragment" => Sprites.Vessel,
+						"Charm_Notch" => Sprites.Notch,
 						"CursedNotch" => Sprites.Notch,
 						"Ore" => Sprites.Ore,
 						"Geo" => Sprites.Geo,
@@ -108,7 +109,8 @@ namespace MapModS
 						"EggShopItem" => Sprites.Egg,
 						"Relic" => Sprites.Relic,
 						"Root" => Sprites.Root,
-						"Essence_Boss" => Sprites.EssenceBoss,
+						"DreamWarrior" => Sprites.EssenceBoss,
+						"DreamBoss" => Sprites.EssenceBoss,
 						"Grub" => Sprites.Grub,
 						"GrubItem" => Sprites.Grub,
 						"Mimic" => Sprites.Grub,
@@ -176,79 +178,21 @@ namespace MapModS
 			return GetSprite(sid);
 		}
 
-		private static void _LoadRandoModAssets()
+		private static void LoadRandoModAssets()
 		{
-			static void __ParseItems(XmlDocument xml) => _LoadItemData(xml.SelectNodes("randomizer/item"));
-
-			Assembly randoDLL = typeof(RandomizerMod.RandomizerMod).Assembly;
-			Dictionary<string, Action<XmlDocument>> resourceProcessors = new Dictionary<string, Action<XmlDocument>>
+			foreach (var loc in Data.GetLocationArray())
 			{
-				{"items.xml", __ParseItems},
-				{"rocks.xml", __ParseItems},
-				{"soul_lore.xml", __ParseItems},
-			};
-			foreach (string resource in randoDLL.GetManifestResourceNames())
-			{
-				foreach (string resourceEnding in resourceProcessors.Keys)
+				if (PinDataDictionary.TryGetValue(loc.Name, out var pin))
 				{
-					if (resource.EndsWith(resourceEnding))
-					{
-						MapModS.Instance.Log($"Loading data from {nameof(RandomizerMod)}'s {resource} file.");
-						try
-						{
-							using (Stream stream = randoDLL.GetManifestResourceStream(resource))
-							{
-								XmlDocument xml = new XmlDocument();
-								xml.Load(stream);
-								resourceProcessors[resourceEnding].Invoke(xml);
-							}
-						}
-						catch (Exception e)
-						{
-							MapModS.Instance.LogError($"{resourceEnding} Load Failed!\n{e}");
-						}
-						break;
-					}
+					pin.SceneName = loc.SceneName;
+					pin.MapArea = loc.MapArea;
 				}
 			}
-		}
-
-		private static void _LoadItemData(XmlNodeList nodes)
-		{
-			foreach (XmlNode node in nodes)
+			foreach (var item in Data.GetItemArray())
 			{
-				string itemName = node.Attributes["name"].Value;
-				PinData pinD = PinDataDictionary[itemName];
-
-				foreach (XmlNode chld in node.ChildNodes)
+				if (PinDataDictionary.TryGetValue(item.Name, out var pin))
 				{
-					if (chld.Name == "sceneName")
-					{
-						pinD.SceneName = chld.InnerText;
-						continue;
-					}
-					if (chld.Name == "objectName")
-					{
-						// Let pindata.xml keep its overwrite
-						if (pinD.ObjectName == "")
-						{
-							pinD.ObjectName = chld.InnerText;
-						}
-						continue;
-					}
-					if (chld.Name == "areaName")
-					{
-						if (Dictionaries.IsArea(chld.InnerText))
-						{
-							pinD.MapArea = Dictionaries.GetMapAreaFromArea(chld.InnerText);
-						}
-						continue;
-					}
-					if (chld.Name == "pool")
-					{
-						pinD.VanillaPool = chld.InnerText;
-						continue;
-					}
+					pin.VanillaPool = item.Pool;
 				}
 			}
 		}
@@ -414,6 +358,11 @@ namespace MapModS
 				string spoilerItem;
 				PinData pinD = entry.Value;
 
+				if (pinD.NotPin)
+				{
+					continue;
+				}
+
 				// First check if this is a shop pin
 				if (pinD.IsShop)
 				{
@@ -423,9 +372,9 @@ namespace MapModS
 
 					// Then check if this item is randomized
 				}
-				else if (RandomizerMod.RandomizerMod.RS.Context.itemPlacements.Any(pair => pair.item.Name == vanillaItem))
+				else if (RandomizerMod.RandomizerMod.RS.Context.itemPlacements.Any(pair => pair.location.Name == vanillaItem))
 				{
-					var ilp = RandomizerMod.RandomizerMod.RS.Context.itemPlacements.Single(pair => pair.location.Name == vanillaItem);
+					var ilp = RandomizerMod.RandomizerMod.RS.Context.itemPlacements.First(pair => pair.location.Name == vanillaItem);
 					spoilerItem = ilp.item.Name;
 
 					// If spoilerItem's in the PinDataDictionary, use that Value
@@ -446,6 +395,30 @@ namespace MapModS
 						pinD.SpoilerPool = "CursedGeo";
 
 						// Nothing should end up here!
+					}
+					else if (spoilerItem == "Grub" || spoilerItem == "Mask_Shard" || spoilerItem == "Vessel_Fragment" || spoilerItem == "Rancid_Egg" || spoilerItem == "Charm_Notch")
+					{
+						pinD.SpoilerPool = spoilerItem;
+					}
+					else if (spoilerItem == "Wanderer's_Journal" || spoilerItem == "Hallownest_Seal" || spoilerItem == "King's_Idol" || spoilerItem == "Arcane_Egg")
+					{
+						pinD.SpoilerPool = "Relic";
+					}
+					else if (spoilerItem == "Simple_Key")
+					{
+						pinD.SpoilerPool = "Key";
+					}
+					else if (spoilerItem == "Pale_Ore")
+					{
+						pinD.SpoilerPool = "Ore";
+					}
+					else if (spoilerItem.StartsWith("Grimmchild"))
+					{
+						pinD.SpoilerPool = "Charm";
+					}
+					else if (spoilerItem == "Quill")
+					{
+						pinD.SpoilerPool = "Map";
 					}
 					else
 					{

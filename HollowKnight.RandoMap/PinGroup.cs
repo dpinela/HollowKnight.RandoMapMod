@@ -213,15 +213,15 @@ namespace MapModS
 					break;
 
 				case "CursedMask":
-				case "Mask":
+				case "Mask_Shard":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Mask].transform);
 					break;
 
-				case "Vessel":
+				case "Vessel_Fragment":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Vessel].transform);
 					break;
 
-				case "Notch":
+				case "Charm_Notch":
 				case "CursedNotch":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Notch].transform);
 					break;
@@ -297,7 +297,8 @@ namespace MapModS
 					newPin.transform.SetParent(GroupDictionary[GroupName.Flame].transform);
 					break;
 
-				case "Essence_Boss":
+				case "DreamWarrior":
+				case "DreamBoss":
 					newPin.transform.SetParent(GroupDictionary[GroupName.EssenceBoss].transform);
 					break;
 

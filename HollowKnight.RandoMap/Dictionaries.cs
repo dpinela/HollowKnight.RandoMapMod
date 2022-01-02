@@ -6,56 +6,6 @@ namespace MapModS
 	// This class has some useful Get methods / value lookups
 	public static class Dictionaries
 	{
-		// Used for figuring out which MapArea a Pin belongs to (for Quick Map)
-		private static readonly Dictionary<string, string> _areatoMapArea = new Dictionary<string, string>
-		{
-			{"Abyss"                , "Ancient_Basin"       },
-			{"Ancient_Basin"        , "Ancient_Basin"       },
-			{"Palace_Grounds"       , "Ancient_Basin"       },
-			{"City_of_Tears"        , "City_of_Tears"       },
-			{"Kings_Station"        , "City_of_Tears"       },
-			{"Pleasure_House"       , "City_of_Tears"       },
-			{"Soul_Sanctum"         , "City_of_Tears"       },
-			{"Tower_of_Love"        , "City_of_Tears"       },
-			{"Crystallized_Mound"   , "Crystal_Peak"        },
-			{"Crystal_Peak"         , "Crystal_Peak"        },
-			{"Hallownests_Crown"    , "Crystal_Peak"        },
-			{"Beasts_Den"           , "Deepnest"            },
-			{"Deepnest"             , "Deepnest"            },
-			{"Distant_Village"      , "Deepnest"            },
-			{"Failed_Tramway"       , "Deepnest"            },
-			{"Weavers_Den"          , "Deepnest"            },
-			{"Dirtmouth"            , "Dirtmouth"           },
-			{"Kings_Pass"           , "Dirtmouth"           },
-			{"Fog_Canyon"           , "Fog_Canyon"          },
-			{"Overgrown_Mound"      , "Fog_Canyon"          },
-			{"Teachers_Archives"    , "Fog_Canyon"          },
-			{"Fungal_Core"          , "Fungal_Wastes"       },
-			{"Fungal_Wastes"        , "Fungal_Wastes"       },
-			{"Mantis_Village"       , "Fungal_Wastes"       },
-			{"Queens_Station"       , "Fungal_Wastes"       },
-			{"Ancestral_Mound"      , "Forgotten_Crossroads"},
-			{"Black_Egg_Temple"     , "Forgotten_Crossroads"},
-			{"Forgotten_Crossroads" , "Forgotten_Crossroads"},
-			{"Greenpath"            , "Greenpath"           },
-			{"Lake_of_Unn"          , "Greenpath"           },
-			{"Stone_Sanctuary"      , "Greenpath"           },
-			{"Howling_Cliffs"       , "Howling_Cliffs"      },
-			{"Stag_Nest"            , "Howling_Cliffs"      },
-			{"Cast_Off_Shell"       , "Kingdoms_Edge"       },
-			{"Colosseum"            , "Kingdoms_Edge"       },
-			{"Hive"                 , "Kingdoms_Edge"       },
-			{"Kingdoms_Edge"        , "Kingdoms_Edge"       },
-			{"Queens_Gardens"       , "Queens_Gardens"      },
-			{"Blue_Lake"            , "Resting_Grounds"     },
-			{"Resting_Grounds"      , "Resting_Grounds"     },
-			{"Spirits_Glade"        , "Resting_Grounds"     },
-			{"Ismas_Grove"          , "Royal_Waterways"     },
-			{"Junk_Pit"             , "Royal_Waterways"     },
-			{"Royal_Waterways"      , "Royal_Waterways"     },
-			{"Inventory"            , ""                    },
-			{""                     , ""                    },
-		};
 
 		// These items are not in RandomizerMod's items.xml but are created during randomization. Cursed Geo is handled by string check instead
 		private static readonly Dictionary<string, string> _clonedItemToPool = new Dictionary<string, string>()
@@ -155,20 +105,20 @@ namespace MapModS
 		{
 			return mapArea switch
 			{
-				"Ancient_Basin" => PlayerData.instance.mapAbyss,
-				"City_of_Tears" => PlayerData.instance.mapCity,
-				"Howling_Cliffs" => PlayerData.instance.mapCliffs,
-				"Forgotten_Crossroads" => PlayerData.instance.mapCrossroads,
-				"Crystal_Peak" => PlayerData.instance.mapMines,
+				"Ancient Basin" => PlayerData.instance.mapAbyss,
+				"City of Tears" => PlayerData.instance.mapCity,
+				"Howling Cliffs" => PlayerData.instance.mapCliffs,
+				"Forgotten Crossroads" => PlayerData.instance.mapCrossroads,
+				"Crystal Peak" => PlayerData.instance.mapMines,
 				"Deepnest" => PlayerData.instance.mapDeepnest,
 				"Dirtmouth" => PlayerData.instance.mapDirtmouth,
-				"Fog_Canyon" => PlayerData.instance.mapFogCanyon,
-				"Fungal_Wastes" => PlayerData.instance.mapFungalWastes,
+				"Fog Canyon" => PlayerData.instance.mapFogCanyon,
+				"Fungal Wastes" => PlayerData.instance.mapFungalWastes,
 				"Greenpath" => PlayerData.instance.mapGreenpath,
-				"Kingdoms_Edge" => PlayerData.instance.mapOutskirts,
-				"Queens_Gardens" => PlayerData.instance.mapRoyalGardens,
-				"Resting_Grounds" => PlayerData.instance.mapRestingGrounds,
-				"Royal_Waterways" => PlayerData.instance.mapWaterways,
+				"Kingdom's Edge" => PlayerData.instance.mapOutskirts,
+				"Queen's Gardens" => PlayerData.instance.mapRoyalGardens,
+				"Resting Grounds" => PlayerData.instance.mapRestingGrounds,
+				"Royal Waterways" => PlayerData.instance.mapWaterways,
 				_ => false,
 			};
 		}
@@ -272,37 +222,14 @@ namespace MapModS
 			return false;
 		}
 
-		internal static string GetMapAreaFromArea(string areaName)
-		{
-			return _areatoMapArea[areaName];
-		}
-
 		internal static string GetPoolFromClonedItem(string itemName)
 		{
 			return _clonedItemToPool[itemName];
 		}
 
-		internal static bool IsArea(string areaName)
-		{
-			if (_areatoMapArea.ContainsKey(areaName))
-			{
-				return true;
-			}
-			return false;
-		}
-
 		internal static bool IsClonedItem(string itemName)
 		{
 			return _clonedItemToPool.ContainsKey(itemName);
-		}
-
-		internal static bool IsMapArea(string mapAreaName)
-		{
-			if (_areatoMapArea.ContainsValue(mapAreaName))
-			{
-				return true;
-			}
-			return false;
 		}
 	}
 }

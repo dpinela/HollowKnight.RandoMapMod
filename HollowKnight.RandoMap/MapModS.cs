@@ -306,35 +306,35 @@ namespace MapModS
 		private void _GameMap_QuickMapAncientBasin(On.GameMap.orig_QuickMapAncientBasin orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Ancient_Basin");
+			Instance.PinGroupInstance.SetPinStates("Ancient Basin");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapCity(On.GameMap.orig_QuickMapCity orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("City_of_Tears");
+			Instance.PinGroupInstance.SetPinStates("City of Tears");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapCliffs(On.GameMap.orig_QuickMapCliffs orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Howling_Cliffs");
+			Instance.PinGroupInstance.SetPinStates("Howling Cliffs");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapCrossroads(On.GameMap.orig_QuickMapCrossroads orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Forgotten_Crossroads");
+			Instance.PinGroupInstance.SetPinStates("Forgotten Crossroads");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapCrystalPeak(On.GameMap.orig_QuickMapCrystalPeak orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Crystal_Peak");
+			Instance.PinGroupInstance.SetPinStates("Crystal Peak");
 			_DisableVanillaMapAssets();
 		}
 
@@ -355,14 +355,14 @@ namespace MapModS
 		private void _GameMap_QuickMapFogCanyon(On.GameMap.orig_QuickMapFogCanyon orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Fog_Canyon");
+			Instance.PinGroupInstance.SetPinStates("Fog Canyon");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapFungalWastes(On.GameMap.orig_QuickMapFungalWastes orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Fungal_Wastes");
+			Instance.PinGroupInstance.SetPinStates("Fungal Wastes");
 			_DisableVanillaMapAssets();
 		}
 
@@ -376,28 +376,28 @@ namespace MapModS
 		private void _GameMap_QuickMapKingdomsEdge(On.GameMap.orig_QuickMapKingdomsEdge orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Kingdoms_Edge");
+			Instance.PinGroupInstance.SetPinStates("Kingdom's Edge");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapQueensGardens(On.GameMap.orig_QuickMapQueensGardens orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Queens_Gardens");
+			Instance.PinGroupInstance.SetPinStates("Queen's Gardens");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapRestingGrounds(On.GameMap.orig_QuickMapRestingGrounds orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Resting_Grounds");
+			Instance.PinGroupInstance.SetPinStates("Resting Grounds");
 			_DisableVanillaMapAssets();
 		}
 
 		private void _GameMap_QuickMapWaterways(On.GameMap.orig_QuickMapWaterways orig, GameMap self)
 		{
 			orig(self);
-			Instance.PinGroupInstance.SetPinStates("Royal_Waterways");
+			Instance.PinGroupInstance.SetPinStates("Royal Waterways");
 			_DisableVanillaMapAssets();
 		}
 

@@ -43,31 +43,17 @@ internal class Pin : MonoBehaviour
 	}
 
 	// This method hides or shows the pin depending on which map was opened
+	// and whether the player has the relevant map
 	private void _ShowIfCorrectMap(string mapAreaName)
 	{
-		if (mapAreaName == this.PinData.MapArea || mapAreaName == "WorldMap")
-		{
-			if (MapModS.MapModS.Instance.Settings.ShowAllPins)
-			{
-				this.gameObject.SetActive(true);
-			}
-			else
-			{
-				// Hide pin if the corresponding map item hasn't been picked up
-				if (Dictionaries.GetPlayerDataMapSetting(this.PinData.MapArea))
-				{
-					this.gameObject.SetActive(true);
-				}
-				else
-				{
-					this.gameObject.SetActive(false);
-				}
-			}
+		if (this.gameObject == null) {
+			return;
 		}
-		else
-		{
-			this.gameObject.SetActive(false);
-		}
+		this.gameObject.SetActive(
+			(mapAreaName == this.PinData.MapArea || mapAreaName == "WorldMap") &&
+			(MapModS.MapModS.Instance.Settings.ShowAllPins ||
+				Dictionaries.GetPlayerDataMapSetting(this.PinData.MapArea))
+		);
 	}
 
 	private void _HideIfFound()
