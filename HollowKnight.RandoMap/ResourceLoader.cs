@@ -344,6 +344,10 @@ namespace MapModS
 				{
 					newPin.VanillaPool = "Flame";
 				}
+				else if (newPin.ID.StartsWith("Geo_Chest-Junk_Pit") || newPin.ID == "Lumafly_Escape-Junk_Pit_Chest_4")
+				{
+					newPin.VanillaPool = "JunkPitChest";
+				}
 				else if (newPin.ID.StartsWith("Wanderer's_Journal-") || newPin.ID.StartsWith("Hallownest_Seal-") || newPin.ID.StartsWith("King's_Idol-") || newPin.ID.StartsWith("Arcane_Egg"))
 				{
 					newPin.VanillaPool = "Relic";
@@ -479,6 +483,18 @@ namespace MapModS
 					else if (spoilerItem.StartsWith("Grimmchild"))
 					{
 						pinD.SpoilerPool = "Charm";
+					}
+					else if (spoilerItem.StartsWith("Lifeblood_Cocoon_"))
+					{
+						pinD.SpoilerPool = "Cocoon";
+					}
+					else if (spoilerItem == "Grimmkin_Flame")
+					{
+						pinD.SpoilerPool = "Flame";
+					}
+					else if (spoilerItem.StartsWith("Soul_Totem-"))
+					{
+						pinD.SpoilerPool = "Soul";
 					}
 					else if (spoilerItem == "Quill")
 					{
