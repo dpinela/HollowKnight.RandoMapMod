@@ -47,6 +47,9 @@ namespace MapModS
 			["Palace\nTotems"] = (_PalaceSoulClicked, new Vector2(0f, 60f)),
 			["Palace\nLore"] = (_PalaceLoreClicked, new Vector2(100f, 60f)),
 			["Palace\nEntries"] = (_PalaceJournalClicked, new Vector2(200f, 60f)),
+			["Path of Pain\nTotems"] = (_PoPSoulClicked, new Vector2(0f, 60f)),
+			["Path of Pain\nLore"] = (_PoPLoreClicked, new Vector2(100f, 60f)),
+			["Path of Pain\nEntries"] = (_PoPJournalClicked, new Vector2(200f, 60f)),
 			["Lifeblood\nCocoons"] = (_CocoonClicked, new Vector2(300f, 60f)),
 			["Grimmkin\nFlames"] = (_FlameClicked, new Vector2(400f, 60f)),
 			["Shops"] = (_ShopClicked, new Vector2(500f, 60f)),
@@ -221,6 +224,9 @@ namespace MapModS
 			_SetPoolButton("Palace\nTotems", MapModS.Instance.Settings.PalaceSoulOn);
 			_SetPoolButton("Palace\nLore", MapModS.Instance.Settings.PalaceLoreOn);
 			_SetPoolButton("Palace\nEntries", MapModS.Instance.Settings.PalaceJournalOn);
+			_SetPoolButton("Path of Pain\nTotems", MapModS.Instance.Settings.PoPSoulOn);
+			_SetPoolButton("Path of Pain\nLore", MapModS.Instance.Settings.PoPLoreOn);
+			_SetPoolButton("Path of Pain\nEntries", MapModS.Instance.Settings.PoPJournalOn);
 			_SetPoolButton("Lifeblood\nCocoons", MapModS.Instance.Settings.CocoonOn);
 			_SetPoolButton("Grimmkin\nFlames", MapModS.Instance.Settings.FlameOn);
 			_SetPoolButton("Shops", MapModS.Instance.Settings.ShopOn);
@@ -490,6 +496,21 @@ namespace MapModS
 		private static void _PalaceSoulClicked(string buttonName)
 		{
 			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PalaceSoul);
+		}
+
+		private static void _PoPJournalClicked(string buttonName)
+		{
+			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PoPJournal);
+		}
+
+		private static void _PoPLoreClicked(string buttonName)
+		{
+			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PoPLore);
+		}
+
+		private static void _PoPSoulClicked(string buttonName)
+		{
+			MapModS.Instance.PinGroupInstance.ToggleGroup(PinGroup.GroupName.PoPSoul);
 		}
 
 		private static void _RelicClicked(string buttonName)
