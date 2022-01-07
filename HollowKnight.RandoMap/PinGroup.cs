@@ -195,6 +195,7 @@ namespace MapModS
 				case "Swim":
 				case "SplitCloak":
 				case "SplitClaw":
+				case "SplitSuperdash":
 				case "SplitCloakLocation":
 				case "CursedNail":
 					newPin.transform.SetParent(GroupDictionary[GroupName.Skill].transform);

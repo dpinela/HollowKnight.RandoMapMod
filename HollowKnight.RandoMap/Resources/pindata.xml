@@ -1425,13 +1425,15 @@
 	<pin name="Right_Mothwing_Cloak">
 		<notPin>true</notPin>
 	</pin>
-	<pin name="Left_Shade_Cloak">
+	<pin name="Split_Shade_Cloak">
 		<notPin>true</notPin>
 	</pin>
-	<pin name="Right_Shade_Cloak">
+
+	<!--Split Crystal Heart-->
+	<pin name="Left_Crystal_Heart">
 		<notPin>true</notPin>
 	</pin>
-	<pin name="Split_Mothwing_Cloak">
+	<pin name="Right_Crystal_Heart">
 		<notPin>true</notPin>
 	</pin>
 
