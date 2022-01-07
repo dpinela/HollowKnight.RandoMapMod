@@ -126,8 +126,10 @@ namespace MapModS
 		public static bool GetRandomizerSetting(PinGroup.GroupName group)
 		{
 			var randoSettings = RandomizerMod.RandomizerMod.RS.GenerationSettings;
-			var palaceAllowed = randoSettings.LongLocationSettings.RandomizationInWhitePalace ==
+			var popAllowed = randoSettings.LongLocationSettings.RandomizationInWhitePalace ==
 				RandomizerMod.Settings.LongLocationSettings.WPSetting.Allowed;
+			var palaceAllowed = randoSettings.LongLocationSettings.RandomizationInWhitePalace !=
+				RandomizerMod.Settings.LongLocationSettings.WPSetting.ExcludeWhitePalace;
 			System.Type randoSettingsType = randoSettings.GetType();
 			switch (group)
 			{
@@ -200,6 +202,14 @@ namespace MapModS
 
 				case PinGroup.GroupName.PalaceJournal:
 					return randoSettings.PoolSettings.JournalEntries && palaceAllowed;
+				case PinGroup.GroupName.PoPSoul:
+					return randoSettings.PoolSettings.SoulTotems && popAllowed;
+
+				case PinGroup.GroupName.PoPLore:
+					return randoSettings.PoolSettings.LoreTablets && popAllowed;
+
+				case PinGroup.GroupName.PoPJournal:
+					return randoSettings.PoolSettings.JournalEntries && popAllowed;
 				case PinGroup.GroupName.Cocoon:
 					return randoSettings.PoolSettings.LifebloodCocoons;
 

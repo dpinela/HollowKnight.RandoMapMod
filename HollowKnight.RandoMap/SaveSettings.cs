@@ -37,6 +37,9 @@
 				PinGroup.GroupName.PalaceSoul => PalaceSoulOn,
 				PinGroup.GroupName.PalaceLore => PalaceLoreOn,
 				PinGroup.GroupName.PalaceJournal => PalaceJournalOn,
+				PinGroup.GroupName.PoPSoul => PoPSoulOn,
+				PinGroup.GroupName.PoPLore => PoPLoreOn,
+				PinGroup.GroupName.PoPJournal => PoPJournalOn,
 				PinGroup.GroupName.Cocoon => CocoonOn,
 				PinGroup.GroupName.Flame => FlameOn,
 				PinGroup.GroupName.EssenceBoss => EssenceBossOn,
@@ -147,6 +150,18 @@
 					PalaceJournalOn = value;
 					break;
 
+				case PinGroup.GroupName.PoPSoul:
+					PoPSoulOn = value;
+					break;
+
+				case PinGroup.GroupName.PoPLore:
+					PoPLoreOn = value;
+					break;
+
+				case PinGroup.GroupName.PoPJournal:
+					PoPJournalOn = value;
+					break;
+
 				case PinGroup.GroupName.Cocoon:
 					CocoonOn = value;
 					break;
@@ -234,6 +249,12 @@
 		public bool PalaceLoreOn = true;
 
 		public bool PalaceJournalOn = true;
+
+		public bool PoPSoulOn = true;
+
+		public bool PoPLoreOn = true;
+
+		public bool PoPJournalOn = true;
 
 		public bool CocoonOn = true;
 

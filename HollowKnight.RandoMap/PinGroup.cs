@@ -33,6 +33,9 @@ namespace MapModS
 			PalaceSoul,
 			PalaceLore,
 			PalaceJournal,
+			PoPSoul,
+			PoPLore,
+			PoPJournal,
 			Cocoon,
 			Flame,
 			EssenceBoss,
@@ -66,6 +69,9 @@ namespace MapModS
 			{GroupName.PalaceSoul, new GameObject("Group PalaceSoul") },
 			{GroupName.PalaceLore, new GameObject("Group PalaceLore") },
 			{GroupName.PalaceJournal, new GameObject("Group PalaceJournal") },
+			{GroupName.PoPSoul, new GameObject("Group PoPSoul") },
+			{GroupName.PoPLore, new GameObject("Group PoPLore") },
+			{GroupName.PoPJournal, new GameObject("Group PoPJournal") },
 			{GroupName.Cocoon, new GameObject("Group Cocoon") },
 			{GroupName.Flame, new GameObject("Group Flame") },
 			{GroupName.EssenceBoss, new GameObject("Group EssenceBoss") },
@@ -287,6 +293,18 @@ namespace MapModS
 
 				case "PalaceJournal":
 					newPin.transform.SetParent(GroupDictionary[GroupName.PalaceJournal].transform);
+					break;
+
+				case "PoPSoul":
+					newPin.transform.SetParent(GroupDictionary[GroupName.PoPSoul].transform);
+					break;
+
+				case "PoPLore":
+					newPin.transform.SetParent(GroupDictionary[GroupName.PoPLore].transform);
+					break;
+
+				case "PoPJournal":
+					newPin.transform.SetParent(GroupDictionary[GroupName.PoPJournal].transform);
 					break;
 
 				case "Cocoon":

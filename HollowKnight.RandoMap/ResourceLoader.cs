@@ -121,11 +121,14 @@ namespace MapModS
 						"Flame" => Sprites.Flame,
 						"Journal" => Sprites.Lore,
 						"PalaceJournal" => Sprites.Lore,
+						"PoPJournal" => Sprites.Lore,
 						"Rock" => Sprites.Rock,
 						"Soul" => Sprites.Totem,
 						"PalaceSoul" => Sprites.Totem,
+						"PoPSoul" => Sprites.Totem,
 						"Lore" => Sprites.Lore,
 						"PalaceLore" => Sprites.Lore,
+						"PoPLore" => Sprites.Lore,
 						"Shop" => Sprites.Shop,
 						"CursedGeo" => Sprites.Geo,
 						_ => Sprites.Unknown
@@ -190,7 +193,7 @@ namespace MapModS
 			}
 			foreach (var item in Data.GetItemArray())
 			{
-				if (PinDataDictionary.TryGetValue(item.Name, out var pin))
+				if (PinDataDictionary.TryGetValue(item.Name, out var pin) && string.IsNullOrEmpty(pin.VanillaPool))
 				{
 					pin.VanillaPool = item.Pool;
 				}
@@ -332,9 +335,26 @@ namespace MapModS
 				{
 					newPin.VanillaPool = "Rock";
 				}
+				else if (newPin.ID.StartsWith("Soul_Totem-White_Palace_"))
+				{
+					newPin.VanillaPool = "PalaceSoul";
+				}
+				else if (newPin.ID.StartsWith("Soul_Totem-Path_of_Pain_"))
+				{
+					newPin.VanillaPool = "PoPSoul";
+				}
 				else if (newPin.ID.StartsWith("Soul_Totem-"))
 				{
 					newPin.VanillaPool = "Soul";
+				}
+				// This lore tablet is in pool "PalaceLore" in rando's item list
+				else if (newPin.ID.StartsWith("Lore_Tablet-Path_of_Pain_"))
+				{
+					newPin.VanillaPool = "PoPLore";
+				}
+				else if (newPin.ID == "Journal_Entry-Seal_of_Binding")
+				{
+					newPin.VanillaPool = "PoPJournal";
 				}
 				else if (newPin.ID.StartsWith("Lifeblood_Cocoon-"))
 				{
@@ -443,7 +463,7 @@ namespace MapModS
 				else if (RandomizerMod.RandomizerMod.RS.Context.itemPlacements.Any(pair => pair.location.Name == vanillaItem))
 				{
 					var ilp = RandomizerMod.RandomizerMod.RS.Context.itemPlacements.First(pair => pair.location.Name == vanillaItem);
-					spoilerItem = ilp.item.Name;
+					spoilerItem = ilp.item.Name.Replace("Placeholder-", "");
 
 					// If spoilerItem's in the PinDataDictionary, use that Value
 					if (PinDataDictionary.ContainsKey(spoilerItem))
