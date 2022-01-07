@@ -21,9 +21,6 @@
 		<offsetY>-0.2</offsetY>
 		<offsetZ>0.1</offsetZ>
 	</pin>
-	<pin name="Dreamer">
-		<notPin>true</notPin>
-	</pin>
 
 	<!--Skills-->
 	<pin name="Mothwing_Cloak">

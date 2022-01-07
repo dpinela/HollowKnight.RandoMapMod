@@ -516,7 +516,19 @@ namespace MapModS
 					{
 						pinD.SpoilerPool = "Soul";
 					}
-					else if (spoilerItem == "Quill")
+					else if (spoilerItem.StartsWith("Geo_Rock-"))
+					{
+						pinD.SpoilerPool = "Rock";
+					}
+					else if (spoilerItem == "Dreamer")
+					{
+						pinD.SpoilerPool = "Dreamer";
+					}
+					else if (spoilerItem == "One_Geo")
+					{
+						pinD.SpoilerPool = "CursedGeo";
+					}
+					else if (spoilerItem == "Quill" || spoilerItem == "Deepnest_Map")
 					{
 						pinD.SpoilerPool = "Map";
 					}
