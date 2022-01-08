@@ -39,7 +39,7 @@ The Pin settings are saved between game loads.
 # How To Install
 1. Make sure you have RandomizerMod 4.0 properly installed.
 2. Download the latest release of `MapModS.zip`.
-3. Unzip and copy MapModS.dll to the folder `...\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\MapModS\`.
+3. Unzip and copy the MapModS folder to the folder `...\Steam\steamapps\common\Hollow Knight\hollow_knight_Data\Managed\Mods\`.
 4. That's it!
 
 # How To Build
@@ -52,6 +52,8 @@ Before compiling, you need to set the HK15PATH variable to the location of your 
 
 # Version 1.5 Changes
 - Requires HK 1.5 and Randomizer 4.0
+- "Palace Totems" button removed (Rando 4 no longer has distinct Palace Totem items)
+- "Palace Journal" button is now "Path of Pain Journal"
 
 # Version 1.1.3 Changes
 - Added Cursed Geo toggle to fix spoiling in Cursed Mode when "Others" is toggled
