@@ -199,6 +199,15 @@
 	<pin name="Fragile_Strength">
 		<notPin>true</notPin>
 	</pin>
+	<pin name="Unbreakable_Heart">
+		<notPin>true</notPin>
+	</pin>
+	<pin name="Unbreakable_Greed">
+		<notPin>true</notPin>
+	</pin>
+	<pin name="Unbreakable_Strength">
+		<notPin>true</notPin>
+	</pin>
 	<pin name="Nailmaster's_Glory">
 		<pinScene>Town</pinScene>
 		<offsetX>-0.45</offsetX>

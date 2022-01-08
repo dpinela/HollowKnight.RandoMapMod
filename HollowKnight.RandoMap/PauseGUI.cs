@@ -44,10 +44,13 @@ namespace MapModS
 			["Soul\nTotems"] = (_SoulClicked, new Vector2(-300f, 60f)),
 			["Lore\nTablets"] = (_LoreClicked, new Vector2(-200f, 60f)),
 			["Journal\nEntries"] = (_JournalClicked, new Vector2(-100f, 60f)),
-			["Palace\nTotems"] = (_PalaceSoulClicked, new Vector2(0f, 60f)),
-			["Palace\nLore"] = (_PalaceLoreClicked, new Vector2(100f, 60f)),
-			["Palace\nEntries"] = (_PalaceJournalClicked, new Vector2(200f, 60f)),
-			["Path of Pain\nTotems"] = (_PoPSoulClicked, new Vector2(0f, 60f)),
+			// The buttons for Palace Totems, Palace Entries, and PoP Totems are absent
+			// because no pins will ever have one of those as a spoiler pool; all soul
+			// totems fall under the Soul pool (because rando's soul totem items are
+			// now generic Soul_Totem-{A,B,C,etc.}), and there are no journal entries
+			// in White Palace outside PoP.
+			// TODO: remove the rest of the code for these pools.
+			["Palace\nLore"] = (_PalaceLoreClicked, new Vector2(0f, 60f)),
 			["Path of Pain\nLore"] = (_PoPLoreClicked, new Vector2(100f, 60f)),
 			["Path of Pain\nEntries"] = (_PoPJournalClicked, new Vector2(200f, 60f)),
 			["Lifeblood\nCocoons"] = (_CocoonClicked, new Vector2(300f, 60f)),
@@ -221,10 +224,7 @@ namespace MapModS
 			_SetPoolButton("Soul\nTotems", MapModS.Instance.Settings.SoulOn);
 			_SetPoolButton("Lore\nTablets", MapModS.Instance.Settings.LoreOn);
 			_SetPoolButton("Journal\nEntries", MapModS.Instance.Settings.JournalOn);
-			_SetPoolButton("Palace\nTotems", MapModS.Instance.Settings.PalaceSoulOn);
 			_SetPoolButton("Palace\nLore", MapModS.Instance.Settings.PalaceLoreOn);
-			_SetPoolButton("Palace\nEntries", MapModS.Instance.Settings.PalaceJournalOn);
-			_SetPoolButton("Path of Pain\nTotems", MapModS.Instance.Settings.PoPSoulOn);
 			_SetPoolButton("Path of Pain\nLore", MapModS.Instance.Settings.PoPLoreOn);
 			_SetPoolButton("Path of Pain\nEntries", MapModS.Instance.Settings.PoPJournalOn);
 			_SetPoolButton("Lifeblood\nCocoons", MapModS.Instance.Settings.CocoonOn);
